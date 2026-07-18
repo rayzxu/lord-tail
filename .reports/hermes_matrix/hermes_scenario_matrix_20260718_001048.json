@@ -1,0 +1,3830 @@
+{
+  "object": "lord_tail.hermes_scenario_matrix",
+  "created_at": "2026-07-18T00:10:48",
+  "backend_url": "http://127.0.0.1:8000",
+  "hermes_url": "http://127.0.0.1:8643",
+  "initialization": {
+    "start": {
+      "state": {
+        "realm_name": "黑逼堡",
+        "lord_name": "亚历山大",
+        "lord_gender": "男",
+        "appearance": "肥胖，矮小，龌蹉；小眼睛里全是贪婪",
+        "personality": "媚上欺下",
+        "talents": [
+          {
+            "id": "spartan_blood",
+            "name": "斯巴达血统",
+            "description": "训练出的士兵作战更为可靠。",
+            "effects": {
+              "unit_quality_multiplier": {
+                "all": 1.15
+              }
+            }
+          },
+          {
+            "id": "master_builder",
+            "name": "建筑巧匠",
+            "description": "建筑工程少耗一轮工期。",
+            "effects": {
+              "construction_turn_reduction": 1
+            }
+          }
+        ],
+        "turn": 1,
+        "season": "春季",
+        "weather": "细雨",
+        "resources": {
+          "gold": 500,
+          "food": 500,
+          "wood": 80,
+          "stone": 50,
+          "population": 100,
+          "morale": 50,
+          "authority": 50,
+          "iron": 20,
+          "meat": 30,
+          "leather": 10,
+          "craft_goods": 0,
+          "tools": 5,
+          "piety": 0,
+          "security": 45,
+          "service_income": 0
+        },
+        "changes": {
+          "gold": 0,
+          "food": 0,
+          "wood": 0,
+          "stone": 0,
+          "population": 0,
+          "morale": 0,
+          "authority": 0,
+          "iron": 0,
+          "meat": 0,
+          "leather": 0,
+          "craft_goods": 0,
+          "tools": 0,
+          "piety": 0,
+          "security": 0,
+          "service_income": 0
+        },
+        "army": {
+          "infantry": 0,
+          "archers": 0,
+          "cavalry": 0
+        },
+        "army_status": {
+          "organization": 100,
+          "routed": false,
+          "last_loss_ratio": 0.0
+        },
+        "training_queue": [],
+        "training_seq": 0,
+        "battles": [],
+        "diplomacy": {
+          "维尔德兰": {
+            "stance": "友善",
+            "relation": 70,
+            "treaties": [],
+            "at_war": false
+          },
+          "铁橡": {
+            "stance": "友善",
+            "relation": 70,
+            "treaties": [],
+            "at_war": false
+          },
+          "金鳞": {
+            "stance": "中立",
+            "relation": 0,
+            "treaties": [],
+            "at_war": false
+          },
+          "血鸦": {
+            "stance": "敌对",
+            "relation": -60,
+            "treaties": [],
+            "at_war": false
+          }
+        },
+        "buildings": {
+          "领主堡垒": 1,
+          "村舍": 1,
+          "镇屋": 1,
+          "手工作坊": 1,
+          "商店": 1,
+          "宅邸": 1
+        },
+        "construction_queue": [],
+        "construction_seq": 0,
+        "workforce": {
+          "available": 100,
+          "assigned": 0
+        },
+        "laws": [],
+        "map": [
+          {
+            "x": 1,
+            "y": 1,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 2,
+            "y": 1,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 3,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 2,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 2,
+            "y": 2,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 3,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 3,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 2,
+            "y": 3,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 3,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 5,
+            "kind": "castle",
+            "label": "领主堡垒"
+          },
+          {
+            "x": 6,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 6,
+            "kind": "homes",
+            "label": "村舍"
+          },
+          {
+            "x": 6,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          }
+        ],
+        "demographics": {
+          "classes": {
+            "serfs": {
+              "name": "农奴",
+              "population": 58,
+              "wealth_per_capita": 3,
+              "morale": 50,
+              "age": {
+                "child": 15,
+                "working": 35,
+                "elder": 8
+              },
+              "sex": {
+                "female": 30,
+                "male": 28
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "free_peasants": {
+              "name": "自由农",
+              "population": 24,
+              "wealth_per_capita": 9,
+              "morale": 50,
+              "age": {
+                "child": 6,
+                "working": 15,
+                "elder": 3
+              },
+              "sex": {
+                "female": 12,
+                "male": 12
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "artisans": {
+              "name": "工匠",
+              "population": 10,
+              "wealth_per_capita": 18,
+              "morale": 50,
+              "age": {
+                "child": 3,
+                "working": 6,
+                "elder": 1
+              },
+              "sex": {
+                "female": 5,
+                "male": 5
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "merchants": {
+              "name": "商人",
+              "population": 5,
+              "wealth_per_capita": 35,
+              "morale": 50,
+              "age": {
+                "child": 2,
+                "working": 3,
+                "elder": 0
+              },
+              "sex": {
+                "female": 3,
+                "male": 2
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "minor_nobles": {
+              "name": "骑士",
+              "population": 3,
+              "wealth_per_capita": 80,
+              "morale": 50,
+              "age": {
+                "child": 1,
+                "working": 2,
+                "elder": 0
+              },
+              "sex": {
+                "female": 2,
+                "male": 1
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            }
+          },
+          "housing": {
+            "by_type": {
+              "manor": {
+                "capacity": 14,
+                "occupied": 3,
+                "vacant": 11,
+                "quality": 4
+              },
+              "hut": {
+                "capacity": 72,
+                "occupied": 58,
+                "vacant": 14,
+                "quality": 1
+              },
+              "workshop_home": {
+                "capacity": 12,
+                "occupied": 10,
+                "vacant": 2,
+                "quality": 2
+              },
+              "shop_home": {
+                "capacity": 8,
+                "occupied": 5,
+                "vacant": 3,
+                "quality": 3
+              },
+              "townhouse": {
+                "capacity": 28,
+                "occupied": 24,
+                "vacant": 4,
+                "quality": 2
+              },
+              "open_land_shelter": {
+                "capacity": 0,
+                "occupied": 0,
+                "vacant": 0,
+                "quality": 0
+              }
+            },
+            "total_capacity": 134,
+            "total_occupied": 100,
+            "total_vacant": 34
+          },
+          "last_births": 0,
+          "last_migration": 0,
+          "last_outflow": 0,
+          "last_wealth_delta": 0
+        }
+      },
+      "narrative": "第1轮｜春季｜细雨。春雨像灰色的麻布压在 黑逼堡 上，亚历山大 领主站在泥泞的城堡阳台，俯瞰正中央的领主堡垒与 E6 旁几间破旧房屋。他是男，外表肥胖，矮小，龌蹉；小眼睛里全是贪婪，性格媚上欺下；命运赐福在他身后低声作响：斯巴达血统、建筑巧匠。仆人垂着头不敢直视，卫兵把铁手套贴在胸前，敬畏与恐惧像潮气一样贴住他们的喉咙。领主的小小领地在泥水中展开，而他心里盘算的不是怜悯，是税、劳役、惩戒与如何让每一粒粮食都服从自己的印章。",
+      "suggestions": [
+        "在 E4 建造农田",
+        "派遣伐木队前往西北林地",
+        "召集领民讨论春耕"
+      ],
+      "source": "rules",
+      "events": []
+    },
+    "budget": {
+      "state": {
+        "realm_name": "黑逼堡",
+        "lord_name": "亚历山大",
+        "lord_gender": "男",
+        "appearance": "肥胖，矮小，龌蹉；小眼睛里全是贪婪",
+        "personality": "媚上欺下",
+        "talents": [
+          {
+            "id": "spartan_blood",
+            "name": "斯巴达血统",
+            "description": "训练出的士兵作战更为可靠。",
+            "effects": {
+              "unit_quality_multiplier": {
+                "all": 1.15
+              }
+            }
+          },
+          {
+            "id": "master_builder",
+            "name": "建筑巧匠",
+            "description": "建筑工程少耗一轮工期。",
+            "effects": {
+              "construction_turn_reduction": 1
+            }
+          }
+        ],
+        "turn": 1,
+        "season": "春季",
+        "weather": "细雨",
+        "resources": {
+          "gold": 10000,
+          "food": 10000,
+          "wood": 10000,
+          "stone": 10000,
+          "population": 1000,
+          "morale": 60,
+          "authority": 80,
+          "iron": 10000,
+          "meat": 30,
+          "leather": 10,
+          "craft_goods": 0,
+          "tools": 10000,
+          "piety": 0,
+          "security": 70,
+          "service_income": 0
+        },
+        "changes": {
+          "gold": 9500,
+          "food": 9500,
+          "wood": 9920,
+          "stone": 9950,
+          "population": 900,
+          "morale": 10,
+          "authority": 30,
+          "iron": 9980,
+          "meat": 0,
+          "leather": 0,
+          "craft_goods": 0,
+          "tools": 9995,
+          "piety": 0,
+          "security": 25,
+          "service_income": 0
+        },
+        "army": {
+          "infantry": 0,
+          "archers": 0,
+          "cavalry": 0
+        },
+        "army_status": {
+          "organization": 100,
+          "routed": false,
+          "last_loss_ratio": 0.0
+        },
+        "training_queue": [],
+        "training_seq": 0,
+        "battles": [],
+        "diplomacy": {
+          "维尔德兰": {
+            "stance": "友善",
+            "relation": 70,
+            "treaties": [],
+            "at_war": false
+          },
+          "铁橡": {
+            "stance": "友善",
+            "relation": 70,
+            "treaties": [],
+            "at_war": false
+          },
+          "金鳞": {
+            "stance": "中立",
+            "relation": 0,
+            "treaties": [],
+            "at_war": false
+          },
+          "血鸦": {
+            "stance": "敌对",
+            "relation": -60,
+            "treaties": [],
+            "at_war": false
+          }
+        },
+        "buildings": {
+          "领主堡垒": 1,
+          "村舍": 1,
+          "镇屋": 1,
+          "手工作坊": 1,
+          "商店": 1,
+          "宅邸": 1
+        },
+        "construction_queue": [],
+        "construction_seq": 0,
+        "workforce": {
+          "available": 100,
+          "assigned": 0
+        },
+        "laws": [],
+        "map": [
+          {
+            "x": 1,
+            "y": 1,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 2,
+            "y": 1,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 3,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 2,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 2,
+            "y": 2,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 3,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 3,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 2,
+            "y": 3,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 3,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 5,
+            "kind": "castle",
+            "label": "领主堡垒"
+          },
+          {
+            "x": 6,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 6,
+            "kind": "homes",
+            "label": "村舍"
+          },
+          {
+            "x": 6,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          }
+        ],
+        "demographics": {
+          "classes": {
+            "serfs": {
+              "name": "农奴",
+              "population": 958,
+              "wealth_per_capita": 3,
+              "morale": 50,
+              "age": {
+                "child": 15,
+                "working": 935,
+                "elder": 8
+              },
+              "sex": {
+                "female": 480,
+                "male": 478
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "free_peasants": {
+              "name": "自由农",
+              "population": 24,
+              "wealth_per_capita": 9,
+              "morale": 50,
+              "age": {
+                "child": 6,
+                "working": 15,
+                "elder": 3
+              },
+              "sex": {
+                "female": 12,
+                "male": 12
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "artisans": {
+              "name": "工匠",
+              "population": 10,
+              "wealth_per_capita": 18,
+              "morale": 50,
+              "age": {
+                "child": 3,
+                "working": 6,
+                "elder": 1
+              },
+              "sex": {
+                "female": 5,
+                "male": 5
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "merchants": {
+              "name": "商人",
+              "population": 5,
+              "wealth_per_capita": 35,
+              "morale": 50,
+              "age": {
+                "child": 2,
+                "working": 3,
+                "elder": 0
+              },
+              "sex": {
+                "female": 3,
+                "male": 2
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "minor_nobles": {
+              "name": "骑士",
+              "population": 3,
+              "wealth_per_capita": 80,
+              "morale": 50,
+              "age": {
+                "child": 1,
+                "working": 2,
+                "elder": 0
+              },
+              "sex": {
+                "female": 2,
+                "male": 1
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            }
+          },
+          "housing": {
+            "by_type": {
+              "manor": {
+                "capacity": 14,
+                "occupied": 3,
+                "vacant": 11,
+                "quality": 4
+              },
+              "hut": {
+                "capacity": 72,
+                "occupied": 72,
+                "vacant": 0,
+                "quality": 1
+              },
+              "workshop_home": {
+                "capacity": 12,
+                "occupied": 10,
+                "vacant": 2,
+                "quality": 2
+              },
+              "shop_home": {
+                "capacity": 8,
+                "occupied": 5,
+                "vacant": 3,
+                "quality": 3
+              },
+              "townhouse": {
+                "capacity": 28,
+                "occupied": 24,
+                "vacant": 4,
+                "quality": 2
+              },
+              "open_land_shelter": {
+                "capacity": 886,
+                "occupied": 886,
+                "vacant": 0,
+                "quality": 0
+              }
+            },
+            "total_capacity": 1020,
+            "total_occupied": 1000,
+            "total_vacant": 20
+          },
+          "last_births": 0,
+          "last_migration": 0,
+          "last_outflow": 0,
+          "last_wealth_delta": 0
+        }
+      },
+      "narrative": "状态接口已更新资源。",
+      "suggestions": [],
+      "source": "state-api",
+      "events": []
+    },
+    "barracks": {
+      "state": {
+        "realm_name": "黑逼堡",
+        "lord_name": "亚历山大",
+        "lord_gender": "男",
+        "appearance": "肥胖，矮小，龌蹉；小眼睛里全是贪婪",
+        "personality": "媚上欺下",
+        "talents": [
+          {
+            "id": "spartan_blood",
+            "name": "斯巴达血统",
+            "description": "训练出的士兵作战更为可靠。",
+            "effects": {
+              "unit_quality_multiplier": {
+                "all": 1.15
+              }
+            }
+          },
+          {
+            "id": "master_builder",
+            "name": "建筑巧匠",
+            "description": "建筑工程少耗一轮工期。",
+            "effects": {
+              "construction_turn_reduction": 1
+            }
+          }
+        ],
+        "turn": 1,
+        "season": "春季",
+        "weather": "细雨",
+        "resources": {
+          "gold": 10000,
+          "food": 10000,
+          "wood": 10000,
+          "stone": 10000,
+          "population": 1000,
+          "morale": 60,
+          "authority": 80,
+          "iron": 10000,
+          "meat": 30,
+          "leather": 10,
+          "craft_goods": 0,
+          "tools": 10000,
+          "piety": 0,
+          "security": 70,
+          "service_income": 0
+        },
+        "changes": {
+          "gold": 9500,
+          "food": 9500,
+          "wood": 9920,
+          "stone": 9950,
+          "population": 900,
+          "morale": 10,
+          "authority": 30,
+          "iron": 9980,
+          "meat": 0,
+          "leather": 0,
+          "craft_goods": 0,
+          "tools": 9995,
+          "piety": 0,
+          "security": 25,
+          "service_income": 0
+        },
+        "army": {
+          "infantry": 0,
+          "archers": 0,
+          "cavalry": 0
+        },
+        "army_status": {
+          "organization": 100,
+          "routed": false,
+          "last_loss_ratio": 0.0
+        },
+        "training_queue": [],
+        "training_seq": 0,
+        "battles": [],
+        "diplomacy": {
+          "维尔德兰": {
+            "stance": "友善",
+            "relation": 70,
+            "treaties": [],
+            "at_war": false
+          },
+          "铁橡": {
+            "stance": "友善",
+            "relation": 70,
+            "treaties": [],
+            "at_war": false
+          },
+          "金鳞": {
+            "stance": "中立",
+            "relation": 0,
+            "treaties": [],
+            "at_war": false
+          },
+          "血鸦": {
+            "stance": "敌对",
+            "relation": -60,
+            "treaties": [],
+            "at_war": false
+          }
+        },
+        "buildings": {
+          "领主堡垒": 1,
+          "村舍": 1,
+          "镇屋": 1,
+          "手工作坊": 1,
+          "商店": 1,
+          "宅邸": 1,
+          "训练场": 1
+        },
+        "construction_queue": [],
+        "construction_seq": 0,
+        "workforce": {
+          "available": 100,
+          "assigned": 0
+        },
+        "laws": [],
+        "map": [
+          {
+            "x": 1,
+            "y": 1,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 2,
+            "y": 1,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 3,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 2,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 2,
+            "y": 2,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 3,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 3,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 2,
+            "y": 3,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 3,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 5,
+            "kind": "castle",
+            "label": "领主堡垒"
+          },
+          {
+            "x": 6,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 6,
+            "kind": "homes",
+            "label": "村舍"
+          },
+          {
+            "x": 6,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          }
+        ],
+        "demographics": {
+          "classes": {
+            "serfs": {
+              "name": "农奴",
+              "population": 958,
+              "wealth_per_capita": 3,
+              "morale": 50,
+              "age": {
+                "child": 15,
+                "working": 935,
+                "elder": 8
+              },
+              "sex": {
+                "female": 480,
+                "male": 478
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "free_peasants": {
+              "name": "自由农",
+              "population": 24,
+              "wealth_per_capita": 9,
+              "morale": 50,
+              "age": {
+                "child": 6,
+                "working": 15,
+                "elder": 3
+              },
+              "sex": {
+                "female": 12,
+                "male": 12
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "artisans": {
+              "name": "工匠",
+              "population": 10,
+              "wealth_per_capita": 18,
+              "morale": 50,
+              "age": {
+                "child": 3,
+                "working": 6,
+                "elder": 1
+              },
+              "sex": {
+                "female": 5,
+                "male": 5
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "merchants": {
+              "name": "商人",
+              "population": 5,
+              "wealth_per_capita": 35,
+              "morale": 50,
+              "age": {
+                "child": 2,
+                "working": 3,
+                "elder": 0
+              },
+              "sex": {
+                "female": 3,
+                "male": 2
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "minor_nobles": {
+              "name": "骑士",
+              "population": 3,
+              "wealth_per_capita": 80,
+              "morale": 50,
+              "age": {
+                "child": 1,
+                "working": 2,
+                "elder": 0
+              },
+              "sex": {
+                "female": 2,
+                "male": 1
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            }
+          },
+          "housing": {
+            "by_type": {
+              "manor": {
+                "capacity": 14,
+                "occupied": 3,
+                "vacant": 11,
+                "quality": 4
+              },
+              "hut": {
+                "capacity": 72,
+                "occupied": 72,
+                "vacant": 0,
+                "quality": 1
+              },
+              "workshop_home": {
+                "capacity": 12,
+                "occupied": 10,
+                "vacant": 2,
+                "quality": 2
+              },
+              "shop_home": {
+                "capacity": 8,
+                "occupied": 5,
+                "vacant": 3,
+                "quality": 3
+              },
+              "townhouse": {
+                "capacity": 28,
+                "occupied": 24,
+                "vacant": 4,
+                "quality": 2
+              },
+              "open_land_shelter": {
+                "capacity": 886,
+                "occupied": 886,
+                "vacant": 0,
+                "quality": 0
+              }
+            },
+            "total_capacity": 1020,
+            "total_occupied": 1000,
+            "total_vacant": 20
+          },
+          "last_births": 0,
+          "last_migration": 0,
+          "last_outflow": 0,
+          "last_wealth_delta": 0
+        }
+      },
+      "narrative": "状态接口已建立训练场。",
+      "suggestions": [],
+      "source": "state-api",
+      "events": []
+    }
+  },
+  "summary": {
+    "total_cases": 1,
+    "correct_cases": 0,
+    "incorrect_cases": 1
+  },
+  "cases": [
+    {
+      "id": "daily_weather_season",
+      "category": "daily",
+      "title": "天气季节",
+      "expected_apis": [
+        "GET /api/agent/context",
+        "POST /api/agent/events"
+      ],
+      "actual_apis": [
+        "GET /api/agent/context",
+        "POST /api/agent/events",
+        "POST /api/agent/events"
+      ],
+      "missing_apis": [],
+      "unexpected_apis": [],
+      "error_apis": [
+        {
+          "timestamp": 1784297384.295817,
+          "method": "POST",
+          "path": "/api/agent/events",
+          "api": "POST /api/agent/events",
+          "status_code": 422,
+          "request_body": {
+            "message": "春季的细雨转为大雨，沉重的降水使得农田变得泥泞不堪，严重影响了领地的春耕劳作。"
+          },
+          "duration_ms": 0.88
+        }
+      ],
+      "api_correct": false,
+      "input": {
+        "prompt": "细雨变重影响春季劳作。若没有天气/季节修改 API，请只记录事件。",
+        "notes": "当前没有公开 weather/season mutation API。"
+      },
+      "output": {
+        "hermes_create": {
+          "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+          "status": "started"
+        },
+        "hermes_status": {
+          "object": "hermes.run",
+          "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+          "status": "completed",
+          "updated_at": 1784297448.623512,
+          "created_at": 1784297278.968464,
+          "session_id": "lord-tail-matrix:daily_weather_season:1784297278",
+          "model": "gemma4:31b",
+          "last_event": "run.completed",
+          "output": "天空的颜色逐渐阴沉，原本温婉的春季细雨在短时间内变得狂暴起来。沉重的降水将农田变成了泥泞的沼泽，农奴们不得不无奈地放下手中的农具，因为此刻强行耕种只会损坏土地，且无法获得任何成效。\n\n这场突如其来的大雨严重干扰了春耕进度，领地的粮食预期可能会因此受到影响。\n\n**建议：**\n- 检查粮仓储备，确保在耕作受阻期间有足够的口粮支撑。\n- 考虑安排农奴在雨停后尽快抢种，或在室内进行工具维护以减轻损失。",
+          "usage": {
+            "input_tokens": 44014,
+            "output_tokens": 1507,
+            "total_tokens": 45521
+          }
+        },
+        "hermes_events": [
+          {
+            "event": "tool.started",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297329.535525,
+            "tool": "skill_view",
+            "preview": "lord-tail-game"
+          },
+          {
+            "event": "tool.completed",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297329.540879,
+            "tool": "skill_view",
+            "duration": 0.005,
+            "error": false
+          },
+          {
+            "event": "tool.started",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297330.5436091,
+            "tool": "terminal",
+            "preview": "curl http://127.0.0.1:8000/api/agent/context"
+          },
+          {
+            "event": "tool.completed",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297331.347392,
+            "tool": "terminal",
+            "duration": 0.803,
+            "error": false
+          },
+          {
+            "event": "tool.started",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297384.203821,
+            "tool": "terminal",
+            "preview": "curl -X POST http://127.0.0.1:8000/api/agent/events \\ -H \"Content-Type: application/json\" \\ -d '{\"message\": \"春季的细雨转为大雨，沉重的降水使得农田变得泥泞不堪，严重影响了领地的春耕劳作。\"}'"
+          },
+          {
+            "event": "tool.completed",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297384.315596,
+            "tool": "terminal",
+            "duration": 0.111,
+            "error": false
+          },
+          {
+            "event": "tool.started",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297404.011038,
+            "tool": "terminal",
+            "preview": "curl -X POST http://127.0.0.1:8000/api/agent/events \\ -H \"Content-Type: application/json\" \\ -d '{\"kind\": \"weather_change\", \"severity\": \"warning\", \"message\": \"春季的细雨转为大雨，沉重的降水使得农田变得泥泞不堪，严重影响了领地的春耕劳作。\"}'"
+          },
+          {
+            "event": "tool.completed",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297404.118079,
+            "tool": "terminal",
+            "duration": 0.107,
+            "error": false
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297441.5426931,
+            "delta": "\n\n天空"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297441.592581,
+            "delta": "的"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297441.642869,
+            "delta": "颜色"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297441.6928,
+            "delta": "逐渐"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297441.7437901,
+            "delta": "阴"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297441.7945018,
+            "delta": "沉"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297441.845356,
+            "delta": "，"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297441.89605,
+            "delta": "原本"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297441.946354,
+            "delta": "温"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297441.9965792,
+            "delta": "婉"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297442.0473769,
+            "delta": "的"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297442.098092,
+            "delta": "春"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297442.149068,
+            "delta": "季"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297442.200025,
+            "delta": "细"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297442.2509189,
+            "delta": "雨"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297442.301524,
+            "delta": "在"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297442.3523169,
+            "delta": "短"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297442.40299,
+            "delta": "时间内"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297442.453668,
+            "delta": "变得"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297442.504145,
+            "delta": "狂"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297442.5560262,
+            "delta": "暴"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297442.605699,
+            "delta": "起来"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297442.656579,
+            "delta": "。"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297442.706691,
+            "delta": "沉"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297442.756835,
+            "delta": "重的"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297442.8071811,
+            "delta": "降"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297442.85701,
+            "delta": "水"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297442.9078841,
+            "delta": "将"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297442.9578612,
+            "delta": "农"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297443.0087922,
+            "delta": "田"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297443.0598998,
+            "delta": "变成了"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297443.1116118,
+            "delta": "泥"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297443.162133,
+            "delta": "泞"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297443.21219,
+            "delta": "的"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297443.262489,
+            "delta": "沼"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297443.3126369,
+            "delta": "泽"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297443.3630998,
+            "delta": "，"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297443.413755,
+            "delta": "农"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297443.4640372,
+            "delta": "奴"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297443.514955,
+            "delta": "们"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297443.565841,
+            "delta": "不得不"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297443.615732,
+            "delta": "无奈"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297443.666344,
+            "delta": "地"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297443.7173629,
+            "delta": "放下"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297443.7681339,
+            "delta": "手中的"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297443.818773,
+            "delta": "农"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297443.869879,
+            "delta": "具"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297443.920864,
+            "delta": "，"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297443.971513,
+            "delta": "因为"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297444.0230231,
+            "delta": "此刻"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297444.075027,
+            "delta": "强"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297444.1249468,
+            "delta": "行"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297444.175646,
+            "delta": "耕"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297444.226099,
+            "delta": "种"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297444.2768052,
+            "delta": "只会"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297444.327679,
+            "delta": "损坏"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297444.378431,
+            "delta": "土地"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297444.429715,
+            "delta": "，"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297444.48063,
+            "delta": "且"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297444.530804,
+            "delta": "无法"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297444.5810702,
+            "delta": "获得"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297444.631181,
+            "delta": "任何"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297444.6815329,
+            "delta": "成"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297444.732268,
+            "delta": "效"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297444.7843058,
+            "delta": "。"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297444.835498,
+            "delta": "\n\n"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297444.886081,
+            "delta": "这场"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297444.9364212,
+            "delta": "突"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297444.986708,
+            "delta": "如"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297445.03706,
+            "delta": "其"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297445.0872629,
+            "delta": "来的"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297445.136938,
+            "delta": "大"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297445.187008,
+            "delta": "雨"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297445.23741,
+            "delta": "严重"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297445.28796,
+            "delta": "干扰"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297445.339424,
+            "delta": "了"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297445.389893,
+            "delta": "春"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297445.439685,
+            "delta": "耕"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297445.4900951,
+            "delta": "进度"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297445.5406919,
+            "delta": "，"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297445.59077,
+            "delta": "领"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297445.641031,
+            "delta": "地的"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297445.6913018,
+            "delta": "粮食"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297445.7419362,
+            "delta": "预期"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297445.7925398,
+            "delta": "可能会"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297445.8435268,
+            "delta": "因此"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297445.893384,
+            "delta": "受到"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297445.943666,
+            "delta": "影响"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297445.993661,
+            "delta": "。"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297446.043637,
+            "delta": "\n\n"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297446.09514,
+            "delta": "**"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297446.146178,
+            "delta": "建议"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297446.196512,
+            "delta": "："
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297446.246722,
+            "delta": "**"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297446.296874,
+            "delta": "\n"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297446.347112,
+            "delta": "-"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297446.397171,
+            "delta": " "
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297446.4471529,
+            "delta": "检查"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297446.497998,
+            "delta": "粮"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297446.548335,
+            "delta": "仓"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297446.59804,
+            "delta": "储备"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297446.648073,
+            "delta": "，"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297446.698656,
+            "delta": "确保"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297446.748638,
+            "delta": "在"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297446.798214,
+            "delta": "耕"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297446.848385,
+            "delta": "作"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297446.8980281,
+            "delta": "受"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297446.947828,
+            "delta": "阻"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297446.9976,
+            "delta": "期间"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297447.0482078,
+            "delta": "有"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297447.097902,
+            "delta": "足够的"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297447.148114,
+            "delta": "口"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297447.1979892,
+            "delta": "粮"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297447.24785,
+            "delta": "支撑"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297447.2985961,
+            "delta": "。"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297447.349236,
+            "delta": "\n"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297447.399847,
+            "delta": "-"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297447.45051,
+            "delta": " "
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297447.501156,
+            "delta": "考虑"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297447.5520608,
+            "delta": "安排"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297447.6024451,
+            "delta": "农"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297447.653347,
+            "delta": "奴"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297447.704095,
+            "delta": "在"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297447.754806,
+            "delta": "雨"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297447.805825,
+            "delta": "停"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297447.8566,
+            "delta": "后"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297447.906618,
+            "delta": "尽快"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297447.9565399,
+            "delta": "抢"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297448.0068228,
+            "delta": "种"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297448.0575922,
+            "delta": "，"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297448.108153,
+            "delta": "或"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297448.158952,
+            "delta": "在"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297448.209607,
+            "delta": "室内"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297448.260392,
+            "delta": "进行"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297448.311232,
+            "delta": "工具"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297448.361815,
+            "delta": "维护"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297448.412513,
+            "delta": "以"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297448.4630332,
+            "delta": "减轻"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297448.5140538,
+            "delta": "损失"
+          },
+          {
+            "event": "message.delta",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297448.565046,
+            "delta": "。"
+          },
+          {
+            "event": "reasoning.available",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297448.618994,
+            "text": "天空的颜色逐渐阴沉，原本温婉的春季细雨在短时间内变得狂暴起来。沉重的降水将农田变成了泥泞的沼泽，农奴们不得不无奈地放下手中的农具，因为此刻强行耕种只会损坏土地，且无法获得任何成效。\n\n这场突如其来的大雨严重干扰了春耕进度，领地的粮食预期可能会因此受到影响。\n\n**建议：**\n- 检查粮仓储备，确保在耕作受阻期间有足够的口粮支撑。\n- 考虑安排农奴在雨停后尽快抢种，或在室内进行工具维护以减轻损失。"
+          },
+          {
+            "event": "run.completed",
+            "run_id": "run_a8cfc0e380c04ae4b28f4e7605f96558",
+            "timestamp": 1784297448.623507,
+            "output": "天空的颜色逐渐阴沉，原本温婉的春季细雨在短时间内变得狂暴起来。沉重的降水将农田变成了泥泞的沼泽，农奴们不得不无奈地放下手中的农具，因为此刻强行耕种只会损坏土地，且无法获得任何成效。\n\n这场突如其来的大雨严重干扰了春耕进度，领地的粮食预期可能会因此受到影响。\n\n**建议：**\n- 检查粮仓储备，确保在耕作受阻期间有足够的口粮支撑。\n- 考虑安排农奴在雨停后尽快抢种，或在室内进行工具维护以减轻损失。",
+            "usage": {
+              "input_tokens": 44014,
+              "output_tokens": 1507,
+              "total_tokens": 45521
+            }
+          }
+        ],
+        "backend_audit": [
+          {
+            "timestamp": 1784297331.3379729,
+            "method": "GET",
+            "path": "/api/agent/context",
+            "api": "GET /api/agent/context",
+            "status_code": 200,
+            "request_body": null,
+            "duration_ms": 0.87
+          },
+          {
+            "timestamp": 1784297384.295817,
+            "method": "POST",
+            "path": "/api/agent/events",
+            "api": "POST /api/agent/events",
+            "status_code": 422,
+            "request_body": {
+              "message": "春季的细雨转为大雨，沉重的降水使得农田变得泥泞不堪，严重影响了领地的春耕劳作。"
+            },
+            "duration_ms": 0.88
+          },
+          {
+            "timestamp": 1784297404.097107,
+            "method": "POST",
+            "path": "/api/agent/events",
+            "api": "POST /api/agent/events",
+            "status_code": 200,
+            "request_body": {
+              "kind": "weather_change",
+              "severity": "warning",
+              "message": "春季的细雨转为大雨，沉重的降水使得农田变得泥泞不堪，严重影响了领地的春耕劳作。"
+            },
+            "duration_ms": 0.66
+          }
+        ],
+        "final_text": "天空的颜色逐渐阴沉，原本温婉的春季细雨在短时间内变得狂暴起来。沉重的降水将农田变成了泥泞的沼泽，农奴们不得不无奈地放下手中的农具，因为此刻强行耕种只会损坏土地，且无法获得任何成效。\n\n这场突如其来的大雨严重干扰了春耕进度，领地的粮食预期可能会因此受到影响。\n\n**建议：**\n- 检查粮仓储备，确保在耕作受阻期间有足够的口粮支撑。\n- 考虑安排农奴在雨停后尽快抢种，或在室内进行工具维护以减轻损失。"
+      },
+      "notes": "当前没有公开 weather/season mutation API。",
+      "duration_seconds": 169.661,
+      "error": null
+    }
+  ]
+}

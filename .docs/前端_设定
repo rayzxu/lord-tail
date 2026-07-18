@@ -1,0 +1,434 @@
+参考谷歌浏览器页签 https://aigirlfriend.baby/zh/explore/installed/d3f8dc82-dff5-4c74-bc1e-9033b08df354
+
+<iframe sandbox="allow-scripts allow-forms allow-pointer-lock" referrerpolicy="no-referrer" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;血与欲的庄园 - 领主设定&lt;/title&gt;
+    &lt;style&gt;
+        :root {
+            --bg-color: #1a1a1a;
+            --panel-bg: #2a2525;
+            --text-main: #d4c4a8;
+            --blood-red: #8b0000;
+            --border-color: #4a3b32;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            background-color: var(--panel-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px 30px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+        h1 {
+            text-align: center;
+            color: var(--blood-red);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            font-size: 24px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #b89f7d;
+        }
+        input[type=&quot;text&quot;], select, .input-textarea {
+            width: 100%;
+            padding: 10px;
+            background-color: #1c1919;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+        input[type=&quot;text&quot;]:focus, select:focus, .input-textarea:focus {
+            outline: none;
+            border-color: var(--blood-red);
+        }
+        /* 新增自定义多行输入框样式 */
+        .input-textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        .talent-section {
+            background-color: #1f1b1b;
+            border: 1px dashed var(--border-color);
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        .talent-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: var(--blood-red);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #a50000;
+        }
+        .talent-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .talent-item {
+            display: flex;
+            align-items: flex-start;
+            background: #252121;
+            padding: 10px;
+            border: 1px solid #332b2b;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .talent-item input {
+            margin-top: 4px;
+            margin-right: 10px;
+            accent-color: var(--blood-red);
+        }
+        .talent-info {
+            flex: 1;
+        }
+        .talent-name {
+            font-weight: bold;
+            color: #e6ceaa;
+            display: block;
+        }
+        .talent-desc {
+            font-size: 12px;
+            color: #998a75;
+            margin-top: 4px;
+        }
+        .generate-btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            margin-top: 25px;
+            background-color: #5c0000;
+        }
+        .result-box {
+            display: none;
+            margin-top: 20px;
+        }
+        .output-textarea {
+            width: 100%;
+            height: 200px;
+            background-color: #111;
+            color: #00ff00;
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            font-family: monospace;
+            box-sizing: border-box;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        @media (max-width: 480px) {
+            .container { padding: 15px; }
+            h1 { font-size: 20px; }
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;container&quot;&gt;
+    &lt;h1&gt;🩸 领主降临设定&lt;/h1&gt;
+    
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;领主姓名&lt;/label&gt;
+        &lt;input type=&quot;text&quot; id=&quot;lordName&quot; placeholder=&quot;例如：亚历山大 / 伊丽莎白&quot; value=&quot;亚历山大&quot;&gt;
+    &lt;/div&gt;
+    
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;领主性别&lt;/label&gt;
+        &lt;select id=&quot;lordGender&quot;&gt;
+            &lt;option value=&quot;男&quot;&gt;男&lt;/option&gt;
+            &lt;option value=&quot;女&quot;&gt;女&lt;/option&gt;
+            &lt;option value=&quot;扶他&quot;&gt;扶他&lt;/option&gt;
+        &lt;/select&gt;
+    &lt;/div&gt;
+    
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;领地名称&lt;/label&gt;
+        &lt;input type=&quot;text&quot; id=&quot;domainName&quot; placeholder=&quot;例如：黑泥堡 / 玫瑰庄园&quot; value=&quot;黑泥堡&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;!-- 新增：外表设定 --&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;领主外表 (Appearance)&lt;/label&gt;
+        &lt;textarea id=&quot;lordAppearance&quot; class=&quot;input-textarea&quot; placeholder=&quot;例如：银发红眼，身材高大，总是穿着带有暗纹的黑天鹅绒长袍，身上带着淡淡的血腥与玫瑰混合的香气...（可尽情描写感官细节）&quot;&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+
+    &lt;!-- 新增：性格设定 --&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;领主性格 (Personality)&lt;/label&gt;
+        &lt;textarea id=&quot;lordPersonality&quot; class=&quot;input-textarea&quot; placeholder=&quot;例如：傲慢、冷酷无情，有着强烈的控制欲和施虐倾向，但在面对某种特定事物时会展现出病态的温柔...&quot;&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;talent-section&quot;&gt;
+        &lt;div class=&quot;talent-header&quot;&gt;
+            &lt;label style=&quot;margin:0;&quot;&gt;命运赐福 (选择2项)&lt;/label&gt;
+            &lt;button type=&quot;button&quot; onclick=&quot;rollTalents()&quot;&gt;🎲 刷新天赋&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div id=&quot;talentCount&quot; style=&quot;font-size:12px; color:#8b0000; margin-bottom:10px;&quot;&gt;已选: 0 / 2&lt;/div&gt;
+        &lt;div class=&quot;talent-list&quot; id=&quot;talentContainer&quot;&gt;
+            &lt;!-- 天赋将通过JS生成在这里 --&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;button type=&quot;button&quot; class=&quot;generate-btn&quot; onclick=&quot;generatePrompt()&quot;&gt;生成开局剧本&lt;/button&gt;
+
+    &lt;div class=&quot;result-box&quot; id=&quot;resultBox&quot;&gt;
+        &lt;label&gt;复制以下文本发送给AI：&lt;/label&gt;
+        &lt;textarea id=&quot;promptOutput&quot; class=&quot;output-textarea&quot; readonly&gt;&lt;/textarea&gt;
+        &lt;button type=&quot;button&quot; style=&quot;width:100%; margin-top:10px;&quot; onclick=&quot;copyText()&quot;&gt;📋 一键复制&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    // 100个精心设计的中世纪/暴君/色欲天赋（保持原样）
+    const allTalents = [
+        {name: &quot;丰收之手&quot;, desc: &quot;领地农田粮食产量永久+20%。&quot;},
+        {name: &quot;铁血手腕&quot;, desc: &quot;初始统治力+20，镇压暴动成功率极高。&quot;},
+        {name: &quot;色欲魔王&quot;, desc: &quot;颁布淫政法令时，民心下降速度减半。&quot;},
+        {name: &quot;建筑狂魔&quot;, desc: &quot;所有建筑的建造时间缩短1轮。&quot;},
+        {name: &quot;斯巴达血统&quot;, desc: &quot;训练场产出的士兵战斗力大幅提升。&quot;},
+        {name: &quot;初夜收割者&quot;, desc: &quot;自带【初夜权】法令效果，且领民视其为神圣传统，不掉民心。&quot;},
+        {name: &quot;敛财专家&quot;, desc: &quot;税收金币+30%，但极易引发贪腐事件。&quot;},
+        {name: &quot;魅力领主&quot;, desc: &quot;初始民心+20，流民更容易被吸引加入领地。&quot;},
+        {name: &quot;无情监工&quot;, desc: &quot;可强制平民无休工作，极大提升效率，但死亡率飙升。&quot;},
+        {name: &quot;魅魔体质&quot;, desc: &quot;亲自下场R18互动时，能让对方迅速臣服并转化为狂热追随者。&quot;},
+        {name: &quot;繁育大师&quot;, desc: &quot;公共繁育所产出人口翻倍，且生下的多为强壮劳力。&quot;},
+        {name: &quot;施虐狂&quot;, desc: &quot;在领主地牢进行互动时，统治力提升幅度翻倍。&quot;},
+        {name: &quot;外交舌辩&quot;, desc: &quot;与邻国交涉时，更容易达成有利的贸易或结盟。&quot;},
+        {name: &quot;骑士精神&quot;, desc: &quot;领地骑兵维护费减半，且威慑力增加。&quot;},
+        {name: &quot;天生暴君&quot;, desc: &quot;统治力永远不会低于40，平民天生畏惧你。&quot;},
+        {name: &quot;商业头脑&quot;, desc: &quot;酒馆和妓院的金币收益翻倍。&quot;},
+        {name: &quot;神棍降临&quot;, desc: &quot;可以利用宗教洗脑平民，颁布极端法令时阻力极小。&quot;},
+        {name: &quot;巨根/名器&quot;, desc: &quot;R18互动中，物理征服力极强，能让反抗者失去理智。&quot;},
+        {name: &quot;铁石心肠&quot;, desc: &quot;拒绝平民诉求时，不会受到良心谴责，民心惩罚减弱。&quot;},
+        {name: &quot;战争贩子&quot;, desc: &quot;主动掠夺邻国时，士兵士气大增，战利品增加。&quot;},
+        {name: &quot;天候预知&quot;, desc: &quot;能提前1个季节预知灾害天气。&quot;},
+        {name: &quot;森林之子&quot;, desc: &quot;伐木场效率翻倍，且在森林作战有加成。&quot;},
+        {name: &quot;矿脉嗅觉&quot;, desc: &quot;领地初始额外获得一笔巨额金币。&quot;},
+        {name: &quot;多产之母/父&quot;, desc: &quot;与你交配的NPC极易怀孕，诞下领主血脉。&quot;},
+        {name: &quot;暴露狂热&quot;, desc: &quot;颁布【全员裸体】法令时，不仅不掉民心，反而能提升全领地工作效率。&quot;},
+        {name: &quot;鲜血渴望&quot;, desc: &quot;露天刑架处刑时，士兵战斗力在接下来的3轮内提升。&quot;},
+        {name: &quot;瘟疫免疫&quot;, desc: &quot;领主绝对不会生病，领地瘟疫爆发率降低。&quot;},
+        {name: &quot;绿帽制造机&quot;, desc: &quot;临幸有夫之妇时，其丈夫不仅不反抗，还会增加对你的忠诚。&quot;},
+        {name: &quot;黑市渠道&quot;, desc: &quot;可以在缺乏粮食时，用极低价格买到劣质黑面包。&quot;},
+        {name: &quot;城墙筑造者&quot;, desc: &quot;防御工事（🧱）坚不可摧，极难被攻破。&quot;},
+        {name: &quot;流氓头子&quot;, desc: &quot;初始拥有一支忠诚的流氓卫队，专干脏活。&quot;},
+        {name: &quot;调教宗师&quot;, desc: &quot;被你投入地牢的俘虏，只需1轮就会彻底沦为性奴。&quot;},
+        {name: &quot;肉林酒池&quot;, desc: &quot;领主堡垒自带极乐属性，在城堡内互动统治力持续上升。&quot;},
+        {name: &quot;饥饿营销&quot;, desc: &quot;粮食越少，平民为了食物愿意付出的代价（包括肉体）越极端。&quot;},
+        {name: &quot;兽性呼唤&quot;, desc: &quot;可以颁布让人类像家畜一样生活的法令而不引发立刻暴动。&quot;},
+        {name: &quot;神射手&quot;, desc: &quot;领地弓箭手命中率极高。&quot;},
+        {name: &quot;拷问专家&quot;, desc: &quot;能从俘虏口中100%套出邻国的情报。&quot;},
+        {name: &quot;绝世容颜&quot;, desc: &quot;邻国统治者（异性）对你初始好感度大增。&quot;},
+        {name: &quot;长鞭法则&quot;, desc: &quot;建筑进度落后时，可通过抽打平民瞬间完成建筑（消耗人口）。&quot;},
+        {name: &quot;淫乱庇护所&quot;, desc: &quot;吸引全大陆的变态流民，领地人口增长不受极低民心限制。&quot;},
+        {name: &quot;铁匠之魂&quot;, desc: &quot;铁匠铺产出的武器极其精良。&quot;},
+        {name: &quot;暗杀大师&quot;, desc: &quot;可以派遣刺客暗杀邻国将领或领地内的叛乱头目。&quot;},
+        {name: &quot;狂信徒磁场&quot;, desc: &quot;领地内会随机诞生愿意为你赴死的狂热追随者。&quot;},
+        {name: &quot;榨汁机&quot;, desc: &quot;R18互动中，NPC体力消耗加倍，极易崩溃。&quot;},
+        {name: &quot;公开羞辱狂&quot;, desc: &quot;在露天刑架进行的R18行为，会额外增加巨量统治力。&quot;},
+        {name: &quot;不眠之躯&quot;, desc: &quot;领主不需要休息，每轮可进行多次微观互动。&quot;},
+        {name: &quot;黄金之风&quot;, desc: &quot;秋季丰收时，额外获得金币税收。&quot;},
+        {name: &quot;冬日之怒&quot;, desc: &quot;冬季时，你的士兵战斗力不降反升。&quot;},
+        {name: &quot;窃国者&quot;, desc: &quot;与邻国开战时，更容易策反对方的将领。&quot;},
+        {name: &quot;母乳崇拜&quot;, desc: &quot;领地内处于哺乳期的农妇产出粮食微量增加（魔幻现实）。&quot;},
+        {name: &quot;群交领袖&quot;, desc: &quot;参与多人R18运动时，全场NPC服从度拉满。&quot;},
+        {name: &quot;泥泞之王&quot;, desc: &quot;恶劣天气下，领地农业受到的负面影响减半。&quot;},
+        {name: &quot;血脉压制&quot;, desc: &quot;平民在你面前无法说谎。&quot;},
+        {name: &quot;人肉盾牌&quot;, desc: &quot;被攻城时，可驱赶平民消耗敌方弓箭，统治力不降。&quot;},
+        {name: &quot;金枪不倒&quot;, desc: &quot;无论进行多少次R18互动，领主都不会疲惫。&quot;},
+        {name: &quot;奴隶主&quot;, desc: &quot;可以将战俘直接转化为无消耗的奴隶劳动力。&quot;},
+        {name: &quot;绝望散播者&quot;, desc: &quot;民心越低，平民越不敢反抗（暴动阈值降至10）。&quot;},
+        {name: &quot;肉体交易&quot;, desc: &quot;可以用领地内的美貌NPC向金鳞公国换取大量金币。&quot;},
+        {name: &quot;处女鉴定眼&quot;, desc: &quot;能一眼看穿NPC是否为处女/处男。&quot;},
+        {name: &quot;刑具发明家&quot;, desc: &quot;地牢（⛓️）中自带各种匪夷所思的折磨道具。&quot;},
+        {name: &quot;草菅人命&quot;, desc: &quot;处死平民不再降低民心，平民习以为常。&quot;},
+        {name: &quot;农具改良&quot;, desc: &quot;没有铁匠铺也能保持基本的农业高产。&quot;},
+        {name: &quot;夜视眼&quot;, desc: &quot;可以在夜晚进行隐秘的视察或夜袭。&quot;},
+        {name: &quot;狂暴血统&quot;, desc: &quot;领主亲自上阵杀敌时，犹如战神附体。&quot;},
+        {name: &quot;人畜无害&quot;, desc: &quot;长相极具欺骗性，颁布暴政时平民总以为你有苦衷。&quot;},
+        {name: &quot;催乳圣手&quot;, desc: &quot;被你临幸的女性NPC会强制进入泌乳期。&quot;},
+        {name: &quot;痛觉转化&quot;, desc: &quot;NPC在受虐时会将痛苦转化为极致的快感。&quot;},
+        {name: &quot;包税人&quot;, desc: &quot;可以把收税权卖给商人，瞬间获得大量金币，但后续民心狂掉。&quot;},
+        {name: &quot;水源净化&quot;, desc: &quot;水井（🚰）效果翻倍，领地绝对不会爆发水源投毒。&quot;},
+        {name: &quot;废墟重建&quot;, desc: &quot;遭遇战火后，领地建筑恢复速度极快。&quot;},
+        {name: &quot;寡妇制造者&quot;, desc: &quot;敌军阵亡后，其遗孀会自动前来你的领地寻求庇护。&quot;},
+        {name: &quot;异装癖&quot;, desc: &quot;领主穿着奇装异服时，领地内的娱乐场所收益增加。&quot;},
+        {name: &quot;洗脑演说&quot;, desc: &quot;每隔4轮可进行一次演说，强行拉升20点民心。&quot;},
+        {name: &quot;血腥狂欢&quot;, desc: &quot;处决犯人时举办宴会，恢复全军士气。&quot;},
+        {name: &quot;贞操锁匠&quot;, desc: &quot;可以强迫全领地女性戴上贞操带，钥匙全在你手里。&quot;},
+        {name: &quot;种马/母猪&quot;, desc: &quot;你的直系后代天生拥有更高的属性。&quot;},
+        {name: &quot;死神豁免&quot;, desc: &quot;领主在致命伤下有几率存活一次。&quot;},
+        {name: &quot;粮仓硕鼠&quot;, desc: &quot;暗中克扣平民口粮纳入私人腰包，极难被发现。&quot;},
+        {name: &quot;吟游诗人&quot;, desc: &quot;领地的恶名会被美化成传奇故事传遍四国。&quot;},
+        {name: &quot;汗水发酵&quot;, desc: &quot;平民劳作越辛苦，你看着越兴奋，统治力随之提升。&quot;},
+        {name: &quot;肉体城墙&quot;, desc: &quot;允许用人口直接填补城墙耐久度。&quot;},
+        {name: &quot;绿洲缔造&quot;, desc: &quot;即使在旱灾也能保住一半的粮食。&quot;},
+        {name: &quot;恶魔契约&quot;, desc: &quot;开局获得全满资源，但100轮后必定遭遇四国围攻。&quot;},
+        {name: &quot;无耻之徒&quot;, desc: &quot;外交背刺时不受任何名誉惩罚。&quot;},
+        {name: &quot;体液成瘾&quot;, desc: &quot;NPC品尝到你的体液后会产生严重的依赖性。&quot;},
+        {name: &quot;视觉剥夺&quot;, desc: &quot;可以颁布法令蒙上所有平民的眼睛，任由卫兵摆布。&quot;},
+        {name: &quot;听觉敏锐&quot;, desc: &quot;能在城堡里听到农田里平民对你的窃窃私语。&quot;},
+        {name: &quot;铁甲重骑&quot;, desc: &quot;解锁中世纪最恐怖的重装骑兵编制。&quot;},
+        {name: &quot;敛尸人&quot;, desc: &quot;战场上的尸体可以转化为微量金币（变卖遗物）。&quot;},
+        {name: &quot;淫火燎原&quot;, desc: &quot;领地内极易自发产生群交事件。&quot;},
+        {name: &quot;尺寸傲人&quot;, desc: &quot;（男性专属）极具视觉冲击力，女性见之腿软。&quot;},
+        {name: &quot;紧致名器&quot;, desc: &quot;（女性专属）能轻易让邻国国王精尽人亡。&quot;},
+        {name: &quot;扶他之神&quot;, desc: &quot;（扶他专属）同时具备男女优势，征服一切性别。&quot;},
+        {name: &quot;神圣审判&quot;, desc: &quot;以异端之名烧死平民，不仅增加统治力还增加民心。&quot;},
+        {name: &quot;时间管理&quot;, desc: &quot;一轮（9天）内可下达双倍的建筑指令。&quot;},
+        {name: &quot;领主初夜&quot;, desc: &quot;新婚妻子必须先送入城堡，丈夫还要在门外感恩。&quot;},
+        {name: &quot;骨肉相食&quot;, desc: &quot;极度饥荒时，平民会自发互食而不发生暴动。&quot;},
+        {name: &quot;狂热近卫&quot;, desc: &quot;拥有一支只听命于你的死士，免疫任何策反。&quot;},
+        {name: &quot;肉体税&quot;, desc: &quot;交不起金币的家庭必须交出长女/长子抵债。&quot;},
+        {name: &quot;永恒暴君&quot;, desc: &quot;无论做多过分的事，总有一批死忠粉为你辩护。&quot;}
+    ];
+
+    let selectedTalents = [];
+
+    function getRandomTalents(arr, count) {
+        const shuffled = [...arr].sort(() =&gt; 0.5 - Math.random());
+        return shuffled.slice(0, count);
+    }
+
+    function rollTalents() {
+        const container = document.getElementById('talentContainer');
+        container.innerHTML = '';
+        selectedTalents = [];
+        updateCount();
+
+        const currentTalents = getRandomTalents(allTalents, 10);
+        
+        currentTalents.forEach((talent, index) =&gt; {
+            const div = document.createElement('div');
+            div.className = 'talent-item';
+            div.onclick = function(e) {
+                if (e.target.tagName !== 'INPUT') {
+                    const checkbox = this.querySelector('input');
+                    checkbox.checked = !checkbox.checked;
+                    handleSelection(checkbox, talent);
+                }
+            };
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.value = talent.name;
+            checkbox.onclick = function(e) {
+                handleSelection(this, talent);
+                e.stopPropagation();
+            };
+
+            const info = document.createElement('div');
+            info.className = 'talent-info';
+            info.innerHTML = `&lt;span class=&quot;talent-name&quot;&gt;${talent.name}&lt;/span&gt;&lt;div class=&quot;talent-desc&quot;&gt;${talent.desc}&lt;/div&gt;`;
+
+            div.appendChild(checkbox);
+            div.appendChild(info);
+            container.appendChild(div);
+        });
+    }
+
+    function handleSelection(checkbox, talent) {
+        if (checkbox.checked) {
+            if (selectedTalents.length &gt;= 2) {
+                checkbox.checked = false;
+                alert(&quot;最多只能选择2个命运赐福！贪心可是会下地狱的哦~&quot;);
+                return;
+            }
+            selectedTalents.push(talent);
+        } else {
+            selectedTalents = selectedTalents.filter(t =&gt; t.name !== talent.name);
+        }
+        updateCount();
+    }
+
+    function updateCount() {
+        document.getElementById('talentCount').innerText = `已选: ${selectedTalents.length} / 2`;
+    }
+
+    function generatePrompt() {
+        const name = document.getElementById('lordName').value || '无名领主';
+        const gender = document.getElementById('lordGender').value;
+        const domain = document.getElementById('domainName').value || '无名之地';
+        
+        // 获取新增的外表和性格设定
+        const appearance = document.getElementById('lordAppearance').value || '未详细设定（由AI根据你的行为自由脑补）';
+        const personality = document.getElementById('lordPersonality').value || '深不可测的深渊性格';
+
+        if (selectedTalents.length !== 2) {
+            alert(&quot;请务必选择2个命运赐福！&quot;);
+            return;
+        }
+
+        const t1 = `${selectedTalents[0].name}（${selectedTalents[0].desc}）`;
+        const t2 = `${selectedTalents[1].name}（${selectedTalents[1].desc}）`;
+
+        const prompt = `请作为【中世纪庄园模拟器内核】接收我的初始设定。
+
+我的初始设定如下：
+- 领主姓名：${name}
+- 领主性别：${gender}
+- 领地名称：${domain}
+- 领主外表：${appearance}
+- 领主性格：${personality}
+- 初始天赋1：${t1}（请在后续演算中严格应用此天赋效果）
+- 初始天赋2：${t2}（请在后续演算中严格应用此天赋效果）
+
+**开局要求：**
+1. 游戏从【第1轮 ｜ 春季 ｜ 细雨】开始。
+2. 初始领地大盘：民心50，统治力50，人口100，金币500，粮食500。
+3. 初始地图：在10x10的空地（🟩）正中央（E5）有一座领主堡垒（🏰），旁边（E6）有几间破旧房屋（🏘️）。
+4. 请用极具中世纪压迫感的笔触，描写我（领主）站在泥泞的城堡阳台上俯瞰领地的第一幕。结合我的性别、外表、性格和天赋，描写周围仆人或卫兵对我敬畏/恐惧/痴迷的态度，以及我内心所想。
+5. 在回复末尾输出第一轮的【交互状态面板】和【战术地图】。
+6. 询问我下达的第一个指令（建筑/法令/互动）。`;
+
+        document.getElementById('promptOutput').value = prompt;
+        document.getElementById('resultBox').style.display = 'block';
+        
+        // 滚动到底部
+        document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function copyText() {
+        const text = document.getElementById('promptOutput');
+        text.select();
+        document.execCommand('copy');
+        alert(&quot;剧本已复制！快去发送给AI开始你的暴君之路吧！&quot;);
+    }
+
+    // 初始化随机一次
+    window.onload = rollTalents;
+&lt;/script&gt;
+
+&lt;/body&gt;" width="1920" height="1080" class="h-full w-full"></iframe>

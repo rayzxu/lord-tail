@@ -1,0 +1,6177 @@
+{
+  "object": "lord_tail.hermes_scenario_matrix",
+  "created_at": "2026-07-18T01:03:51",
+  "backend_url": "http://127.0.0.1:8000",
+  "hermes_url": "http://127.0.0.1:8643",
+  "initialization": {
+    "start": {
+      "state": {
+        "realm_name": "黑逼堡",
+        "lord_name": "亚历山大",
+        "lord_gender": "男",
+        "appearance": "肥胖，矮小，龌蹉；小眼睛里全是贪婪",
+        "personality": "媚上欺下",
+        "talents": [
+          {
+            "id": "spartan_blood",
+            "name": "斯巴达血统",
+            "description": "训练出的士兵作战更为可靠。",
+            "effects": {
+              "unit_quality_multiplier": {
+                "all": 1.15
+              }
+            }
+          },
+          {
+            "id": "master_builder",
+            "name": "建筑巧匠",
+            "description": "建筑工程少耗一轮工期。",
+            "effects": {
+              "construction_turn_reduction": 1
+            }
+          }
+        ],
+        "turn": 1,
+        "season": "春季",
+        "weather": "细雨",
+        "resources": {
+          "gold": 500,
+          "food": 500,
+          "wood": 80,
+          "stone": 50,
+          "population": 100,
+          "morale": 50,
+          "authority": 50,
+          "iron": 20,
+          "meat": 30,
+          "leather": 10,
+          "craft_goods": 0,
+          "tools": 5,
+          "piety": 0,
+          "security": 45,
+          "service_income": 0
+        },
+        "changes": {
+          "gold": 0,
+          "food": 0,
+          "wood": 0,
+          "stone": 0,
+          "population": 0,
+          "morale": 0,
+          "authority": 0,
+          "iron": 0,
+          "meat": 0,
+          "leather": 0,
+          "craft_goods": 0,
+          "tools": 0,
+          "piety": 0,
+          "security": 0,
+          "service_income": 0
+        },
+        "army": {
+          "infantry": 0,
+          "archers": 0,
+          "cavalry": 0
+        },
+        "army_status": {
+          "organization": 100,
+          "routed": false,
+          "last_loss_ratio": 0.0
+        },
+        "training_queue": [],
+        "training_seq": 0,
+        "battles": [],
+        "diplomacy": {
+          "维尔德兰": {
+            "stance": "友善",
+            "relation": 70,
+            "treaties": [],
+            "at_war": false
+          },
+          "铁橡": {
+            "stance": "友善",
+            "relation": 70,
+            "treaties": [],
+            "at_war": false
+          },
+          "金鳞": {
+            "stance": "中立",
+            "relation": 0,
+            "treaties": [],
+            "at_war": false
+          },
+          "血鸦": {
+            "stance": "敌对",
+            "relation": -60,
+            "treaties": [],
+            "at_war": false
+          }
+        },
+        "buildings": {
+          "领主堡垒": 1,
+          "村舍": 1,
+          "镇屋": 1,
+          "手工作坊": 1,
+          "商店": 1,
+          "宅邸": 1
+        },
+        "construction_queue": [],
+        "construction_seq": 0,
+        "workforce": {
+          "available": 100,
+          "assigned": 0
+        },
+        "laws": [],
+        "map": [
+          {
+            "x": 1,
+            "y": 1,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 2,
+            "y": 1,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 3,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 2,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 2,
+            "y": 2,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 3,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 3,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 2,
+            "y": 3,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 3,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 5,
+            "kind": "castle",
+            "label": "领主堡垒"
+          },
+          {
+            "x": 6,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 6,
+            "kind": "homes",
+            "label": "村舍"
+          },
+          {
+            "x": 6,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          }
+        ],
+        "demographics": {
+          "classes": {
+            "serfs": {
+              "name": "农奴",
+              "population": 58,
+              "wealth_per_capita": 3,
+              "morale": 50,
+              "age": {
+                "child": 15,
+                "working": 35,
+                "elder": 8
+              },
+              "sex": {
+                "female": 30,
+                "male": 28
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "free_peasants": {
+              "name": "自由农",
+              "population": 24,
+              "wealth_per_capita": 9,
+              "morale": 50,
+              "age": {
+                "child": 6,
+                "working": 15,
+                "elder": 3
+              },
+              "sex": {
+                "female": 12,
+                "male": 12
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "artisans": {
+              "name": "工匠",
+              "population": 10,
+              "wealth_per_capita": 18,
+              "morale": 50,
+              "age": {
+                "child": 3,
+                "working": 6,
+                "elder": 1
+              },
+              "sex": {
+                "female": 5,
+                "male": 5
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "merchants": {
+              "name": "商人",
+              "population": 5,
+              "wealth_per_capita": 35,
+              "morale": 50,
+              "age": {
+                "child": 2,
+                "working": 3,
+                "elder": 0
+              },
+              "sex": {
+                "female": 3,
+                "male": 2
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "minor_nobles": {
+              "name": "骑士",
+              "population": 3,
+              "wealth_per_capita": 80,
+              "morale": 50,
+              "age": {
+                "child": 1,
+                "working": 2,
+                "elder": 0
+              },
+              "sex": {
+                "female": 2,
+                "male": 1
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            }
+          },
+          "housing": {
+            "by_type": {
+              "manor": {
+                "capacity": 14,
+                "occupied": 3,
+                "vacant": 11,
+                "quality": 4
+              },
+              "hut": {
+                "capacity": 72,
+                "occupied": 58,
+                "vacant": 14,
+                "quality": 1
+              },
+              "workshop_home": {
+                "capacity": 12,
+                "occupied": 10,
+                "vacant": 2,
+                "quality": 2
+              },
+              "shop_home": {
+                "capacity": 8,
+                "occupied": 5,
+                "vacant": 3,
+                "quality": 3
+              },
+              "townhouse": {
+                "capacity": 28,
+                "occupied": 24,
+                "vacant": 4,
+                "quality": 2
+              },
+              "open_land_shelter": {
+                "capacity": 0,
+                "occupied": 0,
+                "vacant": 0,
+                "quality": 0
+              }
+            },
+            "total_capacity": 134,
+            "total_occupied": 100,
+            "total_vacant": 34
+          },
+          "last_births": 0,
+          "last_migration": 0,
+          "last_outflow": 0,
+          "last_wealth_delta": 0
+        }
+      },
+      "narrative": "第1轮｜春季｜细雨。春雨像灰色的麻布压在 黑逼堡 上，亚历山大 领主站在泥泞的城堡阳台，俯瞰正中央的领主堡垒与 E6 旁几间破旧房屋。他是男，外表肥胖，矮小，龌蹉；小眼睛里全是贪婪，性格媚上欺下；命运赐福在他身后低声作响：斯巴达血统、建筑巧匠。仆人垂着头不敢直视，卫兵把铁手套贴在胸前，敬畏与恐惧像潮气一样贴住他们的喉咙。领主的小小领地在泥水中展开，而他心里盘算的不是怜悯，是税、劳役、惩戒与如何让每一粒粮食都服从自己的印章。",
+      "suggestions": [
+        "在 E4 建造农田",
+        "派遣伐木队前往西北林地",
+        "召集领民讨论春耕"
+      ],
+      "source": "rules",
+      "events": []
+    },
+    "budget": {
+      "state": {
+        "realm_name": "黑逼堡",
+        "lord_name": "亚历山大",
+        "lord_gender": "男",
+        "appearance": "肥胖，矮小，龌蹉；小眼睛里全是贪婪",
+        "personality": "媚上欺下",
+        "talents": [
+          {
+            "id": "spartan_blood",
+            "name": "斯巴达血统",
+            "description": "训练出的士兵作战更为可靠。",
+            "effects": {
+              "unit_quality_multiplier": {
+                "all": 1.15
+              }
+            }
+          },
+          {
+            "id": "master_builder",
+            "name": "建筑巧匠",
+            "description": "建筑工程少耗一轮工期。",
+            "effects": {
+              "construction_turn_reduction": 1
+            }
+          }
+        ],
+        "turn": 1,
+        "season": "春季",
+        "weather": "细雨",
+        "resources": {
+          "gold": 10000,
+          "food": 10000,
+          "wood": 10000,
+          "stone": 10000,
+          "population": 1000,
+          "morale": 60,
+          "authority": 80,
+          "iron": 10000,
+          "meat": 30,
+          "leather": 10,
+          "craft_goods": 0,
+          "tools": 10000,
+          "piety": 0,
+          "security": 70,
+          "service_income": 0
+        },
+        "changes": {
+          "gold": 9500,
+          "food": 9500,
+          "wood": 9920,
+          "stone": 9950,
+          "population": 900,
+          "morale": 10,
+          "authority": 30,
+          "iron": 9980,
+          "meat": 0,
+          "leather": 0,
+          "craft_goods": 0,
+          "tools": 9995,
+          "piety": 0,
+          "security": 25,
+          "service_income": 0
+        },
+        "army": {
+          "infantry": 0,
+          "archers": 0,
+          "cavalry": 0
+        },
+        "army_status": {
+          "organization": 100,
+          "routed": false,
+          "last_loss_ratio": 0.0
+        },
+        "training_queue": [],
+        "training_seq": 0,
+        "battles": [],
+        "diplomacy": {
+          "维尔德兰": {
+            "stance": "友善",
+            "relation": 70,
+            "treaties": [],
+            "at_war": false
+          },
+          "铁橡": {
+            "stance": "友善",
+            "relation": 70,
+            "treaties": [],
+            "at_war": false
+          },
+          "金鳞": {
+            "stance": "中立",
+            "relation": 0,
+            "treaties": [],
+            "at_war": false
+          },
+          "血鸦": {
+            "stance": "敌对",
+            "relation": -60,
+            "treaties": [],
+            "at_war": false
+          }
+        },
+        "buildings": {
+          "领主堡垒": 1,
+          "村舍": 1,
+          "镇屋": 1,
+          "手工作坊": 1,
+          "商店": 1,
+          "宅邸": 1
+        },
+        "construction_queue": [],
+        "construction_seq": 0,
+        "workforce": {
+          "available": 100,
+          "assigned": 0
+        },
+        "laws": [],
+        "map": [
+          {
+            "x": 1,
+            "y": 1,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 2,
+            "y": 1,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 3,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 2,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 2,
+            "y": 2,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 3,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 3,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 2,
+            "y": 3,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 3,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 5,
+            "kind": "castle",
+            "label": "领主堡垒"
+          },
+          {
+            "x": 6,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 6,
+            "kind": "homes",
+            "label": "村舍"
+          },
+          {
+            "x": 6,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          }
+        ],
+        "demographics": {
+          "classes": {
+            "serfs": {
+              "name": "农奴",
+              "population": 958,
+              "wealth_per_capita": 3,
+              "morale": 50,
+              "age": {
+                "child": 15,
+                "working": 935,
+                "elder": 8
+              },
+              "sex": {
+                "female": 480,
+                "male": 478
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "free_peasants": {
+              "name": "自由农",
+              "population": 24,
+              "wealth_per_capita": 9,
+              "morale": 50,
+              "age": {
+                "child": 6,
+                "working": 15,
+                "elder": 3
+              },
+              "sex": {
+                "female": 12,
+                "male": 12
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "artisans": {
+              "name": "工匠",
+              "population": 10,
+              "wealth_per_capita": 18,
+              "morale": 50,
+              "age": {
+                "child": 3,
+                "working": 6,
+                "elder": 1
+              },
+              "sex": {
+                "female": 5,
+                "male": 5
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "merchants": {
+              "name": "商人",
+              "population": 5,
+              "wealth_per_capita": 35,
+              "morale": 50,
+              "age": {
+                "child": 2,
+                "working": 3,
+                "elder": 0
+              },
+              "sex": {
+                "female": 3,
+                "male": 2
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "minor_nobles": {
+              "name": "骑士",
+              "population": 3,
+              "wealth_per_capita": 80,
+              "morale": 50,
+              "age": {
+                "child": 1,
+                "working": 2,
+                "elder": 0
+              },
+              "sex": {
+                "female": 2,
+                "male": 1
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            }
+          },
+          "housing": {
+            "by_type": {
+              "manor": {
+                "capacity": 14,
+                "occupied": 3,
+                "vacant": 11,
+                "quality": 4
+              },
+              "hut": {
+                "capacity": 72,
+                "occupied": 72,
+                "vacant": 0,
+                "quality": 1
+              },
+              "workshop_home": {
+                "capacity": 12,
+                "occupied": 10,
+                "vacant": 2,
+                "quality": 2
+              },
+              "shop_home": {
+                "capacity": 8,
+                "occupied": 5,
+                "vacant": 3,
+                "quality": 3
+              },
+              "townhouse": {
+                "capacity": 28,
+                "occupied": 24,
+                "vacant": 4,
+                "quality": 2
+              },
+              "open_land_shelter": {
+                "capacity": 886,
+                "occupied": 886,
+                "vacant": 0,
+                "quality": 0
+              }
+            },
+            "total_capacity": 1020,
+            "total_occupied": 1000,
+            "total_vacant": 20
+          },
+          "last_births": 0,
+          "last_migration": 0,
+          "last_outflow": 0,
+          "last_wealth_delta": 0
+        }
+      },
+      "narrative": "状态接口已更新资源。",
+      "suggestions": [],
+      "source": "state-api",
+      "events": []
+    },
+    "barracks": {
+      "state": {
+        "realm_name": "黑逼堡",
+        "lord_name": "亚历山大",
+        "lord_gender": "男",
+        "appearance": "肥胖，矮小，龌蹉；小眼睛里全是贪婪",
+        "personality": "媚上欺下",
+        "talents": [
+          {
+            "id": "spartan_blood",
+            "name": "斯巴达血统",
+            "description": "训练出的士兵作战更为可靠。",
+            "effects": {
+              "unit_quality_multiplier": {
+                "all": 1.15
+              }
+            }
+          },
+          {
+            "id": "master_builder",
+            "name": "建筑巧匠",
+            "description": "建筑工程少耗一轮工期。",
+            "effects": {
+              "construction_turn_reduction": 1
+            }
+          }
+        ],
+        "turn": 1,
+        "season": "春季",
+        "weather": "细雨",
+        "resources": {
+          "gold": 10000,
+          "food": 10000,
+          "wood": 10000,
+          "stone": 10000,
+          "population": 1000,
+          "morale": 60,
+          "authority": 80,
+          "iron": 10000,
+          "meat": 30,
+          "leather": 10,
+          "craft_goods": 0,
+          "tools": 10000,
+          "piety": 0,
+          "security": 70,
+          "service_income": 0
+        },
+        "changes": {
+          "gold": 9500,
+          "food": 9500,
+          "wood": 9920,
+          "stone": 9950,
+          "population": 900,
+          "morale": 10,
+          "authority": 30,
+          "iron": 9980,
+          "meat": 0,
+          "leather": 0,
+          "craft_goods": 0,
+          "tools": 9995,
+          "piety": 0,
+          "security": 25,
+          "service_income": 0
+        },
+        "army": {
+          "infantry": 0,
+          "archers": 0,
+          "cavalry": 0
+        },
+        "army_status": {
+          "organization": 100,
+          "routed": false,
+          "last_loss_ratio": 0.0
+        },
+        "training_queue": [],
+        "training_seq": 0,
+        "battles": [],
+        "diplomacy": {
+          "维尔德兰": {
+            "stance": "友善",
+            "relation": 70,
+            "treaties": [],
+            "at_war": false
+          },
+          "铁橡": {
+            "stance": "友善",
+            "relation": 70,
+            "treaties": [],
+            "at_war": false
+          },
+          "金鳞": {
+            "stance": "中立",
+            "relation": 0,
+            "treaties": [],
+            "at_war": false
+          },
+          "血鸦": {
+            "stance": "敌对",
+            "relation": -60,
+            "treaties": [],
+            "at_war": false
+          }
+        },
+        "buildings": {
+          "领主堡垒": 1,
+          "村舍": 1,
+          "镇屋": 1,
+          "手工作坊": 1,
+          "商店": 1,
+          "宅邸": 1,
+          "训练场": 1
+        },
+        "construction_queue": [],
+        "construction_seq": 0,
+        "workforce": {
+          "available": 100,
+          "assigned": 0
+        },
+        "laws": [],
+        "map": [
+          {
+            "x": 1,
+            "y": 1,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 2,
+            "y": 1,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 3,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 1,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 2,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 2,
+            "y": 2,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 3,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 2,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 3,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 2,
+            "y": 3,
+            "kind": "forest",
+            "label": "林地"
+          },
+          {
+            "x": 3,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 3,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 4,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 5,
+            "kind": "castle",
+            "label": "领主堡垒"
+          },
+          {
+            "x": 6,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 5,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 6,
+            "kind": "homes",
+            "label": "村舍"
+          },
+          {
+            "x": 6,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 6,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 7,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 8,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 9,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 1,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 2,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 3,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 4,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 5,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 6,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 7,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 8,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 9,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          },
+          {
+            "x": 10,
+            "y": 10,
+            "kind": "grass",
+            "label": "草地"
+          }
+        ],
+        "demographics": {
+          "classes": {
+            "serfs": {
+              "name": "农奴",
+              "population": 958,
+              "wealth_per_capita": 3,
+              "morale": 50,
+              "age": {
+                "child": 15,
+                "working": 935,
+                "elder": 8
+              },
+              "sex": {
+                "female": 480,
+                "male": 478
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "free_peasants": {
+              "name": "自由农",
+              "population": 24,
+              "wealth_per_capita": 9,
+              "morale": 50,
+              "age": {
+                "child": 6,
+                "working": 15,
+                "elder": 3
+              },
+              "sex": {
+                "female": 12,
+                "male": 12
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "artisans": {
+              "name": "工匠",
+              "population": 10,
+              "wealth_per_capita": 18,
+              "morale": 50,
+              "age": {
+                "child": 3,
+                "working": 6,
+                "elder": 1
+              },
+              "sex": {
+                "female": 5,
+                "male": 5
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "merchants": {
+              "name": "商人",
+              "population": 5,
+              "wealth_per_capita": 35,
+              "morale": 50,
+              "age": {
+                "child": 2,
+                "working": 3,
+                "elder": 0
+              },
+              "sex": {
+                "female": 3,
+                "male": 2
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            },
+            "minor_nobles": {
+              "name": "骑士",
+              "population": 3,
+              "wealth_per_capita": 80,
+              "morale": 50,
+              "age": {
+                "child": 1,
+                "working": 2,
+                "elder": 0
+              },
+              "sex": {
+                "female": 2,
+                "male": 1
+              },
+              "pregnancy": {
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0,
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 0
+              },
+              "last_births": 0,
+              "last_migration": 0,
+              "last_outflow": 0,
+              "last_wealth_delta": 0
+            }
+          },
+          "housing": {
+            "by_type": {
+              "manor": {
+                "capacity": 14,
+                "occupied": 3,
+                "vacant": 11,
+                "quality": 4
+              },
+              "hut": {
+                "capacity": 72,
+                "occupied": 72,
+                "vacant": 0,
+                "quality": 1
+              },
+              "workshop_home": {
+                "capacity": 12,
+                "occupied": 10,
+                "vacant": 2,
+                "quality": 2
+              },
+              "shop_home": {
+                "capacity": 8,
+                "occupied": 5,
+                "vacant": 3,
+                "quality": 3
+              },
+              "townhouse": {
+                "capacity": 28,
+                "occupied": 24,
+                "vacant": 4,
+                "quality": 2
+              },
+              "open_land_shelter": {
+                "capacity": 886,
+                "occupied": 886,
+                "vacant": 0,
+                "quality": 0
+              }
+            },
+            "total_capacity": 1020,
+            "total_occupied": 1000,
+            "total_vacant": 20
+          },
+          "last_births": 0,
+          "last_migration": 0,
+          "last_outflow": 0,
+          "last_wealth_delta": 0
+        }
+      },
+      "narrative": "状态接口已建立训练场。",
+      "suggestions": [],
+      "source": "state-api",
+      "events": []
+    }
+  },
+  "summary": {
+    "total_cases": 17,
+    "planned_cases": 17,
+    "correct_cases": 0,
+    "incorrect_cases": 17
+  },
+  "cases": [
+    {
+      "id": "daily_build_farm",
+      "category": "daily",
+      "title": "建造：开垦农田",
+      "expected_apis": [
+        "POST /api/state/buildings",
+        "POST /api/agent/events"
+      ],
+      "actual_apis": [
+        "POST /api/state/buildings"
+      ],
+      "missing_apis": [
+        "POST /api/agent/events"
+      ],
+      "unexpected_apis": [],
+      "error_apis": [],
+      "api_correct": false,
+      "input": {
+        "prompt": "在 E4 建造一片农田，并描述劳工如何在细雨中被驱赶开垦。",
+        "notes": ""
+      },
+      "output": {
+        "hermes_create": {
+          "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+          "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+          "status": "started",
+          "events_url": "/api/agent/runs/lt_run_c74dd59704134700b072a778c8deaf3b/events"
+        },
+        "hermes_status": {
+          "object": "lord_tail.agent_run",
+          "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+          "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+          "mode": "story_turn",
+          "status": "completed",
+          "created_at": 1784299439.068914,
+          "updated_at": 1784299510.853481,
+          "final_text": "春日的细雨如丝，将黑逼堡的郊野染上一层阴冷的灰色。\n\n在你的命令下，一群面色枯槁的农奴被粗暴地驱赶到了 E4 的草地上。他们穿着单薄且打满补丁的麻布衣，在冰冷的雨水中瑟瑟发抖。监工的鞭子在空中甩出刺耳的破空声，伴随着不堪入耳的咒骂，强迫这些劳工将沉重的犁头深深地楔入湿软的泥土中。\n\n雨水顺着他们的脊背流进鞋里，每一步行走都伴随着沉闷的泥泞吮吸声。在这场冷雨中，农奴们不敢抬头看向远处那座奢华的领主堡垒，只能在低沉的喘息和泥浆的飞溅中，为你开垦出第一片属于这座领地的农田。\n\n**当前进度：**\n- E4 区域已成功转化为 **[农田]**。\n\n**后续建议：**\n- 既然已经有了基础耕地，是否考虑在其他区域建立更多的农产设施以增加粮食产量？\n- 为了维持在这种高强度开垦下的稳定，你或许需要关注一下领民的民心状况。",
+          "last_event": {
+            "event": "run.completed",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299510.8514931,
+            "output": "春日的细雨如丝，将黑逼堡的郊野染上一层阴冷的灰色。\n\n在你的命令下，一群面色枯槁的农奴被粗暴地驱赶到了 E4 的草地上。他们穿着单薄且打满补丁的麻布衣，在冰冷的雨水中瑟瑟发抖。监工的鞭子在空中甩出刺耳的破空声，伴随着不堪入耳的咒骂，强迫这些劳工将沉重的犁头深深地楔入湿软的泥土中。\n\n雨水顺着他们的脊背流进鞋里，每一步行走都伴随着沉闷的泥泞吮吸声。在这场冷雨中，农奴们不敢抬头看向远处那座奢华的领主堡垒，只能在低沉的喘息和泥浆的飞溅中，为你开垦出第一片属于这座领地的农田。\n\n**当前进度：**\n- E4 区域已成功转化为 **[农田]**。\n\n**后续建议：**\n- 既然已经有了基础耕地，是否考虑在其他区域建立更多的农产设施以增加粮食产量？\n- 为了维持在这种高强度开垦下的稳定，你或许需要关注一下领民的民心状况。",
+            "usage": {
+              "input_tokens": 31071,
+              "output_tokens": 771,
+              "total_tokens": 31842
+            },
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 279
+          }
+        },
+        "hermes_events": [
+          {
+            "event": "run.started",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299439.068935,
+            "seq": 1
+          },
+          {
+            "event": "tool.started",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299468.723595,
+            "tool": "terminal",
+            "preview": "curl -X POST \"http://127.0.0.1:8000/api/state/buildings\" -H \"Content-Type: application/json\" -d '{\"building\": \"farm\", \"action\": \"build\", \"count\": 1, \"x\": 5, \"y\": 4}'",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 2
+          },
+          {
+            "event": "tool.completed",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299468.8226361,
+            "tool": "terminal",
+            "duration": 0.099,
+            "error": false,
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 3
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299496.8205519,
+            "delta": "\n\n春",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 4
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299496.871145,
+            "delta": "日的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 5
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299496.922227,
+            "delta": "细",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 6
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299496.9731562,
+            "delta": "雨",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 7
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299497.023772,
+            "delta": "如",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 8
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299497.0751429,
+            "delta": "丝",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 9
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299497.126382,
+            "delta": "，",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 10
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299497.177783,
+            "delta": "将",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 11
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299497.228962,
+            "delta": "黑",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 12
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299497.280315,
+            "delta": "逼",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 13
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299497.3323882,
+            "delta": "堡",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 14
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299497.382951,
+            "delta": "的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 15
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299497.434577,
+            "delta": "郊",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 16
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299497.485695,
+            "delta": "野",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 17
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299497.536706,
+            "delta": "染",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 18
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299497.58763,
+            "delta": "上一",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 19
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299497.6389928,
+            "delta": "层",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 20
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299497.690206,
+            "delta": "阴",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 21
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299497.741594,
+            "delta": "冷的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 22
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299497.792866,
+            "delta": "灰色",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 23
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299497.8444538,
+            "delta": "。",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 24
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299497.895455,
+            "delta": "\n\n",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 25
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299497.9469151,
+            "delta": "在",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 26
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299497.997182,
+            "delta": "你的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 27
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299498.049061,
+            "delta": "命令",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 28
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299498.1003149,
+            "delta": "下",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 29
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299498.151846,
+            "delta": "，",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 30
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299498.203318,
+            "delta": "一群",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 31
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299498.2547898,
+            "delta": "面",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 32
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299498.306071,
+            "delta": "色",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 33
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299498.357492,
+            "delta": "枯",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 34
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299498.408999,
+            "delta": "槁",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 35
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299498.460651,
+            "delta": "的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 36
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299498.5119119,
+            "delta": "农",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 37
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299498.5633678,
+            "delta": "奴",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 38
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299498.615996,
+            "delta": "被",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 39
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299498.66766,
+            "delta": "粗",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 40
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299498.719001,
+            "delta": "暴",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 41
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299498.769634,
+            "delta": "地",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 42
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299498.820195,
+            "delta": "驱",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 43
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299498.871637,
+            "delta": "赶",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 44
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299498.922627,
+            "delta": "到了",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 45
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299498.973446,
+            "delta": " E",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 46
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299499.024446,
+            "delta": "4",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 47
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299499.075822,
+            "delta": " 的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 48
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299499.127124,
+            "delta": "草",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 49
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299499.178859,
+            "delta": "地上",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 50
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299499.230005,
+            "delta": "。",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 51
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299499.2822342,
+            "delta": "他们",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 52
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299499.332372,
+            "delta": "穿着",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 53
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299499.383745,
+            "delta": "单",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 54
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299499.435276,
+            "delta": "薄",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 55
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299499.485945,
+            "delta": "且",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 56
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299499.5376582,
+            "delta": "打",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 57
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299499.588801,
+            "delta": "满",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 58
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299499.6403048,
+            "delta": "补",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 59
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299499.6917472,
+            "delta": "丁",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 60
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299499.7431629,
+            "delta": "的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 61
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299499.794697,
+            "delta": "麻",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 62
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299499.845948,
+            "delta": "布",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 63
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299499.898091,
+            "delta": "衣",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 64
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299499.948757,
+            "delta": "，",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 65
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299499.9997911,
+            "delta": "在",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 66
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299500.050498,
+            "delta": "冰",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 67
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299500.101909,
+            "delta": "冷的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 68
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299500.153195,
+            "delta": "雨",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 69
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299500.204504,
+            "delta": "水中",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 70
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299500.25551,
+            "delta": "瑟",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 71
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299500.306827,
+            "delta": "瑟",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 72
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299500.358227,
+            "delta": "发",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 73
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299500.409631,
+            "delta": "抖",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 74
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299500.4611158,
+            "delta": "。",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 75
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299500.512088,
+            "delta": "监",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 76
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299500.56319,
+            "delta": "工",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 77
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299500.615656,
+            "delta": "的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 78
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299500.6661298,
+            "delta": "鞭",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 79
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299500.7162108,
+            "delta": "子",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 80
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299500.766699,
+            "delta": "在",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 81
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299500.8171048,
+            "delta": "空中",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 82
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299500.867724,
+            "delta": "甩",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 83
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299500.918174,
+            "delta": "出",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 84
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299500.968766,
+            "delta": "刺",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 85
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299501.018987,
+            "delta": "耳",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 86
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299501.0701098,
+            "delta": "的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 87
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299501.121176,
+            "delta": "破",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 88
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299501.171969,
+            "delta": "空",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 89
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299501.222316,
+            "delta": "声",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 90
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299501.27285,
+            "delta": "，",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 91
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299501.323055,
+            "delta": "伴",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 92
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299501.373248,
+            "delta": "随着",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 93
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299501.423605,
+            "delta": "不堪",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 94
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299501.474248,
+            "delta": "入",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 95
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299501.524725,
+            "delta": "耳",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 96
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299501.576181,
+            "delta": "的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 97
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299501.627601,
+            "delta": "咒",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 98
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299501.678727,
+            "delta": "骂",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 99
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299501.730165,
+            "delta": "，",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 100
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299501.781441,
+            "delta": "强",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 101
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299501.832865,
+            "delta": "迫",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 102
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299501.884704,
+            "delta": "这些",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 103
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299501.936052,
+            "delta": "劳",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 104
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299501.986392,
+            "delta": "工",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 105
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299502.038041,
+            "delta": "将",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 106
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299502.0891788,
+            "delta": "沉",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 107
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299502.1397078,
+            "delta": "重的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 108
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299502.1910641,
+            "delta": "犁",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 109
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299502.2425642,
+            "delta": "头",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 110
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299502.2940748,
+            "delta": "深深",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 111
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299502.345289,
+            "delta": "地",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 112
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299502.396698,
+            "delta": "楔",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 113
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299502.448549,
+            "delta": "入",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 114
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299502.499178,
+            "delta": "湿",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 115
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299502.5509188,
+            "delta": "软",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 116
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299502.602203,
+            "delta": "的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 117
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299502.653312,
+            "delta": "泥",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 118
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299502.704895,
+            "delta": "土",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 119
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299502.755975,
+            "delta": "中",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 120
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299502.8073459,
+            "delta": "。",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 121
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299502.858612,
+            "delta": "\n\n",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 122
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299502.909209,
+            "delta": "雨",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 123
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299502.960217,
+            "delta": "水",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 124
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299503.010568,
+            "delta": "顺",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 125
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299503.0621262,
+            "delta": "着",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 126
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299503.113703,
+            "delta": "他们的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 127
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299503.1649039,
+            "delta": "脊",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 128
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299503.2152,
+            "delta": "背",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 129
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299503.2661362,
+            "delta": "流",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 130
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299503.316382,
+            "delta": "进",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 131
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299503.368163,
+            "delta": "鞋",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 132
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299503.41905,
+            "delta": "里",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 133
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299503.4712389,
+            "delta": "，",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 134
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299503.5218391,
+            "delta": "每",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 135
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299503.573146,
+            "delta": "一步",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 136
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299503.624506,
+            "delta": "行走",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 137
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299503.6759198,
+            "delta": "都",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 138
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299503.727511,
+            "delta": "伴",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 139
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299503.7789922,
+            "delta": "随着",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 140
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299503.830366,
+            "delta": "沉",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 141
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299503.8822951,
+            "delta": "闷",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 142
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299503.9329422,
+            "delta": "的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 143
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299503.983582,
+            "delta": "泥",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 144
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299504.034577,
+            "delta": "泞",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 145
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299504.0863209,
+            "delta": "吮",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 146
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299504.137613,
+            "delta": "吸",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 147
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299504.1888928,
+            "delta": "声",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 148
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299504.239917,
+            "delta": "。",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 149
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299504.291161,
+            "delta": "在这",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 150
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299504.342551,
+            "delta": "场",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 151
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299504.393866,
+            "delta": "冷",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 152
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299504.44542,
+            "delta": "雨",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 153
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299504.496812,
+            "delta": "中",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 154
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299504.5482209,
+            "delta": "，",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 155
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299504.5992188,
+            "delta": "农",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 156
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299504.650835,
+            "delta": "奴",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 157
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299504.7022588,
+            "delta": "们",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 158
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299504.7535942,
+            "delta": "不敢",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 159
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299504.8049788,
+            "delta": "抬头",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 160
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299504.856365,
+            "delta": "看向",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 161
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299504.907608,
+            "delta": "远处",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 162
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299504.958612,
+            "delta": "那",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 163
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299505.009056,
+            "delta": "座",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 164
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299505.060288,
+            "delta": "奢",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 165
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299505.111691,
+            "delta": "华",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 166
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299505.1632671,
+            "delta": "的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 167
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299505.214284,
+            "delta": "领",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 168
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299505.265899,
+            "delta": "主",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 169
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299505.3160179,
+            "delta": "堡",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 170
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299505.36731,
+            "delta": "垒",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 171
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299505.418968,
+            "delta": "，",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 172
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299505.4703848,
+            "delta": "只能",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 173
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299505.521495,
+            "delta": "在",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 174
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299505.5729332,
+            "delta": "低",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 175
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299505.624445,
+            "delta": "沉",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 176
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299505.6758149,
+            "delta": "的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 177
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299505.727254,
+            "delta": "喘",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 178
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299505.778657,
+            "delta": "息",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 179
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299505.829983,
+            "delta": "和",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 180
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299505.882856,
+            "delta": "泥",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 181
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299505.932789,
+            "delta": "浆",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 182
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299505.9836428,
+            "delta": "的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 183
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299506.034919,
+            "delta": "飞",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 184
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299506.086119,
+            "delta": "溅",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 185
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299506.137665,
+            "delta": "中",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 186
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299506.188927,
+            "delta": "，",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 187
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299506.2401972,
+            "delta": "为你",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 188
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299506.2914932,
+            "delta": "开",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 189
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299506.342746,
+            "delta": "垦",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 190
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299506.3943748,
+            "delta": "出",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 191
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299506.4456909,
+            "delta": "第一",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 192
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299506.497232,
+            "delta": "片",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 193
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299506.549058,
+            "delta": "属于",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 194
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299506.600377,
+            "delta": "这座",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 195
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299506.651528,
+            "delta": "领",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 196
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299506.703377,
+            "delta": "地的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 197
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299506.754842,
+            "delta": "农",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 198
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299506.806085,
+            "delta": "田",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 199
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299506.8575559,
+            "delta": "。",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 200
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299506.908879,
+            "delta": "\n\n",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 201
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299506.960323,
+            "delta": "**",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 202
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299507.010877,
+            "delta": "当前",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 203
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299507.0618272,
+            "delta": "进度",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 204
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299507.1128361,
+            "delta": "：",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 205
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299507.164012,
+            "delta": "**",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 206
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299507.2150989,
+            "delta": "\n",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 207
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299507.2663832,
+            "delta": "-",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 208
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299507.31756,
+            "delta": " E",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 209
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299507.369098,
+            "delta": "4",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 210
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299507.420453,
+            "delta": " ",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 211
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299507.471554,
+            "delta": "区域",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 212
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299507.522984,
+            "delta": "已",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 213
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299507.574264,
+            "delta": "成功",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 214
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299507.625771,
+            "delta": "转化为",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 215
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299507.676882,
+            "delta": " **",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 216
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299507.72727,
+            "delta": "[",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 217
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299507.7775989,
+            "delta": "农",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 218
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299507.827884,
+            "delta": "田",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 219
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299507.878279,
+            "delta": "]",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 220
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299507.9283369,
+            "delta": "**",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 221
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299507.978761,
+            "delta": "。",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 222
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299508.029134,
+            "delta": "\n\n",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 223
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299508.079577,
+            "delta": "**",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 224
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299508.130216,
+            "delta": "后续",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 225
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299508.180178,
+            "delta": "建议",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 226
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299508.230551,
+            "delta": "：",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 227
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299508.2811441,
+            "delta": "**",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 228
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299508.331247,
+            "delta": "\n",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 229
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299508.382004,
+            "delta": "-",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 230
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299508.432548,
+            "delta": " ",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 231
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299508.48243,
+            "delta": "既然",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 232
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299508.5326269,
+            "delta": "已经",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 233
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299508.5839272,
+            "delta": "有了",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 234
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299508.63495,
+            "delta": "基础",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 235
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299508.686555,
+            "delta": "耕",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 236
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299508.737947,
+            "delta": "地",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 237
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299508.7891898,
+            "delta": "，",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 238
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299508.839742,
+            "delta": "是否",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 239
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299508.891093,
+            "delta": "考虑",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 240
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299508.942401,
+            "delta": "在",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 241
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299508.993251,
+            "delta": "其他",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 242
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299509.043777,
+            "delta": "区域",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 243
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299509.0942988,
+            "delta": "建立",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 244
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299509.145184,
+            "delta": "更多的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 245
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299509.1963022,
+            "delta": "农",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 246
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299509.2471318,
+            "delta": "产",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 247
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299509.299189,
+            "delta": "设施",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 248
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299509.349608,
+            "delta": "以",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 249
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299509.4013472,
+            "delta": "增加",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 250
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299509.452683,
+            "delta": "粮食",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 251
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299509.503795,
+            "delta": "产量",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 252
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299509.555137,
+            "delta": "？",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 253
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299509.606344,
+            "delta": "\n",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 254
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299509.657495,
+            "delta": "-",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 255
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299509.7090821,
+            "delta": " 为了",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 256
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299509.760413,
+            "delta": "维持",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 257
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299509.811904,
+            "delta": "在这种",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 258
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299509.8633149,
+            "delta": "高",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 259
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299509.9149282,
+            "delta": "强度",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 260
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299509.96642,
+            "delta": "开",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 261
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299510.017044,
+            "delta": "垦",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 262
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299510.067949,
+            "delta": "下的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 263
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299510.1190941,
+            "delta": "稳定",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 264
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299510.1702101,
+            "delta": "，",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 265
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299510.2210078,
+            "delta": "你",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 266
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299510.272619,
+            "delta": "或许",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 267
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299510.324055,
+            "delta": "需要",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 268
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299510.375443,
+            "delta": "关注",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 269
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299510.427391,
+            "delta": "一下",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 270
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299510.478515,
+            "delta": "领",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 271
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299510.5292811,
+            "delta": "民",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 272
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299510.580617,
+            "delta": "的",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 273
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299510.6326,
+            "delta": "民",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 274
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299510.68352,
+            "delta": "心",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 275
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299510.7350972,
+            "delta": "状况",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 276
+          },
+          {
+            "event": "message.delta",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299510.78663,
+            "delta": "。",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 277
+          },
+          {
+            "event": "reasoning.available",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299510.842761,
+            "text": "春日的细雨如丝，将黑逼堡的郊野染上一层阴冷的灰色。\n\n在你的命令下，一群面色枯槁的农奴被粗暴地驱赶到了 E4 的草地上。他们穿着单薄且打满补丁的麻布衣，在冰冷的雨水中瑟瑟发抖。监工的鞭子在空中甩出刺耳的破空声，伴随着不堪入耳的咒骂，强迫这些劳工将沉重的犁头深深地楔入湿软的泥土中。\n\n雨水顺着他们的脊背流进鞋里，每一步行走都伴随着沉闷的泥泞吮吸声。在这场冷雨中，农奴们不敢抬头看向远处那座奢华的领主堡垒，只能在低沉的喘息和泥浆的飞溅中，为你开垦出第一片属于这座领地的农田。\n\n**当前进度：**\n- E4 区域已成功转化为 **[农田]**。\n\n**后续建议：**\n- 既然已经有了基础耕地，是否考虑在其他区域建立更多的农产设施以增加粮食产量？\n- 为了维持在这种高强度开垦下的稳定，你或许需要关注一下领民的民心状况。",
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 278
+          },
+          {
+            "event": "run.completed",
+            "run_id": "lt_run_c74dd59704134700b072a778c8deaf3b",
+            "timestamp": 1784299510.8514931,
+            "output": "春日的细雨如丝，将黑逼堡的郊野染上一层阴冷的灰色。\n\n在你的命令下，一群面色枯槁的农奴被粗暴地驱赶到了 E4 的草地上。他们穿着单薄且打满补丁的麻布衣，在冰冷的雨水中瑟瑟发抖。监工的鞭子在空中甩出刺耳的破空声，伴随着不堪入耳的咒骂，强迫这些劳工将沉重的犁头深深地楔入湿软的泥土中。\n\n雨水顺着他们的脊背流进鞋里，每一步行走都伴随着沉闷的泥泞吮吸声。在这场冷雨中，农奴们不敢抬头看向远处那座奢华的领主堡垒，只能在低沉的喘息和泥浆的飞溅中，为你开垦出第一片属于这座领地的农田。\n\n**当前进度：**\n- E4 区域已成功转化为 **[农田]**。\n\n**后续建议：**\n- 既然已经有了基础耕地，是否考虑在其他区域建立更多的农产设施以增加粮食产量？\n- 为了维持在这种高强度开垦下的稳定，你或许需要关注一下领民的民心状况。",
+            "usage": {
+              "input_tokens": 31071,
+              "output_tokens": 771,
+              "total_tokens": 31842
+            },
+            "hermes_run_id": "run_c07fc9fae5954806bdb7ee6c5d0c5c71",
+            "seq": 279
+          }
+        ],
+        "backend_audit": [
+          {
+            "timestamp": 1784299468.8123462,
+            "method": "POST",
+            "path": "/api/state/buildings",
+            "api": "POST /api/state/buildings",
+            "status_code": 200,
+            "request_body": {
+              "building": "farm",
+              "action": "build",
+              "count": 1,
+              "x": 5,
+              "y": 4
+            },
+            "duration_ms": 0.65
+          }
+        ],
+        "final_text": "春日的细雨如丝，将黑逼堡的郊野染上一层阴冷的灰色。\n\n在你的命令下，一群面色枯槁的农奴被粗暴地驱赶到了 E4 的草地上。他们穿着单薄且打满补丁的麻布衣，在冰冷的雨水中瑟瑟发抖。监工的鞭子在空中甩出刺耳的破空声，伴随着不堪入耳的咒骂，强迫这些劳工将沉重的犁头深深地楔入湿软的泥土中。\n\n雨水顺着他们的脊背流进鞋里，每一步行走都伴随着沉闷的泥泞吮吸声。在这场冷雨中，农奴们不敢抬头看向远处那座奢华的领主堡垒，只能在低沉的喘息和泥浆的飞溅中，为你开垦出第一片属于这座领地的农田。\n\n**当前进度：**\n- E4 区域已成功转化为 **[农田]**。\n\n**后续建议：**\n- 既然已经有了基础耕地，是否考虑在其他区域建立更多的农产设施以增加粮食产量？\n- 为了维持在这种高强度开垦下的稳定，你或许需要关注一下领民的民心状况。"
+      },
+      "notes": "",
+      "duration_seconds": 71.818,
+      "error": null,
+      "run_completed": true
+    },
+    {
+      "id": "daily_population",
+      "category": "daily",
+      "title": "人口：流民/人口变化",
+      "expected_apis": [
+        "POST /api/state/population",
+        "POST /api/state/morale",
+        "POST /api/agent/events"
+      ],
+      "actual_apis": [],
+      "missing_apis": [
+        "POST /api/state/population",
+        "POST /api/state/morale",
+        "POST /api/agent/events"
+      ],
+      "unexpected_apis": [],
+      "error_apis": [],
+      "api_correct": false,
+      "input": {
+        "prompt": "一批饥饿流民来到城门，请决定是否接纳，并实际调整人口与民心。",
+        "notes": ""
+      },
+      "output": {
+        "hermes_create": {
+          "run_id": "lt_run_ebb58e79697c49e2aaaeb2246cb54efe",
+          "hermes_run_id": "run_b24a2d7ec47d4c5fa6f75ac4fe954629",
+          "status": "started",
+          "events_url": "/api/agent/runs/lt_run_ebb58e79697c49e2aaaeb2246cb54efe/events"
+        },
+        "hermes_status": {
+          "object": "lord_tail.agent_run",
+          "run_id": "lt_run_ebb58e79697c49e2aaaeb2246cb54efe",
+          "hermes_run_id": "run_b24a2d7ec47d4c5fa6f75ac4fe954629",
+          "mode": "story_turn",
+          "status": "running",
+          "created_at": 1784299510.889163,
+          "updated_at": 1784299510.889181,
+          "final_text": "",
+          "last_event": {
+            "event": "run.started",
+            "hermes_run_id": "run_b24a2d7ec47d4c5fa6f75ac4fe954629",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_ebb58e79697c49e2aaaeb2246cb54efe",
+            "timestamp": 1784299510.88918,
+            "seq": 1
+          }
+        },
+        "hermes_events": [
+          {
+            "event": "run.started",
+            "hermes_run_id": "run_b24a2d7ec47d4c5fa6f75ac4fe954629",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_ebb58e79697c49e2aaaeb2246cb54efe",
+            "timestamp": 1784299510.88918,
+            "seq": 1
+          }
+        ],
+        "backend_audit": [],
+        "final_text": ""
+      },
+      "notes": "",
+      "duration_seconds": 70.069,
+      "error": "case timeout or run not completed within 180s",
+      "run_completed": false
+    },
+    {
+      "id": "daily_economy",
+      "category": "daily",
+      "title": "经济：资源变化",
+      "expected_apis": [
+        "POST /api/state/resources",
+        "POST /api/agent/events"
+      ],
+      "actual_apis": [],
+      "missing_apis": [
+        "POST /api/state/resources",
+        "POST /api/agent/events"
+      ],
+      "unexpected_apis": [],
+      "error_apis": [],
+      "api_correct": false,
+      "input": {
+        "prompt": "命令管家清点仓库并没收一批私藏粮食，请实际修改金币或粮食。",
+        "notes": ""
+      },
+      "output": {
+        "hermes_create": {
+          "run_id": "lt_run_c0255a532e3b4508bfe73b60925fb7e1",
+          "hermes_run_id": "run_12e1a1e9eabb41d0bb38bfd1c721ecd5",
+          "status": "started",
+          "events_url": "/api/agent/runs/lt_run_c0255a532e3b4508bfe73b60925fb7e1/events"
+        },
+        "hermes_status": {
+          "object": "lord_tail.agent_run",
+          "run_id": "lt_run_c0255a532e3b4508bfe73b60925fb7e1",
+          "hermes_run_id": "run_12e1a1e9eabb41d0bb38bfd1c721ecd5",
+          "mode": "story_turn",
+          "status": "running",
+          "created_at": 1784299580.963376,
+          "updated_at": 1784299580.963396,
+          "final_text": "",
+          "last_event": {
+            "event": "run.started",
+            "hermes_run_id": "run_12e1a1e9eabb41d0bb38bfd1c721ecd5",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_c0255a532e3b4508bfe73b60925fb7e1",
+            "timestamp": 1784299580.963395,
+            "seq": 1
+          }
+        },
+        "hermes_events": [
+          {
+            "event": "run.started",
+            "hermes_run_id": "run_12e1a1e9eabb41d0bb38bfd1c721ecd5",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_c0255a532e3b4508bfe73b60925fb7e1",
+            "timestamp": 1784299580.963395,
+            "seq": 1
+          }
+        ],
+        "backend_audit": [],
+        "final_text": ""
+      },
+      "notes": "",
+      "duration_seconds": 70.061,
+      "error": "case timeout or run not completed within 180s",
+      "run_completed": false
+    },
+    {
+      "id": "daily_talent",
+      "category": "daily",
+      "title": "角色天赋：利用既有天赋",
+      "expected_apis": [
+        "POST /api/agent/events"
+      ],
+      "actual_apis": [],
+      "missing_apis": [
+        "POST /api/agent/events"
+      ],
+      "unexpected_apis": [],
+      "error_apis": [],
+      "api_correct": false,
+      "input": {
+        "prompt": "根据亚历山大的天赋安排一次相关行动，若影响状态请通过 API 执行。",
+        "notes": ""
+      },
+      "output": {
+        "hermes_create": {
+          "run_id": "lt_run_76bfbcafa46f458f83a81c36f6f9e092",
+          "hermes_run_id": "run_74f56297420141a28c3382ce6ad63c53",
+          "status": "started",
+          "events_url": "/api/agent/runs/lt_run_76bfbcafa46f458f83a81c36f6f9e092/events"
+        },
+        "hermes_status": {
+          "object": "lord_tail.agent_run",
+          "run_id": "lt_run_76bfbcafa46f458f83a81c36f6f9e092",
+          "hermes_run_id": "run_74f56297420141a28c3382ce6ad63c53",
+          "mode": "story_turn",
+          "status": "running",
+          "created_at": 1784299651.026773,
+          "updated_at": 1784299651.0267909,
+          "final_text": "",
+          "last_event": {
+            "event": "run.started",
+            "hermes_run_id": "run_74f56297420141a28c3382ce6ad63c53",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_76bfbcafa46f458f83a81c36f6f9e092",
+            "timestamp": 1784299651.02679,
+            "seq": 1
+          }
+        },
+        "hermes_events": [
+          {
+            "event": "run.started",
+            "hermes_run_id": "run_74f56297420141a28c3382ce6ad63c53",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_76bfbcafa46f458f83a81c36f6f9e092",
+            "timestamp": 1784299651.02679,
+            "seq": 1
+          }
+        ],
+        "backend_audit": [],
+        "final_text": ""
+      },
+      "notes": "",
+      "duration_seconds": 70.062,
+      "error": "case timeout or run not completed within 180s",
+      "run_completed": false
+    },
+    {
+      "id": "daily_weather_season",
+      "category": "daily",
+      "title": "天气季节",
+      "expected_apis": [
+        "POST /api/agent/events"
+      ],
+      "actual_apis": [],
+      "missing_apis": [
+        "POST /api/agent/events"
+      ],
+      "unexpected_apis": [],
+      "error_apis": [],
+      "api_correct": false,
+      "input": {
+        "prompt": "细雨变重影响春季劳作。若没有天气/季节修改 API，请只记录事件。",
+        "notes": "当前没有公开 weather/season mutation API。"
+      },
+      "output": {
+        "hermes_create": {
+          "run_id": "lt_run_9f310da8ee0c44f2809cfe19f6cb00f6",
+          "hermes_run_id": "run_1cd59b950ba64950bd41012f96b71c2b",
+          "status": "started",
+          "events_url": "/api/agent/runs/lt_run_9f310da8ee0c44f2809cfe19f6cb00f6/events"
+        },
+        "hermes_status": {
+          "object": "lord_tail.agent_run",
+          "run_id": "lt_run_9f310da8ee0c44f2809cfe19f6cb00f6",
+          "hermes_run_id": "run_1cd59b950ba64950bd41012f96b71c2b",
+          "mode": "story_turn",
+          "status": "running",
+          "created_at": 1784299721.094187,
+          "updated_at": 1784299721.0942059,
+          "final_text": "",
+          "last_event": {
+            "event": "run.started",
+            "hermes_run_id": "run_1cd59b950ba64950bd41012f96b71c2b",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_9f310da8ee0c44f2809cfe19f6cb00f6",
+            "timestamp": 1784299721.094205,
+            "seq": 1
+          }
+        },
+        "hermes_events": [
+          {
+            "event": "run.started",
+            "hermes_run_id": "run_1cd59b950ba64950bd41012f96b71c2b",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_9f310da8ee0c44f2809cfe19f6cb00f6",
+            "timestamp": 1784299721.094205,
+            "seq": 1
+          }
+        ],
+        "backend_audit": [],
+        "final_text": ""
+      },
+      "notes": "当前没有公开 weather/season mutation API。",
+      "duration_seconds": 70.064,
+      "error": "case timeout or run not completed within 180s",
+      "run_completed": false
+    },
+    {
+      "id": "daily_food_shortage",
+      "category": "daily",
+      "title": "缺粮",
+      "expected_apis": [
+        "POST /api/state/resources",
+        "POST /api/state/morale",
+        "POST /api/agent/events"
+      ],
+      "actual_apis": [],
+      "missing_apis": [
+        "POST /api/state/resources",
+        "POST /api/state/morale",
+        "POST /api/agent/events"
+      ],
+      "unexpected_apis": [],
+      "error_apis": [],
+      "api_correct": false,
+      "input": {
+        "prompt": "制造一次粮仓告急事件：将粮食降到极低并记录民怨。",
+        "notes": ""
+      },
+      "output": {
+        "hermes_create": {
+          "run_id": "lt_run_63d4342903b34de89fca2578312a8600",
+          "hermes_run_id": "run_ced160ef2ccc4acdb4caafd55faf3220",
+          "status": "started",
+          "events_url": "/api/agent/runs/lt_run_63d4342903b34de89fca2578312a8600/events"
+        },
+        "hermes_status": {
+          "object": "lord_tail.agent_run",
+          "run_id": "lt_run_63d4342903b34de89fca2578312a8600",
+          "hermes_run_id": "run_ced160ef2ccc4acdb4caafd55faf3220",
+          "mode": "story_turn",
+          "status": "running",
+          "created_at": 1784299791.168586,
+          "updated_at": 1784299791.1686091,
+          "final_text": "",
+          "last_event": {
+            "event": "run.started",
+            "hermes_run_id": "run_ced160ef2ccc4acdb4caafd55faf3220",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_63d4342903b34de89fca2578312a8600",
+            "timestamp": 1784299791.168608,
+            "seq": 1
+          }
+        },
+        "hermes_events": [
+          {
+            "event": "run.started",
+            "hermes_run_id": "run_ced160ef2ccc4acdb4caafd55faf3220",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_63d4342903b34de89fca2578312a8600",
+            "timestamp": 1784299791.168608,
+            "seq": 1
+          }
+        ],
+        "backend_audit": [],
+        "final_text": ""
+      },
+      "notes": "",
+      "duration_seconds": 70.074,
+      "error": "case timeout or run not completed within 180s",
+      "run_completed": false
+    },
+    {
+      "id": "daily_plague",
+      "category": "daily",
+      "title": "瘟疫",
+      "expected_apis": [
+        "POST /api/state/population",
+        "POST /api/state/morale",
+        "POST /api/agent/events"
+      ],
+      "actual_apis": [],
+      "missing_apis": [
+        "POST /api/state/population",
+        "POST /api/state/morale",
+        "POST /api/agent/events"
+      ],
+      "unexpected_apis": [],
+      "error_apis": [],
+      "api_correct": false,
+      "input": {
+        "prompt": "村舍中爆发瘟疫，请扣减人口与民心，并记录事件。",
+        "notes": ""
+      },
+      "output": {
+        "hermes_create": {
+          "run_id": "lt_run_9bb93e6d7ec7425e92c9a11691d6d85a",
+          "hermes_run_id": "run_34b3e90bb5e546f3bbe1635fe043de4c",
+          "status": "started",
+          "events_url": "/api/agent/runs/lt_run_9bb93e6d7ec7425e92c9a11691d6d85a/events"
+        },
+        "hermes_status": {
+          "object": "lord_tail.agent_run",
+          "run_id": "lt_run_9bb93e6d7ec7425e92c9a11691d6d85a",
+          "hermes_run_id": "run_34b3e90bb5e546f3bbe1635fe043de4c",
+          "mode": "story_turn",
+          "status": "running",
+          "created_at": 1784299861.2477272,
+          "updated_at": 1784299861.247744,
+          "final_text": "",
+          "last_event": {
+            "event": "run.started",
+            "hermes_run_id": "run_34b3e90bb5e546f3bbe1635fe043de4c",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_9bb93e6d7ec7425e92c9a11691d6d85a",
+            "timestamp": 1784299861.247743,
+            "seq": 1
+          }
+        },
+        "hermes_events": [
+          {
+            "event": "run.started",
+            "hermes_run_id": "run_34b3e90bb5e546f3bbe1635fe043de4c",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_9bb93e6d7ec7425e92c9a11691d6d85a",
+            "timestamp": 1784299861.247743,
+            "seq": 1
+          }
+        ],
+        "backend_audit": [],
+        "final_text": ""
+      },
+      "notes": "",
+      "duration_seconds": 70.065,
+      "error": "case timeout or run not completed within 180s",
+      "run_completed": false
+    },
+    {
+      "id": "daily_fire",
+      "category": "daily",
+      "title": "火灾",
+      "expected_apis": [
+        "POST /api/state/resources",
+        "POST /api/state/morale",
+        "POST /api/agent/events"
+      ],
+      "actual_apis": [],
+      "missing_apis": [
+        "POST /api/state/resources",
+        "POST /api/state/morale",
+        "POST /api/agent/events"
+      ],
+      "unexpected_apis": [],
+      "error_apis": [],
+      "api_correct": false,
+      "input": {
+        "prompt": "木棚区失火，烧毁部分木材并降低民心，记录火灾事件。",
+        "notes": ""
+      },
+      "output": {
+        "hermes_create": {
+          "run_id": "lt_run_02a9cc42dfa04cc49e7eddf9bcd815bf",
+          "hermes_run_id": "run_88ad8d0d307d4968934a21ce21448767",
+          "status": "started",
+          "events_url": "/api/agent/runs/lt_run_02a9cc42dfa04cc49e7eddf9bcd815bf/events"
+        },
+        "hermes_status": {
+          "object": "lord_tail.agent_run",
+          "run_id": "lt_run_02a9cc42dfa04cc49e7eddf9bcd815bf",
+          "hermes_run_id": "run_88ad8d0d307d4968934a21ce21448767",
+          "mode": "story_turn",
+          "status": "running",
+          "created_at": 1784299931.313319,
+          "updated_at": 1784299931.3133361,
+          "final_text": "",
+          "last_event": {
+            "event": "run.started",
+            "hermes_run_id": "run_88ad8d0d307d4968934a21ce21448767",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_02a9cc42dfa04cc49e7eddf9bcd815bf",
+            "timestamp": 1784299931.3133361,
+            "seq": 1
+          }
+        },
+        "hermes_events": [
+          {
+            "event": "run.started",
+            "hermes_run_id": "run_88ad8d0d307d4968934a21ce21448767",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_02a9cc42dfa04cc49e7eddf9bcd815bf",
+            "timestamp": 1784299931.3133361,
+            "seq": 1
+          }
+        ],
+        "backend_audit": [],
+        "final_text": ""
+      },
+      "notes": "",
+      "duration_seconds": 70.06,
+      "error": "case timeout or run not completed within 180s",
+      "run_completed": false
+    },
+    {
+      "id": "daily_tax",
+      "category": "daily",
+      "title": "征税",
+      "expected_apis": [
+        "POST /api/state/resources",
+        "POST /api/state/morale",
+        "POST /api/agent/events"
+      ],
+      "actual_apis": [],
+      "missing_apis": [
+        "POST /api/state/resources",
+        "POST /api/state/morale",
+        "POST /api/agent/events"
+      ],
+      "unexpected_apis": [],
+      "error_apis": [],
+      "api_correct": false,
+      "input": {
+        "prompt": "发布临时泥税，增加金币并降低民心，记录事件。",
+        "notes": ""
+      },
+      "output": {
+        "hermes_create": {
+          "run_id": "lt_run_7336f4efaceb45ebb2de2ac94b510810",
+          "hermes_run_id": "run_ee90b43a2a9b4bd6b5e443785d8a779a",
+          "status": "started",
+          "events_url": "/api/agent/runs/lt_run_7336f4efaceb45ebb2de2ac94b510810/events"
+        },
+        "hermes_status": {
+          "object": "lord_tail.agent_run",
+          "run_id": "lt_run_7336f4efaceb45ebb2de2ac94b510810",
+          "hermes_run_id": "run_ee90b43a2a9b4bd6b5e443785d8a779a",
+          "mode": "story_turn",
+          "status": "running",
+          "created_at": 1784300001.3792799,
+          "updated_at": 1784300001.3792992,
+          "final_text": "",
+          "last_event": {
+            "event": "run.started",
+            "hermes_run_id": "run_ee90b43a2a9b4bd6b5e443785d8a779a",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_7336f4efaceb45ebb2de2ac94b510810",
+            "timestamp": 1784300001.3792992,
+            "seq": 1
+          }
+        },
+        "hermes_events": [
+          {
+            "event": "run.started",
+            "hermes_run_id": "run_ee90b43a2a9b4bd6b5e443785d8a779a",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_7336f4efaceb45ebb2de2ac94b510810",
+            "timestamp": 1784300001.3792992,
+            "seq": 1
+          }
+        ],
+        "backend_audit": [],
+        "final_text": ""
+      },
+      "notes": "",
+      "duration_seconds": 70.054,
+      "error": "case timeout or run not completed within 180s",
+      "run_completed": false
+    },
+    {
+      "id": "daily_conscription",
+      "category": "daily",
+      "title": "征兵",
+      "expected_apis": [
+        "POST /api/state/army",
+        "POST /api/state/population",
+        "POST /api/agent/events"
+      ],
+      "actual_apis": [],
+      "missing_apis": [
+        "POST /api/state/army",
+        "POST /api/state/population",
+        "POST /api/agent/events"
+      ],
+      "unexpected_apis": [],
+      "error_apis": [],
+      "api_correct": false,
+      "input": {
+        "prompt": "强征三名步兵入伍，并从人口中扣除相应人数，记录事件。",
+        "notes": ""
+      },
+      "output": {
+        "hermes_create": {
+          "run_id": "lt_run_5d5ce3e667204cffaea3ed9e169e5af5",
+          "hermes_run_id": "run_35e77eb388d54f16b9ecbd27440b3a46",
+          "status": "started",
+          "events_url": "/api/agent/runs/lt_run_5d5ce3e667204cffaea3ed9e169e5af5/events"
+        },
+        "hermes_status": {
+          "object": "lord_tail.agent_run",
+          "run_id": "lt_run_5d5ce3e667204cffaea3ed9e169e5af5",
+          "hermes_run_id": "run_35e77eb388d54f16b9ecbd27440b3a46",
+          "mode": "story_turn",
+          "status": "running",
+          "created_at": 1784300071.435919,
+          "updated_at": 1784300071.435934,
+          "final_text": "",
+          "last_event": {
+            "event": "run.started",
+            "hermes_run_id": "run_35e77eb388d54f16b9ecbd27440b3a46",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_5d5ce3e667204cffaea3ed9e169e5af5",
+            "timestamp": 1784300071.435934,
+            "seq": 1
+          }
+        },
+        "hermes_events": [
+          {
+            "event": "run.started",
+            "hermes_run_id": "run_35e77eb388d54f16b9ecbd27440b3a46",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_5d5ce3e667204cffaea3ed9e169e5af5",
+            "timestamp": 1784300071.435934,
+            "seq": 1
+          }
+        ],
+        "backend_audit": [],
+        "final_text": ""
+      },
+      "notes": "",
+      "duration_seconds": 70.054,
+      "error": "case timeout or run not completed within 180s",
+      "run_completed": false
+    },
+    {
+      "id": "daily_caravan",
+      "category": "daily",
+      "title": "商队",
+      "expected_apis": [
+        "POST /api/state/resources",
+        "POST /api/state/diplomacy",
+        "POST /api/agent/events"
+      ],
+      "actual_apis": [],
+      "missing_apis": [
+        "POST /api/state/resources",
+        "POST /api/state/diplomacy",
+        "POST /api/agent/events"
+      ],
+      "unexpected_apis": [],
+      "error_apis": [],
+      "api_correct": false,
+      "input": {
+        "prompt": "南方商队抵达，带来金币和手工品，也改善一个外交对象的印象。",
+        "notes": ""
+      },
+      "output": {
+        "hermes_create": {
+          "run_id": "lt_run_1e3084af8fcc400281e927d53e9333be",
+          "hermes_run_id": "run_45407fa7d6754e649f76e5fd263ce876",
+          "status": "started",
+          "events_url": "/api/agent/runs/lt_run_1e3084af8fcc400281e927d53e9333be/events"
+        },
+        "hermes_status": {
+          "object": "lord_tail.agent_run",
+          "run_id": "lt_run_1e3084af8fcc400281e927d53e9333be",
+          "hermes_run_id": "run_45407fa7d6754e649f76e5fd263ce876",
+          "mode": "story_turn",
+          "status": "running",
+          "created_at": 1784300141.496798,
+          "updated_at": 1784300141.496814,
+          "final_text": "",
+          "last_event": {
+            "event": "run.started",
+            "hermes_run_id": "run_45407fa7d6754e649f76e5fd263ce876",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_1e3084af8fcc400281e927d53e9333be",
+            "timestamp": 1784300141.496814,
+            "seq": 1
+          }
+        },
+        "hermes_events": [
+          {
+            "event": "run.started",
+            "hermes_run_id": "run_45407fa7d6754e649f76e5fd263ce876",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_1e3084af8fcc400281e927d53e9333be",
+            "timestamp": 1784300141.496814,
+            "seq": 1
+          }
+        ],
+        "backend_audit": [],
+        "final_text": ""
+      },
+      "notes": "",
+      "duration_seconds": 70.06,
+      "error": "case timeout or run not completed within 180s",
+      "run_completed": false
+    },
+    {
+      "id": "daily_statue",
+      "category": "daily",
+      "title": "建造雕像",
+      "expected_apis": [
+        "POST /api/agent/events"
+      ],
+      "actual_apis": [],
+      "missing_apis": [
+        "POST /api/agent/events"
+      ],
+      "unexpected_apis": [],
+      "error_apis": [],
+      "api_correct": false,
+      "input": {
+        "prompt": "领主要求建造自己的雕像。若 catalog 没有雕像建筑，不要发明建筑，只记录缺口事件。",
+        "notes": "当前 catalog 没有 statue/sculpture 建筑。"
+      },
+      "output": {
+        "hermes_create": {
+          "run_id": "lt_run_1e20ecf2378d41d09831114d1c41872d",
+          "hermes_run_id": "run_7df831df027c4ee7a6d48adf815ca244",
+          "status": "started",
+          "events_url": "/api/agent/runs/lt_run_1e20ecf2378d41d09831114d1c41872d/events"
+        },
+        "hermes_status": {
+          "object": "lord_tail.agent_run",
+          "run_id": "lt_run_1e20ecf2378d41d09831114d1c41872d",
+          "hermes_run_id": "run_7df831df027c4ee7a6d48adf815ca244",
+          "mode": "story_turn",
+          "status": "running",
+          "created_at": 1784300211.5681999,
+          "updated_at": 1784300211.5682182,
+          "final_text": "",
+          "last_event": {
+            "event": "run.started",
+            "hermes_run_id": "run_7df831df027c4ee7a6d48adf815ca244",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_1e20ecf2378d41d09831114d1c41872d",
+            "timestamp": 1784300211.568217,
+            "seq": 1
+          }
+        },
+        "hermes_events": [
+          {
+            "event": "run.started",
+            "hermes_run_id": "run_7df831df027c4ee7a6d48adf815ca244",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_1e20ecf2378d41d09831114d1c41872d",
+            "timestamp": 1784300211.568217,
+            "seq": 1
+          }
+        ],
+        "backend_audit": [],
+        "final_text": ""
+      },
+      "notes": "当前 catalog 没有 statue/sculpture 建筑。",
+      "duration_seconds": 70.068,
+      "error": "case timeout or run not completed within 180s",
+      "run_completed": false
+    },
+    {
+      "id": "diplomacy_positive",
+      "category": "diplomacy",
+      "title": "外交关系：正向",
+      "expected_apis": [
+        "POST /api/state/diplomacy",
+        "POST /api/agent/events"
+      ],
+      "actual_apis": [],
+      "missing_apis": [
+        "POST /api/state/diplomacy",
+        "POST /api/agent/events"
+      ],
+      "unexpected_apis": [],
+      "error_apis": [],
+      "api_correct": false,
+      "input": {
+        "prompt": "向金鳞派出使者和礼物，改善外交关系。",
+        "notes": ""
+      },
+      "output": {
+        "hermes_create": {
+          "run_id": "lt_run_c09f11862e044a53804c4d86f60ea9ca",
+          "hermes_run_id": "run_9a402f7d236241e9b9c2e5c2e4755f1c",
+          "status": "started",
+          "events_url": "/api/agent/runs/lt_run_c09f11862e044a53804c4d86f60ea9ca/events"
+        },
+        "hermes_status": {
+          "object": "lord_tail.agent_run",
+          "run_id": "lt_run_c09f11862e044a53804c4d86f60ea9ca",
+          "hermes_run_id": "run_9a402f7d236241e9b9c2e5c2e4755f1c",
+          "mode": "story_turn",
+          "status": "running",
+          "created_at": 1784300281.6377401,
+          "updated_at": 1784300281.6377568,
+          "final_text": "",
+          "last_event": {
+            "event": "run.started",
+            "hermes_run_id": "run_9a402f7d236241e9b9c2e5c2e4755f1c",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_c09f11862e044a53804c4d86f60ea9ca",
+            "timestamp": 1784300281.6377559,
+            "seq": 1
+          }
+        },
+        "hermes_events": [
+          {
+            "event": "run.started",
+            "hermes_run_id": "run_9a402f7d236241e9b9c2e5c2e4755f1c",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_c09f11862e044a53804c4d86f60ea9ca",
+            "timestamp": 1784300281.6377559,
+            "seq": 1
+          }
+        ],
+        "backend_audit": [],
+        "final_text": ""
+      },
+      "notes": "",
+      "duration_seconds": 70.064,
+      "error": "case timeout or run not completed within 180s",
+      "run_completed": false
+    },
+    {
+      "id": "diplomacy_negative",
+      "category": "diplomacy",
+      "title": "外交关系：逆向",
+      "expected_apis": [
+        "POST /api/state/diplomacy",
+        "POST /api/agent/events"
+      ],
+      "actual_apis": [],
+      "missing_apis": [
+        "POST /api/state/diplomacy",
+        "POST /api/agent/events"
+      ],
+      "unexpected_apis": [],
+      "error_apis": [],
+      "api_correct": false,
+      "input": {
+        "prompt": "羞辱血鸦使者，使外交关系恶化到战争或敌对。",
+        "notes": ""
+      },
+      "output": {
+        "hermes_create": {
+          "run_id": "lt_run_64b90e0c67ab4868835ded01d2a8e880",
+          "hermes_run_id": "run_6f163b52c4684bc5aaa16d4210bc7915",
+          "status": "started",
+          "events_url": "/api/agent/runs/lt_run_64b90e0c67ab4868835ded01d2a8e880/events"
+        },
+        "hermes_status": {
+          "object": "lord_tail.agent_run",
+          "run_id": "lt_run_64b90e0c67ab4868835ded01d2a8e880",
+          "hermes_run_id": "run_6f163b52c4684bc5aaa16d4210bc7915",
+          "mode": "story_turn",
+          "status": "running",
+          "created_at": 1784300351.706985,
+          "updated_at": 1784300351.7070038,
+          "final_text": "",
+          "last_event": {
+            "event": "run.started",
+            "hermes_run_id": "run_6f163b52c4684bc5aaa16d4210bc7915",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_64b90e0c67ab4868835ded01d2a8e880",
+            "timestamp": 1784300351.7070038,
+            "seq": 1
+          }
+        },
+        "hermes_events": [
+          {
+            "event": "run.started",
+            "hermes_run_id": "run_6f163b52c4684bc5aaa16d4210bc7915",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_64b90e0c67ab4868835ded01d2a8e880",
+            "timestamp": 1784300351.7070038,
+            "seq": 1
+          }
+        ],
+        "backend_audit": [],
+        "final_text": ""
+      },
+      "notes": "",
+      "duration_seconds": 70.061,
+      "error": "case timeout or run not completed within 180s",
+      "run_completed": false
+    },
+    {
+      "id": "battle_archers_vs_infantry",
+      "category": "battle",
+      "title": "战斗：弓兵集群 vs 3 步兵",
+      "expected_apis": [
+        "POST /api/agent/events"
+      ],
+      "actual_apis": [],
+      "missing_apis": [
+        "POST /api/agent/events"
+      ],
+      "unexpected_apis": [],
+      "error_apis": [],
+      "api_correct": false,
+      "input": {
+        "prompt": "用一队弓兵对阵三名步兵，判断射程、攻击、伤害、士气打击和是否溃败。若没有战斗结算 API，不要捏造，只记录缺口。",
+        "notes": "当前没有公开 battle resolve API。"
+      },
+      "output": {
+        "hermes_create": {
+          "run_id": "lt_run_a59565b15d6e4a11909bcaf95bfdc437",
+          "hermes_run_id": "run_a49ffb2dd11543b19ea163e0bb4e64a0",
+          "status": "started",
+          "events_url": "/api/agent/runs/lt_run_a59565b15d6e4a11909bcaf95bfdc437/events"
+        },
+        "hermes_status": {
+          "object": "lord_tail.agent_run",
+          "run_id": "lt_run_a59565b15d6e4a11909bcaf95bfdc437",
+          "hermes_run_id": "run_a49ffb2dd11543b19ea163e0bb4e64a0",
+          "mode": "story_turn",
+          "status": "running",
+          "created_at": 1784300421.772872,
+          "updated_at": 1784300421.7728891,
+          "final_text": "",
+          "last_event": {
+            "event": "run.started",
+            "hermes_run_id": "run_a49ffb2dd11543b19ea163e0bb4e64a0",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_a59565b15d6e4a11909bcaf95bfdc437",
+            "timestamp": 1784300421.7728891,
+            "seq": 1
+          }
+        },
+        "hermes_events": [
+          {
+            "event": "run.started",
+            "hermes_run_id": "run_a49ffb2dd11543b19ea163e0bb4e64a0",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_a59565b15d6e4a11909bcaf95bfdc437",
+            "timestamp": 1784300421.7728891,
+            "seq": 1
+          }
+        ],
+        "backend_audit": [],
+        "final_text": ""
+      },
+      "notes": "当前没有公开 battle resolve API。",
+      "duration_seconds": 70.065,
+      "error": "case timeout or run not completed within 180s",
+      "run_completed": false
+    },
+    {
+      "id": "battle_infantry_vs_infantry",
+      "category": "battle",
+      "title": "战斗：步兵集群 vs 3 步兵",
+      "expected_apis": [
+        "POST /api/agent/events"
+      ],
+      "actual_apis": [],
+      "missing_apis": [
+        "POST /api/agent/events"
+      ],
+      "unexpected_apis": [],
+      "error_apis": [],
+      "api_correct": false,
+      "input": {
+        "prompt": "用一队步兵对阵三名步兵，判断攻击、防御、伤害、士气和溃败。若没有战斗结算 API，不要捏造，只记录缺口。",
+        "notes": "当前没有公开 battle resolve API。"
+      },
+      "output": {
+        "hermes_create": {
+          "run_id": "lt_run_28c5cc34ec6d48688ef615b06e1e2bc8",
+          "hermes_run_id": "run_19f30e1722f040df811deadbbf88d412",
+          "status": "started",
+          "events_url": "/api/agent/runs/lt_run_28c5cc34ec6d48688ef615b06e1e2bc8/events"
+        },
+        "hermes_status": {
+          "object": "lord_tail.agent_run",
+          "run_id": "lt_run_28c5cc34ec6d48688ef615b06e1e2bc8",
+          "hermes_run_id": "run_19f30e1722f040df811deadbbf88d412",
+          "mode": "story_turn",
+          "status": "running",
+          "created_at": 1784300491.8425422,
+          "updated_at": 1784300491.84256,
+          "final_text": "",
+          "last_event": {
+            "event": "run.started",
+            "hermes_run_id": "run_19f30e1722f040df811deadbbf88d412",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_28c5cc34ec6d48688ef615b06e1e2bc8",
+            "timestamp": 1784300491.84256,
+            "seq": 1
+          }
+        },
+        "hermes_events": [
+          {
+            "event": "run.started",
+            "hermes_run_id": "run_19f30e1722f040df811deadbbf88d412",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_28c5cc34ec6d48688ef615b06e1e2bc8",
+            "timestamp": 1784300491.84256,
+            "seq": 1
+          }
+        ],
+        "backend_audit": [],
+        "final_text": ""
+      },
+      "notes": "当前没有公开 battle resolve API。",
+      "duration_seconds": 70.064,
+      "error": "case timeout or run not completed within 180s",
+      "run_completed": false
+    },
+    {
+      "id": "battle_cavalry_vs_infantry",
+      "category": "battle",
+      "title": "战斗：骑兵集群 vs 3 步兵",
+      "expected_apis": [
+        "POST /api/agent/events"
+      ],
+      "actual_apis": [],
+      "missing_apis": [
+        "POST /api/agent/events"
+      ],
+      "unexpected_apis": [],
+      "error_apis": [],
+      "api_correct": false,
+      "input": {
+        "prompt": "用一队骑兵冲击三名步兵，判断速度、克制、伤害、士气打击和溃败。若没有战斗结算 API，不要捏造，只记录缺口。",
+        "notes": "当前没有公开 battle resolve API。"
+      },
+      "output": {
+        "hermes_create": {
+          "run_id": "lt_run_8f6748c87ecc4c02ac33601b77122d9e",
+          "hermes_run_id": "run_c953b0f7ba89421089bcce437a6a764b",
+          "status": "started",
+          "events_url": "/api/agent/runs/lt_run_8f6748c87ecc4c02ac33601b77122d9e/events"
+        },
+        "hermes_status": {
+          "object": "lord_tail.agent_run",
+          "run_id": "lt_run_8f6748c87ecc4c02ac33601b77122d9e",
+          "hermes_run_id": "run_c953b0f7ba89421089bcce437a6a764b",
+          "mode": "story_turn",
+          "status": "running",
+          "created_at": 1784300561.911149,
+          "updated_at": 1784300561.911166,
+          "final_text": "",
+          "last_event": {
+            "event": "run.started",
+            "hermes_run_id": "run_c953b0f7ba89421089bcce437a6a764b",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_8f6748c87ecc4c02ac33601b77122d9e",
+            "timestamp": 1784300561.911165,
+            "seq": 1
+          }
+        },
+        "hermes_events": [
+          {
+            "event": "run.started",
+            "hermes_run_id": "run_c953b0f7ba89421089bcce437a6a764b",
+            "status": "started",
+            "message": "Hermes run 已创建。",
+            "run_id": "lt_run_8f6748c87ecc4c02ac33601b77122d9e",
+            "timestamp": 1784300561.911165,
+            "seq": 1
+          }
+        ],
+        "backend_audit": [],
+        "final_text": ""
+      },
+      "notes": "当前没有公开 battle resolve API。",
+      "duration_seconds": 70.061,
+      "error": "case timeout or run not completed within 180s",
+      "run_completed": false
+    }
+  ]
+}

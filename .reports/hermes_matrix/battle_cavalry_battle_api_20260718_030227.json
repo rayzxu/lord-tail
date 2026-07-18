@@ -1,0 +1,2778 @@
+{
+  "object": "lord_tail.hermes_single_case_no_timeout",
+  "created_at": "2026-07-18T02:56:39",
+  "backend_url": "http://127.0.0.1:8000",
+  "case": {
+    "id": "battle_cavalry_vs_infantry_battle_api",
+    "title": "战斗：骑兵集群 vs 3 步兵（真实 battle API）",
+    "input": "用一队骑兵冲击三名步兵，判断速度、克制、伤害、士气打击和溃败。若没有战斗结算 API，不要捏造，只记录缺口。",
+    "expected_apis": [
+      "POST /api/state/battles/resolve"
+    ]
+  },
+  "events": [
+    {
+      "event": "run.started",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "status": "started",
+      "message": "Hermes run 已创建。",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307399.400939,
+      "seq": 1
+    },
+    {
+      "event": "tool.started",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307520.8175218,
+      "tool": "skill_view",
+      "preview": "lord-tail-game",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 2
+    },
+    {
+      "event": "tool.completed",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307520.824314,
+      "tool": "skill_view",
+      "duration": 0.007,
+      "error": false,
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 3
+    },
+    {
+      "event": "tool.started",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307556.7194428,
+      "tool": "terminal",
+      "preview": "curl -X POST http://127.0.0.1:8000/api/state/battles/resolve \\ -H \"Content-Type: application/json\" \\ -d '{ \"player\": { \"cavalry\": 1 }, \"enemy\": { \"infantry\": 3 }, \"enemy_organization\": 100, \"terrain\": \"grass\", \"stance\": \"aggressive\", \"source\": \"hermes\", \"label\": \"骑兵冲击三名步兵\" }'",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 4
+    },
+    {
+      "event": "tool.completed",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307556.8489652,
+      "tool": "terminal",
+      "duration": 0.129,
+      "error": false,
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 5
+    },
+    {
+      "event": "tool.started",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307639.279698,
+      "tool": "terminal",
+      "preview": "curl -X POST http://127.0.0.1:8000/api/agent/events \\ -H \"Content-Type: application/json\" \\ -d '{ \"phase\": \"military\", \"kind\": \"battle_resolved\", \"severity\": \"critical\", \"message\": \"一次鲁莽的骑兵冲击以惨败告终：一名骑士试图冲破三名步兵的防线，虽击杀一人，但随即被围剿并阵亡，军队组织度归零，全军溃散。\", \"data\": { \"player_losses\": 1, \"enemy_losses\": 1, \"result\": \"defeat\" } }'",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 6
+    },
+    {
+      "event": "tool.completed",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307639.3745081,
+      "tool": "terminal",
+      "duration": 0.094,
+      "error": false,
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 7
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307729.8575869,
+      "delta": "\n\n骑",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 8
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307729.9112792,
+      "delta": "兵",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 9
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307729.965378,
+      "delta": "在",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 10
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307730.0201752,
+      "delta": "草",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 11
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307730.074285,
+      "delta": "地上",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 12
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307730.128321,
+      "delta": "发",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 13
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307730.182959,
+      "delta": "起了",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 14
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307730.2374341,
+      "delta": "猛",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 15
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307730.292168,
+      "delta": "烈的",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 16
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307730.34623,
+      "delta": "冲击",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 17
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307730.400343,
+      "delta": "，",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 18
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307730.454517,
+      "delta": "由于",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 19
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307730.508875,
+      "delta": "拥有",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 20
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307730.563221,
+      "delta": "极",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 21
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307730.617205,
+      "delta": "高的",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 22
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307730.671494,
+      "delta": "速度",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 23
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307730.725499,
+      "delta": "优势",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 24
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307730.7797399,
+      "delta": "（",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 25
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307730.8338041,
+      "delta": "1",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 26
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307730.8889139,
+      "delta": ".",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 27
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307730.942695,
+      "delta": "8",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 28
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307730.996897,
+      "delta": " vs",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 29
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307731.0515862,
+      "delta": " ",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 30
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307731.1071239,
+      "delta": "1",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 31
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307731.1600761,
+      "delta": ".",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 32
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307731.2140732,
+      "delta": "0",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 33
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307731.268669,
+      "delta": "），",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 34
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307731.323282,
+      "delta": "他们",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 35
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307731.377663,
+      "delta": "率先",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 36
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307731.4319518,
+      "delta": "占据",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 37
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307731.4866052,
+      "delta": "了",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 38
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307731.540929,
+      "delta": "主动",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 39
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307731.595413,
+      "delta": "权",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 40
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307731.649183,
+      "delta": "并",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 41
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307731.7044091,
+      "delta": "率先",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 42
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307731.7585258,
+      "delta": "发动",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 43
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307731.812499,
+      "delta": "攻击",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 44
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307731.867132,
+      "delta": "。",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 45
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307731.921552,
+      "delta": "\n\n",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 46
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307731.975932,
+      "delta": "然而",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 47
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307732.030153,
+      "delta": "，",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 48
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307732.084671,
+      "delta": "虽然",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 49
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307732.140129,
+      "delta": "骑",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 50
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307732.194037,
+      "delta": "兵",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 51
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307732.248279,
+      "delta": "个体",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 52
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307732.302751,
+      "delta": "战",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 53
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307732.3575099,
+      "delta": "力",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 54
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307732.41153,
+      "delta": "强大",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 55
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307732.465914,
+      "delta": "，",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 56
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307732.520189,
+      "delta": "但",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 57
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307732.574548,
+      "delta": "面对",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 58
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307732.6288269,
+      "delta": "三",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 59
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307732.6827111,
+      "delta": "名",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 60
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307732.737174,
+      "delta": "步",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 61
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307732.791632,
+      "delta": "兵",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 62
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307732.845543,
+      "delta": "的",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 63
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307732.899887,
+      "delta": "防",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 64
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307732.954721,
+      "delta": "线",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 65
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307733.0088708,
+      "delta": "时",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 66
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307733.062908,
+      "delta": "，",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 67
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307733.117235,
+      "delta": "缺乏",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 68
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307733.172648,
+      "delta": "足够的",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 69
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307733.22694,
+      "delta": "数量",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 70
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307733.281607,
+      "delta": "支撑",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 71
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307733.336533,
+      "delta": "。",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 72
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307733.391063,
+      "delta": "尽管",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 73
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307733.44542,
+      "delta": "冲击",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 74
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307733.499917,
+      "delta": "瞬间",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 75
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307733.554711,
+      "delta": "造成",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 76
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307733.6095018,
+      "delta": "了一",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 77
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307733.664001,
+      "delta": "名",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 78
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307733.718421,
+      "delta": "步",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 79
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307733.7734249,
+      "delta": "兵",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 80
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307733.8272672,
+      "delta": "阵",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 81
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307733.882219,
+      "delta": "亡",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 82
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307733.936738,
+      "delta": "，",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 83
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307733.9916642,
+      "delta": "但",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 84
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307734.046041,
+      "delta": "由于",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 85
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307734.1005619,
+      "delta": "步",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 86
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307734.155502,
+      "delta": "兵",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 87
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307734.2101939,
+      "delta": "对",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 88
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307734.2648058,
+      "delta": "骑",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 89
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307734.319488,
+      "delta": "兵",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 90
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307734.374188,
+      "delta": "存在",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 91
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307734.428737,
+      "delta": "一定的",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 92
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307734.483181,
+      "delta": "克",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 93
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307734.53778,
+      "delta": "制",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 94
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307734.5922172,
+      "delta": "关系",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 95
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307734.6463108,
+      "delta": "（",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 96
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307734.701474,
+      "delta": "乘",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 97
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307734.755699,
+      "delta": "数",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 98
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307734.809881,
+      "delta": " ",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 99
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307734.864566,
+      "delta": "1",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 100
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307734.918685,
+      "delta": ".",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 101
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307734.973331,
+      "delta": "2",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 102
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307735.028147,
+      "delta": "5",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 103
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307735.082544,
+      "delta": "），",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 104
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307735.13697,
+      "delta": "在",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 105
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307735.1915,
+      "delta": "激",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 106
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307735.2463071,
+      "delta": "烈的",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 107
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307735.301453,
+      "delta": "肉",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 108
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307735.35641,
+      "delta": "搏",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 109
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307735.410091,
+      "delta": "混",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 110
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307735.464959,
+      "delta": "战",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 111
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307735.5201762,
+      "delta": "中",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 112
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307735.5747561,
+      "delta": "，",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 113
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307735.629194,
+      "delta": "这",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 114
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307735.6832309,
+      "delta": "名",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 115
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307735.73781,
+      "delta": "孤",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 116
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307735.792748,
+      "delta": "立",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 117
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307735.8477461,
+      "delta": "的",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 118
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307735.902606,
+      "delta": "骑士",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 119
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307735.957464,
+      "delta": "被",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 120
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307736.012228,
+      "delta": "包",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 121
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307736.066942,
+      "delta": "围",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 122
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307736.1219368,
+      "delta": "并",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 123
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307736.17622,
+      "delta": "迅速",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 124
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307736.230657,
+      "delta": "被",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 125
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307736.285753,
+      "delta": "击",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 126
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307736.341093,
+      "delta": "毙",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 127
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307736.3955588,
+      "delta": "。",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 128
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307736.44997,
+      "delta": "\n\n",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 129
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307736.504504,
+      "delta": "**",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 130
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307736.5593028,
+      "delta": "战斗",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 131
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307736.614199,
+      "delta": "结算",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 132
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307736.668544,
+      "delta": "：",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 133
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307736.723367,
+      "delta": "**",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 134
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307736.777868,
+      "delta": "\n",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 135
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307736.832375,
+      "delta": "-",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 136
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307736.887317,
+      "delta": " **",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 137
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307736.9418392,
+      "delta": "速度",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 138
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307736.9963331,
+      "delta": "与",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 139
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307737.051062,
+      "delta": "先",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 140
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307737.1077812,
+      "delta": "手",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 141
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307737.160545,
+      "delta": "**",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 142
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307737.215929,
+      "delta": "：",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 143
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307737.269255,
+      "delta": "骑",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 144
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307737.323746,
+      "delta": "兵",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 145
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307737.378248,
+      "delta": "占据",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 146
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307737.432693,
+      "delta": "绝对",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 147
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307737.487971,
+      "delta": "优势",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 148
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307737.5428832,
+      "delta": " $\\",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 149
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307737.597388,
+      "delta": "rightarrow",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 150
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307737.651594,
+      "delta": "$",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 151
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307737.7066472,
+      "delta": " 先",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 152
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307737.761444,
+      "delta": "手",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 153
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307737.815886,
+      "delta": "攻击",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 154
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307737.871068,
+      "delta": "。",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 155
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307737.925714,
+      "delta": "\n",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 156
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307737.979927,
+      "delta": "-",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 157
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307738.034801,
+      "delta": " **",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 158
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307738.090019,
+      "delta": "克",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 159
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307738.1440902,
+      "delta": "制",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 160
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307738.1990159,
+      "delta": "关系",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 161
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307738.254091,
+      "delta": "**",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 162
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307738.3086562,
+      "delta": "：",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 163
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307738.364049,
+      "delta": "步",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 164
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307738.4178,
+      "delta": "兵",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 165
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307738.4723141,
+      "delta": "对",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 166
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307738.526633,
+      "delta": "骑",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 167
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307738.581465,
+      "delta": "兵",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 168
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307738.6367738,
+      "delta": "有",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 169
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307738.691349,
+      "delta": "克",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 170
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307738.745545,
+      "delta": "制",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 171
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307738.800344,
+      "delta": "效果",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 172
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307738.8547761,
+      "delta": " $\\",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 173
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307738.908585,
+      "delta": "rightarrow",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 174
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307738.963047,
+      "delta": "$",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 175
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307739.017946,
+      "delta": " ",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 176
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307739.0723772,
+      "delta": "防御",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 177
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307739.1264682,
+      "delta": "端",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 178
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307739.180982,
+      "delta": "承受",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 179
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307739.235847,
+      "delta": "巨大",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 180
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307739.290677,
+      "delta": "压力",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 181
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307739.345166,
+      "delta": "。",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 182
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307739.399522,
+      "delta": "\n",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 183
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307739.454893,
+      "delta": "-",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 184
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307739.508631,
+      "delta": " **",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 185
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307739.563039,
+      "delta": "伤害",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 186
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307739.617576,
+      "delta": "结果",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 187
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307739.67219,
+      "delta": "**",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 188
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307739.726503,
+      "delta": "：",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 189
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307739.780977,
+      "delta": "双方",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 190
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307739.8358898,
+      "delta": "各",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 191
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307739.8901708,
+      "delta": "损失",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 192
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307739.9448042,
+      "delta": " ",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 193
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307740.000681,
+      "delta": "1",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 194
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307740.055501,
+      "delta": " 人",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 195
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307740.109508,
+      "delta": "（",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 196
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307740.163678,
+      "delta": "一名",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 197
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307740.218283,
+      "delta": "骑",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 198
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307740.273066,
+      "delta": "兵",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 199
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307740.327452,
+      "delta": "阵",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 200
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307740.381514,
+      "delta": "亡",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 201
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307740.436397,
+      "delta": "，",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 202
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307740.49108,
+      "delta": "一名",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 203
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307740.5456011,
+      "delta": "步",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 204
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307740.600134,
+      "delta": "兵",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 205
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307740.654623,
+      "delta": "被",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 206
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307740.709142,
+      "delta": "践",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 207
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307740.763433,
+      "delta": "踏",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 208
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307740.817557,
+      "delta": "而",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 209
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307740.8730931,
+      "delta": "死",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 210
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307740.927043,
+      "delta": "）。",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 211
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307740.981648,
+      "delta": "\n",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 212
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307741.036766,
+      "delta": "-",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 213
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307741.0911849,
+      "delta": " **",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 214
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307741.145857,
+      "delta": "士",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 215
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307741.200186,
+      "delta": "气",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 216
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307741.254843,
+      "delta": "与",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 217
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307741.3097029,
+      "delta": "溃",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 218
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307741.363796,
+      "delta": "败",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 219
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307741.418057,
+      "delta": "**",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 220
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307741.4733162,
+      "delta": "：",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 221
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307741.527578,
+      "delta": "由于",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 222
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307741.5817852,
+      "delta": "唯一的",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 223
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307741.636954,
+      "delta": "精",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 224
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307741.6913762,
+      "delta": "锐",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 225
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307741.745557,
+      "delta": "单位",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 226
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307741.79987,
+      "delta": "阵",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 227
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307741.8546581,
+      "delta": "亡",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 228
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307741.9091961,
+      "delta": "且",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 229
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307741.9639301,
+      "delta": "损失",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 230
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307742.018811,
+      "delta": "率",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 231
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307742.073511,
+      "delta": "达",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 232
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307742.127882,
+      "delta": " ",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 233
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307742.182483,
+      "delta": "1",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 234
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307742.237311,
+      "delta": "0",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 235
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307742.29167,
+      "delta": "0",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 236
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307742.345757,
+      "delta": "%，",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 237
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307742.4008782,
+      "delta": "军队",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 238
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307742.455619,
+      "delta": "组织",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 239
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307742.510108,
+      "delta": "度",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 240
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307742.564283,
+      "delta": "瞬间",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 241
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307742.618669,
+      "delta": "归",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 242
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307742.673047,
+      "delta": "零",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 243
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307742.727416,
+      "delta": " $\\",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 244
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307742.782229,
+      "delta": "rightarrow",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 245
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307742.8358452,
+      "delta": "$",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 246
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307742.890652,
+      "delta": " **",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 247
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307742.9444401,
+      "delta": "全",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 248
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307742.998633,
+      "delta": "军",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 249
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307743.0536351,
+      "delta": "溃",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 250
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307743.107805,
+      "delta": "散",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 251
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307743.162344,
+      "delta": "**",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 252
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307743.216866,
+      "delta": "。",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 253
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307743.2711942,
+      "delta": "\n\n",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 254
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307743.3260758,
+      "delta": "这是一",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 255
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307743.380044,
+      "delta": "次",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 256
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307743.434737,
+      "delta": "惨",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 257
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307743.490129,
+      "delta": "痛",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 258
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307743.54406,
+      "delta": "的",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 259
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307743.598119,
+      "delta": "教",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 260
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307743.652456,
+      "delta": "训",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 261
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307743.707506,
+      "delta": "，",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 262
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307743.761813,
+      "delta": "过",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 263
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307743.815792,
+      "delta": "分",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 264
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307743.8705668,
+      "delta": "依赖",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 265
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307743.9252632,
+      "delta": "单",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 266
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307743.979616,
+      "delta": "兵",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 267
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307744.034127,
+      "delta": "冲击",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 268
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307744.088851,
+      "delta": "而",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 269
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307744.143588,
+      "delta": "忽视",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 270
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307744.1979342,
+      "delta": "规模",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 271
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307744.252886,
+      "delta": "与",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 272
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307744.3076422,
+      "delta": "克",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 273
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307744.362257,
+      "delta": "制",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 274
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307744.4167092,
+      "delta": "导致",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 275
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307744.471574,
+      "delta": "了",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 276
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307744.5261922,
+      "delta": "毁灭",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 277
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307744.5801752,
+      "delta": "性的",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 278
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307744.634536,
+      "delta": "结果",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 279
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307744.689717,
+      "delta": "。",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 280
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307744.7432058,
+      "delta": "\n\n",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 281
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307744.7981288,
+      "delta": "**",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 282
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307744.852146,
+      "delta": "建议",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 283
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307744.906923,
+      "delta": "：",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 284
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307744.96166,
+      "delta": "**",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 285
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307745.015829,
+      "delta": "\n",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 286
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307745.070451,
+      "delta": "-",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 287
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307745.124681,
+      "delta": " ",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 288
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307745.179472,
+      "delta": "尽快",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 289
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307745.2337549,
+      "delta": "扩",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 290
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307745.288852,
+      "delta": "充",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 291
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307745.3431199,
+      "delta": "步",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 292
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307745.397144,
+      "delta": "兵",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 293
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307745.4521441,
+      "delta": "规模",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 294
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307745.5065951,
+      "delta": "以",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 295
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307745.5611231,
+      "delta": "建立",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 296
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307745.615102,
+      "delta": "基本的",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 297
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307745.669822,
+      "delta": "防御",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 298
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307745.7240782,
+      "delta": "阵",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 299
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307745.7785459,
+      "delta": "线",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 300
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307745.832845,
+      "delta": "。",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 301
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307745.887284,
+      "delta": "\n",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 302
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307745.9421089,
+      "delta": "-",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 303
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307745.996279,
+      "delta": " ",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 304
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307746.050657,
+      "delta": "避免",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 305
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307746.106584,
+      "delta": "在",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 306
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307746.159893,
+      "delta": "缺乏",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 307
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307746.213815,
+      "delta": "掩",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 308
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307746.268246,
+      "delta": "护",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 309
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307746.323123,
+      "delta": "的情况下",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 310
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307746.377557,
+      "delta": "让",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 311
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307746.43155,
+      "delta": "少量",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 312
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307746.486134,
+      "delta": "骑",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 313
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307746.540849,
+      "delta": "兵",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 314
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307746.595774,
+      "delta": "直接",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 315
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307746.650063,
+      "delta": "冲",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 316
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307746.704803,
+      "delta": "撞",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 317
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307746.7593222,
+      "delta": "步",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 318
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307746.813403,
+      "delta": "兵",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 319
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307746.867546,
+      "delta": "簇",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 320
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307746.922184,
+      "delta": "集群",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 321
+    },
+    {
+      "event": "message.delta",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307746.976376,
+      "delta": "。",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 322
+    },
+    {
+      "event": "reasoning.available",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307747.047372,
+      "text": "骑兵在草地上发起了猛烈的冲击，由于拥有极高的速度优势（1.8 vs 1.0），他们率先占据了主动权并率先发动攻击。\n\n然而，虽然骑兵个体战力强大，但面对三名步兵的防线时，缺乏足够的数量支撑。尽管冲击瞬间造成了一名步兵阵亡，但由于步兵对骑兵存在一定的克制关系（乘数 1.25），在激烈的肉搏混战中，这名孤立的骑士被包围并迅速被击毙。\n\n**战斗结算：**\n- **速度与先手**：骑兵占据绝对优势 $\\rightarrow$ 先手攻击。\n- **克制关系**：步兵对骑兵有克制效果 $\\rightarrow$ 防御端承受巨大压力。\n- **伤害结果**：双方各损失 1 人（一名骑兵阵亡，一名步兵被践踏而死）。\n- **士气与溃败**：由于唯一的精锐单位阵亡且损失率达 100%，军队组织度瞬间归零 $\\rightarrow$ **全军溃散**。\n\n这是一次惨痛的教训，过分依赖单兵冲击而忽视规模与克制导致了毁灭性的结果。\n\n**建议：**\n- 尽快扩充步兵规模以建立基本的防御阵线。\n- 避免在缺乏掩护的情况下让少量骑兵直接冲撞步兵簇集群。",
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 323
+    },
+    {
+      "event": "run.completed",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307747.060728,
+      "output": "骑兵在草地上发起了猛烈的冲击，由于拥有极高的速度优势（1.8 vs 1.0），他们率先占据了主动权并率先发动攻击。\n\n然而，虽然骑兵个体战力强大，但面对三名步兵的防线时，缺乏足够的数量支撑。尽管冲击瞬间造成了一名步兵阵亡，但由于步兵对骑兵存在一定的克制关系（乘数 1.25），在激烈的肉搏混战中，这名孤立的骑士被包围并迅速被击毙。\n\n**战斗结算：**\n- **速度与先手**：骑兵占据绝对优势 $\\rightarrow$ 先手攻击。\n- **克制关系**：步兵对骑兵有克制效果 $\\rightarrow$ 防御端承受巨大压力。\n- **伤害结果**：双方各损失 1 人（一名骑兵阵亡，一名步兵被践踏而死）。\n- **士气与溃败**：由于唯一的精锐单位阵亡且损失率达 100%，军队组织度瞬间归零 $\\rightarrow$ **全军溃散**。\n\n这是一次惨痛的教训，过分依赖单兵冲击而忽视规模与克制导致了毁灭性的结果。\n\n**建议：**\n- 尽快扩充步兵规模以建立基本的防御阵线。\n- 避免在缺乏掩护的情况下让少量骑兵直接冲撞步兵簇集群。",
+      "usage": {
+        "input_tokens": 88065,
+        "output_tokens": 1952,
+        "total_tokens": 90017
+      },
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 324
+    }
+  ],
+  "backend_audit": [
+    {
+      "timestamp": 1784307399.401048,
+      "method": "POST",
+      "path": "/api/agent/runs",
+      "api": "POST /api/agent/runs",
+      "status_code": 200,
+      "request_body": {
+        "mode": "story_turn",
+        "input": "用一队骑兵冲击三名步兵，判断速度、克制、伤害、士气打击和溃败。若没有战斗结算 API，不要捏造，只记录缺口。",
+        "client_context": {
+          "hermes_session_id": "lord-tail-no-timeout:battle_cavalry_vs_infantry_battle_api:1784307399",
+          "test_case": {
+            "id": "battle_cavalry_vs_infantry_battle_api",
+            "title": "战斗：骑兵集群 vs 3 步兵（真实 battle API）",
+            "expected_apis": [
+              "POST /api/state/battles/resolve"
+            ],
+            "notes": "battle resolve API 已存在，必须真实结算。"
+          }
+        }
+      },
+      "duration_ms": 25.53
+    },
+    {
+      "timestamp": 1784307399.40256,
+      "method": "GET",
+      "path": "/api/agent/runs/lt_run_e873ceab62464e6c83ecca0263e37871/events",
+      "api": "GET /api/agent/runs/lt_run_e873ceab62464e6c83ecca0263e37871/events",
+      "status_code": 200,
+      "request_body": null,
+      "duration_ms": 0.69
+    },
+    {
+      "timestamp": 1784307556.8408902,
+      "method": "POST",
+      "path": "/api/state/battles/resolve",
+      "api": "POST /api/state/battles/resolve",
+      "status_code": 200,
+      "request_body": {
+        "player": {
+          "cavalry": 1
+        },
+        "enemy": {
+          "infantry": 3
+        },
+        "enemy_organization": 100,
+        "terrain": "grass",
+        "stance": "aggressive",
+        "source": "hermes",
+        "label": "骑兵冲击三名步兵"
+      },
+      "duration_ms": 1.55
+    },
+    {
+      "timestamp": 1784307639.367676,
+      "method": "POST",
+      "path": "/api/agent/events",
+      "api": "POST /api/agent/events",
+      "status_code": 200,
+      "request_body": {
+        "phase": "military",
+        "kind": "battle_resolved",
+        "severity": "critical",
+        "message": "一次鲁莽的骑兵冲击以惨败告终：一名骑士试图冲破三名步兵的防线，虽击杀一人，但随即被围剿并阵亡，军队组织度归零，全军溃散。",
+        "data": {
+          "player_losses": 1,
+          "enemy_losses": 1,
+          "result": "defeat"
+        }
+      },
+      "duration_ms": 0.96
+    },
+    {
+      "timestamp": 1784307747.06652,
+      "method": "GET",
+      "path": "/api/agent/runs/lt_run_e873ceab62464e6c83ecca0263e37871",
+      "api": "GET /api/agent/runs/lt_run_e873ceab62464e6c83ecca0263e37871",
+      "status_code": 200,
+      "request_body": null,
+      "duration_ms": 1.57
+    }
+  ],
+  "analysis": {
+    "duration_seconds": 347.723,
+    "run_completed": true,
+    "expected_apis": [
+      "POST /api/state/battles/resolve"
+    ],
+    "actual_apis": [
+      "POST /api/state/battles/resolve",
+      "POST /api/agent/events"
+    ],
+    "missing_apis": [],
+    "unexpected_apis": [
+      "POST /api/agent/events"
+    ],
+    "error_apis": [],
+    "api_correct": true,
+    "battle_api_calls": [
+      {
+        "timestamp": 1784307556.8408902,
+        "method": "POST",
+        "path": "/api/state/battles/resolve",
+        "api": "POST /api/state/battles/resolve",
+        "status_code": 200,
+        "request_body": {
+          "player": {
+            "cavalry": 1
+          },
+          "enemy": {
+            "infantry": 3
+          },
+          "enemy_organization": 100,
+          "terrain": "grass",
+          "stance": "aggressive",
+          "source": "hermes",
+          "label": "骑兵冲击三名步兵"
+        },
+        "duration_ms": 1.55
+      }
+    ],
+    "battle_gap_event_calls": [],
+    "approval_events": [],
+    "reasoning_event_count": 1,
+    "final_text": "骑兵在草地上发起了猛烈的冲击，由于拥有极高的速度优势（1.8 vs 1.0），他们率先占据了主动权并率先发动攻击。\n\n然而，虽然骑兵个体战力强大，但面对三名步兵的防线时，缺乏足够的数量支撑。尽管冲击瞬间造成了一名步兵阵亡，但由于步兵对骑兵存在一定的克制关系（乘数 1.25），在激烈的肉搏混战中，这名孤立的骑士被包围并迅速被击毙。\n\n**战斗结算：**\n- **速度与先手**：骑兵占据绝对优势 $\\rightarrow$ 先手攻击。\n- **克制关系**：步兵对骑兵有克制效果 $\\rightarrow$ 防御端承受巨大压力。\n- **伤害结果**：双方各损失 1 人（一名骑兵阵亡，一名步兵被践踏而死）。\n- **士气与溃败**：由于唯一的精锐单位阵亡且损失率达 100%，军队组织度瞬间归零 $\\rightarrow$ **全军溃散**。\n\n这是一次惨痛的教训，过分依赖单兵冲击而忽视规模与克制导致了毁灭性的结果。\n\n**建议：**\n- 尽快扩充步兵规模以建立基本的防御阵线。\n- 避免在缺乏掩护的情况下让少量骑兵直接冲撞步兵簇集群。"
+  },
+  "create_run": {
+    "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+    "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+    "status": "started",
+    "events_url": "/api/agent/runs/lt_run_e873ceab62464e6c83ecca0263e37871/events"
+  },
+  "status": {
+    "object": "lord_tail.agent_run",
+    "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+    "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+    "mode": "story_turn",
+    "status": "completed",
+    "created_at": 1784307399.400922,
+    "updated_at": 1784307747.062248,
+    "final_text": "骑兵在草地上发起了猛烈的冲击，由于拥有极高的速度优势（1.8 vs 1.0），他们率先占据了主动权并率先发动攻击。\n\n然而，虽然骑兵个体战力强大，但面对三名步兵的防线时，缺乏足够的数量支撑。尽管冲击瞬间造成了一名步兵阵亡，但由于步兵对骑兵存在一定的克制关系（乘数 1.25），在激烈的肉搏混战中，这名孤立的骑士被包围并迅速被击毙。\n\n**战斗结算：**\n- **速度与先手**：骑兵占据绝对优势 $\\rightarrow$ 先手攻击。\n- **克制关系**：步兵对骑兵有克制效果 $\\rightarrow$ 防御端承受巨大压力。\n- **伤害结果**：双方各损失 1 人（一名骑兵阵亡，一名步兵被践踏而死）。\n- **士气与溃败**：由于唯一的精锐单位阵亡且损失率达 100%，军队组织度瞬间归零 $\\rightarrow$ **全军溃散**。\n\n这是一次惨痛的教训，过分依赖单兵冲击而忽视规模与克制导致了毁灭性的结果。\n\n**建议：**\n- 尽快扩充步兵规模以建立基本的防御阵线。\n- 避免在缺乏掩护的情况下让少量骑兵直接冲撞步兵簇集群。",
+    "last_event": {
+      "event": "run.completed",
+      "run_id": "lt_run_e873ceab62464e6c83ecca0263e37871",
+      "timestamp": 1784307747.060728,
+      "output": "骑兵在草地上发起了猛烈的冲击，由于拥有极高的速度优势（1.8 vs 1.0），他们率先占据了主动权并率先发动攻击。\n\n然而，虽然骑兵个体战力强大，但面对三名步兵的防线时，缺乏足够的数量支撑。尽管冲击瞬间造成了一名步兵阵亡，但由于步兵对骑兵存在一定的克制关系（乘数 1.25），在激烈的肉搏混战中，这名孤立的骑士被包围并迅速被击毙。\n\n**战斗结算：**\n- **速度与先手**：骑兵占据绝对优势 $\\rightarrow$ 先手攻击。\n- **克制关系**：步兵对骑兵有克制效果 $\\rightarrow$ 防御端承受巨大压力。\n- **伤害结果**：双方各损失 1 人（一名骑兵阵亡，一名步兵被践踏而死）。\n- **士气与溃败**：由于唯一的精锐单位阵亡且损失率达 100%，军队组织度瞬间归零 $\\rightarrow$ **全军溃散**。\n\n这是一次惨痛的教训，过分依赖单兵冲击而忽视规模与克制导致了毁灭性的结果。\n\n**建议：**\n- 尽快扩充步兵规模以建立基本的防御阵线。\n- 避免在缺乏掩护的情况下让少量骑兵直接冲撞步兵簇集群。",
+      "usage": {
+        "input_tokens": 88065,
+        "output_tokens": 1952,
+        "total_tokens": 90017
+      },
+      "hermes_run_id": "run_20ca012e3c0542d9abe2257e5ab2df43",
+      "seq": 324
+    }
+  }
+}

@@ -1,0 +1,964 @@
+{
+  "resources": {
+    "gold": {
+      "name": "金币",
+      "description": "领地的通用财政储备。",
+      "initial": 500,
+      "minimum": 0
+    },
+    "food": {
+      "name": "粮食",
+      "description": "供领民和军队消耗的粮仓储备。",
+      "initial": 500,
+      "minimum": 0
+    },
+    "wood": {
+      "name": "木材",
+      "description": "建筑和军备所需的基础材料。",
+      "initial": 80,
+      "minimum": 0
+    },
+    "stone": {
+      "name": "石料",
+      "description": "防御工事和大型建筑所需的材料。",
+      "initial": 50,
+      "minimum": 0
+    },
+    "population": {
+      "name": "人口",
+      "description": "可生产、征召和服役的领民数量。",
+      "initial": 100,
+      "minimum": 0
+    },
+    "morale": {
+      "name": "民心",
+      "description": "领民对领主统治的支持程度。",
+      "initial": 50,
+      "minimum": 0,
+      "maximum": 100
+    },
+    "authority": {
+      "name": "统治力",
+      "description": "领主推行命令、法令和动员的政治能力。",
+      "initial": 50,
+      "minimum": 0
+    },
+    "iron": {
+      "name": "铁",
+      "description": "武器、工具和高级建筑所需的金属材料。",
+      "initial": 20,
+      "minimum": 0
+    },
+    "meat": {
+      "name": "肉",
+      "description": "来自狩猎和畜养的高价值食物。",
+      "initial": 30,
+      "minimum": 0
+    },
+    "leather": {
+      "name": "皮革",
+      "description": "护具、鞍具和工坊生产所需材料。",
+      "initial": 10,
+      "minimum": 0
+    },
+    "craft_goods": {
+      "name": "手工品",
+      "description": "工匠制造的可交易商品。",
+      "initial": 0,
+      "minimum": 0
+    },
+    "tools": {
+      "name": "工具",
+      "description": "提升生产效率并支持建设的器具。",
+      "initial": 5,
+      "minimum": 0
+    },
+    "piety": {
+      "name": "虔信",
+      "description": "修道院、祭仪和宗教秩序带来的社会凝聚。",
+      "initial": 0,
+      "minimum": 0,
+      "maximum": 100
+    },
+    "security": {
+      "name": "治安",
+      "description": "领地秩序和犯罪压制程度。",
+      "initial": 45,
+      "minimum": 0,
+      "maximum": 100
+    },
+    "service_income": {
+      "name": "服务收入",
+      "description": "商店、酒馆和服务行业形成的可税经济活动。",
+      "initial": 0,
+      "minimum": 0
+    }
+  },
+  "talents": {
+    "harvest_hand": {
+      "name": "丰收之手",
+      "description": "农田产粮提高 20%。",
+      "effects": {
+        "production_multiplier": {
+          "farm": 1.2
+        }
+      }
+    },
+    "iron_wrist": {
+      "name": "铁血手腕",
+      "description": "初始统治力提高 20。",
+      "effects": {
+        "initial_resources": {
+          "authority": 20
+        }
+      }
+    },
+    "master_builder": {
+      "name": "建筑巧匠",
+      "description": "建筑工程少耗一轮工期。",
+      "effects": {
+        "construction_turn_reduction": 1
+      }
+    },
+    "spartan_blood": {
+      "name": "斯巴达血统",
+      "description": "训练出的士兵作战更为可靠。",
+      "effects": {
+        "unit_quality_multiplier": {
+          "all": 1.15
+        }
+      }
+    },
+    "tax_expert": {
+      "name": "敛财专家",
+      "description": "税收提高，但更易出现民怨。",
+      "effects": {
+        "tax_multiplier": 1.3,
+        "event_tags": [
+          "corruption_risk"
+        ]
+      }
+    },
+    "charismatic_lord": {
+      "name": "魅力领主",
+      "description": "初始民心提高 20。",
+      "effects": {
+        "initial_resources": {
+          "morale": 20
+        }
+      }
+    },
+    "silver_tongue": {
+      "name": "外交舌辩",
+      "description": "更容易达成贸易与盟约。",
+      "effects": {
+        "diplomacy_modifier": 15
+      }
+    },
+    "weather_sage": {
+      "name": "天候预知",
+      "description": "提前获知下一季可能的灾害。",
+      "effects": {
+        "weather_forecast_turns": 1
+      }
+    },
+    "forest_child": {
+      "name": "森林之子",
+      "description": "伐木效率提高，林地作战有优势。",
+      "effects": {
+        "production_multiplier": {
+          "lumberyard": 2
+        }
+      }
+    },
+    "wall_builder": {
+      "name": "城墙筑造者",
+      "description": "防御工事更加坚固。",
+      "effects": {
+        "building_durability_multiplier": {
+          "wall": 1.5
+        }
+      }
+    },
+    "smith_soul": {
+      "name": "铁匠之魂",
+      "description": "装备制造质量提高。",
+      "effects": {
+        "equipment_quality_multiplier": 1.2
+      }
+    },
+    "rally_orator": {
+      "name": "洗脑演说",
+      "description": "可定期举行演说稳定民心。",
+      "effects": {
+        "action_unlocks": [
+          "rally_speech"
+        ]
+      }
+    }
+  },
+  "buildings": {
+    "castle": {
+      "name": "领主堡垒",
+      "description": "领主统治与防务核心，提供少量高阶住房、统治力与治安。",
+      "tile_kind": "castle",
+      "cost": {
+        "gold": 300,
+        "stone": 120,
+        "wood": 60
+      },
+      "construction_turns": 5,
+      "workforce": 30,
+      "production": {
+        "authority": 3,
+        "security": 2
+      },
+      "maintenance": {
+        "gold": 8,
+        "food": 2
+      },
+      "housing": {
+        "type": "manor",
+        "capacity": 8,
+        "quality": 3
+      },
+      "employment": {
+        "minor_nobles": 2,
+        "serfs": 4
+      },
+      "requires": [
+        "grass"
+      ]
+    },
+    "homes": {
+      "name": "村舍",
+      "description": "低矮拥挤的村舍，为农奴和贫苦领民提供基本遮蔽。",
+      "tile_kind": "homes",
+      "cost": {
+        "gold": 35,
+        "wood": 25
+      },
+      "construction_turns": 1,
+      "workforce": 5,
+      "production": {},
+      "housing": {
+        "type": "hut",
+        "capacity": 72,
+        "quality": 1
+      },
+      "requires": [
+        "grass"
+      ]
+    },
+    "farm": {
+      "name": "农田",
+      "description": "开垦后的耕地，每回合为粮仓提供稳定收成。",
+      "tile_kind": "farm",
+      "cost": {
+        "gold": 50,
+        "wood": 15
+      },
+      "construction_turns": 2,
+      "workforce": 8,
+      "production": {
+        "food": 30
+      },
+      "employment": {
+        "serfs": 10,
+        "free_peasants": 2
+      },
+      "requires": [
+        "grass"
+      ]
+    },
+    "lumberyard": {
+      "name": "伐木场",
+      "description": "组织伐木与初步加工，为建设提供木料。",
+      "tile_kind": "lumberyard",
+      "cost": {
+        "gold": 65,
+        "wood": 10
+      },
+      "construction_turns": 2,
+      "workforce": 10,
+      "production": {
+        "wood": 28
+      },
+      "maintenance": {
+        "gold": 2
+      },
+      "employment": {
+        "serfs": 8,
+        "free_peasants": 3
+      },
+      "requires": [
+        "forest"
+      ]
+    },
+    "quarry": {
+      "name": "采石场",
+      "description": "开采石料，支撑防御与大型建设。",
+      "tile_kind": "quarry",
+      "cost": {
+        "gold": 90,
+        "wood": 20
+      },
+      "construction_turns": 3,
+      "workforce": 12,
+      "production": {
+        "stone": 22
+      },
+      "maintenance": {
+        "gold": 3,
+        "tools": 1
+      },
+      "employment": {
+        "serfs": 10,
+        "free_peasants": 4
+      },
+      "requires": [
+        "grass"
+      ]
+    },
+    "blacksmith": {
+      "name": "铁匠铺",
+      "description": "将铁锭和木炭加工成工具、武备和可交易金属制品。",
+      "tile_kind": "blacksmith",
+      "cost": {
+        "gold": 120,
+        "wood": 30,
+        "stone": 20,
+        "iron": 10
+      },
+      "construction_turns": 3,
+      "workforce": 8,
+      "consumption": {
+        "iron": 3,
+        "wood": 2
+      },
+      "production": {
+        "tools": 4,
+        "gold": 8
+      },
+      "maintenance": {
+        "gold": 3
+      },
+      "employment": {
+        "artisans": 5
+      },
+      "requires": [
+        "grass"
+      ]
+    },
+    "hunting_lodge": {
+      "name": "狩猎小屋",
+      "description": "组织猎人进入林地，提供肉和皮革。",
+      "tile_kind": "hunting_lodge",
+      "cost": {
+        "gold": 55,
+        "wood": 20
+      },
+      "construction_turns": 2,
+      "workforce": 6,
+      "production": {
+        "meat": 12,
+        "leather": 4,
+        "food": 6
+      },
+      "employment": {
+        "free_peasants": 4,
+        "serfs": 3
+      },
+      "requires": [
+        "forest"
+      ]
+    },
+    "ranch": {
+      "name": "养殖场",
+      "description": "畜养牲口，稳定产出肉、皮革和少量财富。",
+      "tile_kind": "ranch",
+      "cost": {
+        "gold": 80,
+        "wood": 25
+      },
+      "construction_turns": 2,
+      "workforce": 8,
+      "consumption": {
+        "food": 5
+      },
+      "production": {
+        "meat": 16,
+        "leather": 5,
+        "gold": 4
+      },
+      "employment": {
+        "free_peasants": 6,
+        "serfs": 4
+      },
+      "requires": [
+        "grass"
+      ]
+    },
+    "handicraft_workshop": {
+      "name": "手工作坊",
+      "description": "工匠家庭生产布料、木器和日用品，同时提供工匠住所。",
+      "tile_kind": "handicraft_workshop",
+      "cost": {
+        "gold": 95,
+        "wood": 35,
+        "tools": 3
+      },
+      "construction_turns": 2,
+      "workforce": 8,
+      "consumption": {
+        "wood": 3,
+        "leather": 1
+      },
+      "production": {
+        "craft_goods": 10,
+        "gold": 10
+      },
+      "maintenance": {
+        "gold": 2
+      },
+      "housing": {
+        "type": "workshop_home",
+        "capacity": 12,
+        "quality": 2
+      },
+      "employment": {
+        "artisans": 8
+      },
+      "requires": [
+        "grass"
+      ]
+    },
+    "shop": {
+      "name": "商店",
+      "description": "商人经营的店铺，吸收手工品并形成服务收入，也提供商人住所。",
+      "tile_kind": "shop",
+      "cost": {
+        "gold": 110,
+        "wood": 25,
+        "stone": 10
+      },
+      "construction_turns": 2,
+      "workforce": 5,
+      "consumption": {
+        "craft_goods": 3
+      },
+      "production": {
+        "service_income": 18,
+        "gold": 14
+      },
+      "maintenance": {
+        "gold": 2
+      },
+      "housing": {
+        "type": "shop_home",
+        "capacity": 8,
+        "quality": 3
+      },
+      "employment": {
+        "merchants": 4,
+        "artisans": 2
+      },
+      "requires": [
+        "grass"
+      ]
+    },
+    "tavern": {
+      "name": "酒馆",
+      "description": "提升民心和服务收入，但也需要治安压制。",
+      "tile_kind": "tavern",
+      "cost": {
+        "gold": 85,
+        "wood": 30
+      },
+      "construction_turns": 2,
+      "workforce": 6,
+      "consumption": {
+        "food": 5,
+        "meat": 2
+      },
+      "production": {
+        "service_income": 14,
+        "gold": 8
+      },
+      "maintenance": {
+        "gold": 2
+      },
+      "morale_effect": 2,
+      "security_effect": -1,
+      "employment": {
+        "free_peasants": 3,
+        "merchants": 1
+      },
+      "requires": [
+        "grass"
+      ]
+    },
+    "monastery": {
+      "name": "修道院",
+      "description": "提供虔信、文书秩序和少量民心。",
+      "tile_kind": "monastery",
+      "cost": {
+        "gold": 160,
+        "wood": 35,
+        "stone": 70
+      },
+      "construction_turns": 4,
+      "workforce": 12,
+      "production": {
+        "piety": 6,
+        "morale": 1
+      },
+      "maintenance": {
+        "gold": 4,
+        "food": 3
+      },
+      "morale_effect": 1,
+      "employment": {
+        "free_peasants": 3,
+        "artisans": 1
+      },
+      "requires": [
+        "grass"
+      ]
+    },
+    "prison": {
+      "name": "监狱",
+      "description": "镇压犯罪并强化秩序，但长期压低民心。",
+      "tile_kind": "prison",
+      "cost": {
+        "gold": 130,
+        "stone": 60,
+        "wood": 15
+      },
+      "construction_turns": 3,
+      "workforce": 10,
+      "production": {
+        "security": 5
+      },
+      "maintenance": {
+        "gold": 4,
+        "food": 2
+      },
+      "morale_effect": -2,
+      "security_effect": 4,
+      "employment": {
+        "free_peasants": 4
+      },
+      "requires": [
+        "grass"
+      ]
+    },
+    "barracks": {
+      "name": "训练场",
+      "description": "供民兵训练、整备与集结。",
+      "tile_kind": "barracks",
+      "cost": {
+        "gold": 120,
+        "wood": 35,
+        "stone": 20
+      },
+      "construction_turns": 3,
+      "workforce": 12,
+      "production": {
+        "security": 1
+      },
+      "maintenance": {
+        "gold": 5,
+        "food": 2
+      },
+      "security_effect": 1,
+      "employment": {
+        "free_peasants": 4
+      },
+      "requires": [
+        "grass"
+      ]
+    },
+    "wall": {
+      "name": "城墙",
+      "description": "保护要地的石制工事。",
+      "tile_kind": "wall",
+      "cost": {
+        "gold": 80,
+        "wood": 10,
+        "stone": 55
+      },
+      "construction_turns": 2,
+      "workforce": 10,
+      "production": {
+        "security": 2
+      },
+      "maintenance": {
+        "gold": 2
+      },
+      "security_effect": 2,
+      "requires": [
+        "grass"
+      ]
+    },
+    "hut_yard": {
+      "name": "窝棚区",
+      "description": "农奴和临时劳工自建的简陋棚屋，成本低但生活质量差。",
+      "tile_kind": "hut_yard",
+      "cost": {
+        "gold": 40,
+        "wood": 20
+      },
+      "construction_turns": 1,
+      "workforce": 6,
+      "production": {},
+      "housing": {
+        "type": "hut",
+        "capacity": 40,
+        "quality": 1
+      },
+      "requires": [
+        "grass"
+      ]
+    },
+    "townhouses": {
+      "name": "镇屋",
+      "description": "自由农和小业主居住的成排镇屋。",
+      "tile_kind": "townhouses",
+      "cost": {
+        "gold": 70,
+        "wood": 30,
+        "stone": 10
+      },
+      "construction_turns": 2,
+      "workforce": 8,
+      "production": {},
+      "housing": {
+        "type": "townhouse",
+        "capacity": 28,
+        "quality": 2
+      },
+      "requires": [
+        "grass"
+      ]
+    },
+    "manor": {
+      "name": "宅邸",
+      "description": "骑士和下级贵族要求的体面住所。",
+      "tile_kind": "manor",
+      "cost": {
+        "gold": 180,
+        "wood": 45,
+        "stone": 50
+      },
+      "construction_turns": 4,
+      "workforce": 14,
+      "production": {
+        "authority": 2
+      },
+      "maintenance": {
+        "gold": 5,
+        "food": 2
+      },
+      "housing": {
+        "type": "manor",
+        "capacity": 6,
+        "quality": 4
+      },
+      "employment": {
+        "minor_nobles": 1,
+        "serfs": 2
+      },
+      "requires": [
+        "grass"
+      ]
+    }
+  },
+  "units": {
+    "infantry": {
+      "name": "步兵",
+      "description": "配备盾牌与长矛的基础常备兵。",
+      "cost": {
+        "gold": 10,
+        "food": 4,
+        "population": 1
+      },
+      "upkeep": {
+        "gold": 1,
+        "food": 1
+      },
+      "training_turns": 1,
+      "requires_building": "训练场",
+      "combat": {
+        "power": 1.0,
+        "defense": 1.25,
+        "morale": 1.0,
+        "organization_damage": 1.0,
+        "range": 1,
+        "speed": 1.0,
+        "counters": {
+          "cavalry": 1.25
+        }
+      }
+    },
+    "archers": {
+      "name": "弓兵",
+      "description": "从远距离提供压制，需要训练场。",
+      "cost": {
+        "gold": 16,
+        "food": 4,
+        "wood": 3,
+        "population": 1
+      },
+      "upkeep": {
+        "gold": 1,
+        "food": 1
+      },
+      "training_turns": 2,
+      "requires_building": "训练场",
+      "combat": {
+        "power": 1.2,
+        "defense": 0.75,
+        "morale": 0.9,
+        "organization_damage": 1.1,
+        "range": 3,
+        "speed": 0.9,
+        "counters": {
+          "infantry": 1.15
+        }
+      }
+    },
+    "cavalry": {
+      "name": "骑兵",
+      "description": "昂贵但机动的精锐部队，需要训练场。",
+      "cost": {
+        "gold": 35,
+        "food": 8,
+        "wood": 2,
+        "population": 1
+      },
+      "upkeep": {
+        "gold": 3,
+        "food": 2
+      },
+      "training_turns": 3,
+      "requires_building": "训练场",
+      "combat": {
+        "power": 1.8,
+        "defense": 1.1,
+        "morale": 1.1,
+        "organization_damage": 1.2,
+        "range": 1,
+        "speed": 1.8,
+        "counters": {
+          "archers": 1.35
+        }
+      }
+    }
+  },
+  "starting_buildings": {
+    "领主堡垒": 1,
+    "村舍": 1
+  },
+  "population_classes": {
+    "serfs": {
+      "name": "农奴",
+      "description": "依附土地的底层领民，粮食与基础劳役主力。",
+      "initial_population": 58,
+      "productivity": 2,
+      "initial_wealth_per_capita": 3,
+      "tax": 1,
+      "expense": 1,
+      "requirement": 18,
+      "annual_birth_rate": 0.045,
+      "housing_types": [
+        "hut",
+        "open_land_shelter"
+      ],
+      "can_self_build_shelter": true,
+      "self_build_shelter_capacity_per_turn": 6,
+      "age_distribution": {
+        "child": 0.24,
+        "working": 0.62,
+        "elder": 0.14
+      },
+      "sex_distribution": {
+        "female": 0.51,
+        "male": 0.49
+      }
+    },
+    "free_peasants": {
+      "name": "自由农",
+      "description": "拥有较稳定家庭资产的自由农户，粮食、税赋和地方民兵基础。",
+      "initial_population": 24,
+      "productivity": 4,
+      "initial_wealth_per_capita": 9,
+      "tax": 2,
+      "expense": 2,
+      "requirement": 32,
+      "annual_birth_rate": 0.04,
+      "housing_types": [
+        "townhouse"
+      ],
+      "age_distribution": {
+        "child": 0.22,
+        "working": 0.64,
+        "elder": 0.14
+      },
+      "sex_distribution": {
+        "female": 0.5,
+        "male": 0.5
+      }
+    },
+    "artisans": {
+      "name": "工匠",
+      "description": "依赖工坊、工具和市场的专业生产者。",
+      "initial_population": 10,
+      "productivity": 7,
+      "initial_wealth_per_capita": 18,
+      "tax": 3,
+      "expense": 4,
+      "requirement": 45,
+      "annual_birth_rate": 0.032,
+      "housing_types": [
+        "workshop_home"
+      ],
+      "age_distribution": {
+        "child": 0.2,
+        "working": 0.68,
+        "elder": 0.12
+      },
+      "sex_distribution": {
+        "female": 0.49,
+        "male": 0.51
+      }
+    },
+    "merchants": {
+      "name": "商人",
+      "description": "流通商品和服务收入的核心阶层，对治安、住房和财富高度敏感。",
+      "initial_population": 5,
+      "productivity": 9,
+      "initial_wealth_per_capita": 35,
+      "tax": 5,
+      "expense": 6,
+      "requirement": 55,
+      "annual_birth_rate": 0.028,
+      "housing_types": [
+        "shop_home",
+        "workshop_home"
+      ],
+      "age_distribution": {
+        "child": 0.18,
+        "working": 0.7,
+        "elder": 0.12
+      },
+      "sex_distribution": {
+        "female": 0.48,
+        "male": 0.52
+      }
+    },
+    "minor_nobles": {
+      "name": "骑士",
+      "description": "骑士和下级贵族，提供军事骨干与统治支持，但支出较高。",
+      "initial_population": 3,
+      "productivity": 4,
+      "initial_wealth_per_capita": 80,
+      "tax": 4,
+      "expense": 10,
+      "requirement": 65,
+      "annual_birth_rate": 0.025,
+      "housing_types": [
+        "manor"
+      ],
+      "age_distribution": {
+        "child": 0.18,
+        "working": 0.68,
+        "elder": 0.14
+      },
+      "sex_distribution": {
+        "female": 0.49,
+        "male": 0.51
+      }
+    }
+  },
+  "diplomacy": {
+    "维尔德兰": "友善",
+    "铁橡": "友善",
+    "金鳞": "中立",
+    "血鸦": "敌对"
+  },
+  "map": {
+    "default_size": 10,
+    "min_size": 6,
+    "max_size": 24
+  },
+  "map_generation": {
+    "realm": {
+      "default_size": 10,
+      "center_building": { "kind": "castle", "label": "领主堡垒" },
+      "starting_neighbors": [
+        { "dx": 0, "dy": 1, "kind": "homes", "label": "村舍" }
+      ],
+      "allowed_initial_kinds": ["grass", "forest", "castle", "homes"],
+      "forest_patches": [
+        { "anchor": "north_west", "width": 2, "height": 3 }
+      ]
+    },
+    "diplomacy": {
+      "default_size": 10,
+      "allowed_initial_kinds": ["grass", "forest", "hill", "lake", "river", "town", "castle", "village", "slum"],
+      "terrain_patches": [
+        { "kind": "forest", "anchor": "north_west", "width": 2, "height": 3 },
+        { "kind": "hill", "anchor": "north_east", "width": 2, "height": 2 },
+        { "kind": "lake", "anchor": "south_west", "width": 2, "height": 2 },
+        { "kind": "river", "shape": "south_edge" }
+      ],
+      "faction_placement": {
+        "strategy": "perimeter_even",
+        "settlement_cycle": ["village", "castle", "town", "slum"]
+      }
+    }
+  },
+  "map_tile_kinds": {
+    "grass": { "label": "草地", "category": "terrain", "icon": "·", "color": "#7fae5c", "description": "适宜耕作与建设的开阔地。" },
+    "forest": { "label": "森林", "category": "terrain", "icon": "♣", "color": "#3f6b3f", "description": "林木资源丰富，可伐木、狩猎。" },
+    "hill": { "label": "山丘", "category": "terrain", "icon": "▲", "color": "#a08a5c", "description": "地势较高，利于防御与采石。" },
+    "lake": { "label": "湖泊", "category": "terrain", "icon": "≈", "color": "#3b6e9e", "description": "不可建设的水域，提供渔获。" },
+    "river": { "label": "河流", "category": "terrain", "icon": "~", "color": "#4f86b5", "description": "灌溉水源，沿岸利于农业。" },
+    "castle": { "label": "城堡", "category": "settlement", "icon": "♜", "color": "#9a7d3a", "description": "领主或势力的军事政治中心。" },
+    "homes": { "label": "村舍", "category": "structure", "icon": "⌂", "color": "#8fae6c", "description": "" },
+    "farm": { "label": "农田", "category": "structure", "icon": "≋", "color": "#c2b280", "description": "" },
+    "lumberyard": { "label": "伐木场", "category": "structure", "icon": "♧", "color": "#3f6b3f", "description": "" },
+    "quarry": { "label": "采石场", "category": "structure", "icon": "◆", "color": "#a08a5c", "description": "" },
+    "blacksmith": { "label": "铁匠铺", "category": "structure", "icon": "⚒", "color": "#7a7a7a", "description": "" },
+    "hunting_lodge": { "label": "狩猎小屋", "category": "structure", "icon": "🏹", "color": "#3f6b3f", "description": "" },
+    "ranch": { "label": "养殖场", "category": "structure", "icon": "◐", "color": "#8fae6c", "description": "" },
+    "handicraft_workshop": { "label": "手工作坊", "category": "structure", "icon": "✦", "color": "#c9a227", "description": "" },
+    "shop": { "label": "商店", "category": "structure", "icon": "$", "color": "#c9a227", "description": "" },
+    "tavern": { "label": "酒馆", "category": "structure", "icon": "☕", "color": "#c9a227", "description": "" },
+    "monastery": { "label": "修道院", "category": "structure", "icon": "✝", "color": "#9a7d3a", "description": "" },
+    "prison": { "label": "监狱", "category": "structure", "icon": "⛓", "color": "#7a7a7a", "description": "" },
+    "barracks": { "label": "训练场", "category": "structure", "icon": "⚔", "color": "#7a7a7a", "description": "" },
+    "wall": { "label": "城墙", "category": "structure", "icon": "▤", "color": "#7a7a7a", "description": "" },
+    "hut_yard": { "label": "窝棚区", "category": "structure", "icon": "⌢", "color": "#7a6a58", "description": "" },
+    "townhouses": { "label": "镇屋", "category": "structure", "icon": "⌘", "color": "#c9a227", "description": "" },
+    "manor": { "label": "宅邸", "category": "structure", "icon": "⌂", "color": "#9a7d3a", "description": "" }
+  },
+  "diplomacy_tile_kinds": {
+    "grass": { "label": "草地", "category": "terrain", "icon": "·", "color": "#7fae5c", "description": "开阔、低价值但便于通行的边境地带。" },
+    "forest": { "label": "森林", "category": "terrain", "icon": "♣", "color": "#3f6b3f", "description": "可阻隔军队行军，也可能藏匿猎户、盗匪或斥候。" },
+    "hill": { "label": "山丘", "category": "terrain", "icon": "▲", "color": "#a08a5c", "description": "高地会影响行军、视野与防御。" },
+    "lake": { "label": "湖泊", "category": "terrain", "icon": "≈", "color": "#3b6e9e", "description": "大型水域，通常限制通行并影响贸易路线。" },
+    "river": { "label": "河流", "category": "terrain", "icon": "~", "color": "#4f86b5", "description": "天然边界、交通线与补给线。" },
+    "town": { "label": "城镇", "category": "settlement", "icon": "⌘", "color": "#c9a227", "description": "地区级商贸与行政中心，不等同于领地内可直接经营的商店或作坊。" },
+    "castle": { "label": "城堡", "category": "settlement", "icon": "♜", "color": "#9a7d3a", "description": "地区级军事政治据点，不等同于领地经营地图上的领主堡垒建筑。" },
+    "village": { "label": "农村", "category": "settlement", "icon": "⌂", "color": "#8fae6c", "description": "地区级乡村聚落，不等同于领地内的农田建筑。" },
+    "slum": { "label": "流民窝棚", "category": "settlement", "icon": "⌢", "color": "#7a6a58", "description": "大地图上的流民聚集区，不等同于领地内可建造的窝棚区。" }
+  },
+  "factions": {
+    "维尔德兰": { "color": "#5c8f6b", "banner": "🌲", "description": "友善的林地邦联，以贸易和林木资源著称。" },
+    "铁橡": { "color": "#8a6a4a", "banner": "🛡", "description": "友善的山地矿业城邦，长于冶铁与筑城。" },
+    "金鳞": { "color": "#d4af37", "banner": "🐉", "description": "盘踞东境的古老王朝，重商而好和。" },
+    "血鸦": { "color": "#8b1e2f", "banner": "🐦", "description": "以劫掠边境闻名的军阀势力。" }
+  }
+}
