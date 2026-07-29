@@ -19,6 +19,7 @@ DEFAULT_RESOURCES = {key: int(value.get("initial", 0)) for key, value in RESOURC
 TALENTS = CATALOG["talents"]
 BUILDINGS = CATALOG["buildings"]
 UNITS = CATALOG["units"]
+ITEMS = CATALOG.get("items", {})
 STARTING_BUILDINGS = CATALOG.get("starting_buildings", {})
 DIPLOMACY = CATALOG.get("diplomacy", {})
 POPULATION_CLASSES = CATALOG.get("population_classes", {})
@@ -27,10 +28,12 @@ MAP_GENERATION = CATALOG.get("map_generation", {})
 MAP_TILE_KINDS = CATALOG.get("map_tile_kinds", {})
 DIPLOMACY_TILE_KINDS = CATALOG.get("diplomacy_tile_kinds", {})
 FACTIONS = CATALOG.get("factions", {})
+EVENT_TEMPLATES = CATALOG.get("event_templates", {})
 
 TALENTS_BY_NAME = {talent["name"]: {"id": key, **talent} for key, talent in TALENTS.items()}
 BUILDINGS_BY_NAME = {building["name"]: {"id": key, **building} for key, building in BUILDINGS.items()}
 UNITS_BY_NAME = {unit["name"]: {"id": key, **unit} for key, unit in UNITS.items()}
+ITEMS_BY_NAME = {item["name"]: {"id": key, **item} for key, item in ITEMS.items()}
 
 
 def resource_limits(key: str) -> tuple[int, int | None]:

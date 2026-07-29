@@ -12,3 +12,4 @@ __pycache__/
 .DS_Store
 backend/.lord-tail-save.json
 backend/.venv/
+.lord-tail-hermes-gateway.log

@@ -80,6 +80,28 @@ def test_faction_detail_scans_diplomacy_map_not_realm_map(client):
 
     assert detail["owned_tile_count"] == len(expected)
     assert detail["owned_tiles"] == expected
+    assert "state" in detail
+    assert {"resources", "army", "army_status", "buildings", "workforce", "laws"}.issubset(detail["state"])
+    assert "gold" in detail["state"]["resources"]
+    assert "food" in detail["state"]["resources"]
+    assert "infantry" in detail["state"]["army"]
+
+
+def test_faction_states_include_player_and_foreign_operational_ledgers(client):
+    state = start_game(client)
+
+    assert "北境" in state["faction_states"]
+    assert state["faction_states"]["北境"]["is_player"] is True
+    assert state["faction_states"]["北境"]["resources"]["gold"] == state["resources"]["gold"]
+    assert state["faction_states"]["北境"]["army"] == state["army"]
+
+    foreign = next(faction for faction in state["diplomacy"] if faction != "北境")
+    ledger = state["faction_states"][foreign]
+    assert ledger["is_player"] is False
+    assert ledger["resources"]["gold"] > 0
+    assert ledger["resources"]["food"] > 0
+    assert set(ledger["army"]) >= {"infantry", "archers", "cavalry"}
+    assert ledger["territory"]["owned_tile_count"] == len([tile for tile in state["diplomacy_map"] if tile.get("owner") == foreign])
 
 
 def test_normalize_removes_foreign_estates_from_realm_map():

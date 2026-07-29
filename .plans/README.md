@@ -28,6 +28,9 @@
 | [013_description_cache_invalidation.md](./013_description_cache_invalidation.md) | 建立描述缓存与过期策略：短期复用，长期/季节/当前格和周围 8 格变化时标记 stale，并向 Hermes 传邻域上下文 | P0 |
 | [014_population_analysis_ui.md](./014_population_analysis_ui.md) | 新增只读居民分析页面，展示阶级人口、男女性别、年龄结构、孕妇月龄、生产力、税金、支出、住房和阶级经济 | P1 |
 | [015_map_generation.md](./015_map_generation.md) | 自动生成领地地图与外交地图：领主堡垒居中，山丘/湖泊/河流只出现在外交地图，并隔离势力地产与经营建筑 | P1 |
+| [016_history_memory_system.md](./016_history_memory_system.md) | 新增历史系统：书记官记录重要事情为结构化领地记忆，供前端编年史与 Hermes 上下文使用 | P0 |
+| [017_scheduled_event_system.md](./017_scheduled_event_system.md) | 新增长期/计划事件系统：管理商队季末到访、敌军几回合后抵达、取消/改期/持续事件与事件面板 | P0 |
+| [018_character_component_system.md](./018_character_component_system.md) | 把人物账册重构为 kind + components + factory/registry 的可扩展 NPC 系统 | P1 |
 
 ## 通用约定
 

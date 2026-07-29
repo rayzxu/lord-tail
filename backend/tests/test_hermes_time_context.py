@@ -22,6 +22,7 @@ def test_scene_step_context_mentions_no_default_strategic_advance_and_time_api(c
 
     assert payload["metadata"]["mode"] == "scene_step"
     assert "默认不推进 9 天战略回合" in payload["instructions"]
+    assert "/api/state/time/advance" in payload["instructions"]
     assert "/api/game/scenes/current/advance-time" in payload["instructions"]
     assert "/api/game/scenes/current/end" in payload["instructions"]
 

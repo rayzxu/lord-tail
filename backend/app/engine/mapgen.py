@@ -3,7 +3,7 @@ from __future__ import annotations
 from copy import deepcopy
 from typing import Any
 
-from ..catalog import BUILDINGS, FACTIONS, MAP_GENERATION
+from ..catalog import BUILDINGS, DIPLOMACY_TILE_KINDS, FACTIONS, MAP_GENERATION, MAP_TILE_KINDS
 
 REALM_FORBIDDEN_KINDS = {"town", "village", "slum", "hill", "lake", "river"}
 DIPLOMACY_SETTLEMENT_LABELS = {"village": "农村", "castle": "城堡", "town": "城镇", "slum": "流民窝棚"}
@@ -102,7 +102,40 @@ def generate_realm_map(size: int, seed: str | None = None) -> list[dict[str, Any
     return sanitize_realm_map(tiles)
 
 
-def generate_diplomacy_map(size: int, factions: dict[str, Any] | None = None, seed: str | None = None) -> list[dict[str, Any]]:
+def player_faction_static(realm_name: str) -> dict[str, Any]:
+    return {
+        "color": "#b88a50",
+        "banner": "♜",
+        "description": f"{realm_name}，玩家直接统治的领地势力。",
+        "is_player": True,
+    }
+
+
+def player_faction_name(realm_name: Any) -> str:
+    name = str(realm_name or "").strip()
+    return name or "玩家"
+
+
+def ensure_player_faction(factions: dict[str, Any], realm_name: Any) -> str:
+    name = player_faction_name(realm_name)
+    base = factions.setdefault(name, player_faction_static(name))
+    if isinstance(base, dict):
+        defaults = player_faction_static(name)
+        for key, value in defaults.items():
+            base.setdefault(key, value)
+        base["is_player"] = True
+    return name
+
+
+def ensure_player_diplomacy_position(tiles: list[dict[str, Any]], size: int, realm_name: Any) -> list[dict[str, Any]]:
+    player = player_faction_name(realm_name)
+    center = max(1, (size + 1) // 2)
+    by_coord = _by_coord(tiles)
+    _set_tile(by_coord, size, center, center, "castle", f"{player}城堡", owner=player)
+    return tiles
+
+
+def generate_diplomacy_map(size: int, factions: dict[str, Any] | None = None, seed: str | None = None, player_faction: str | None = None) -> list[dict[str, Any]]:
     del seed
     config = MAP_GENERATION.get("diplomacy", {})
     tiles = _base_tiles(size)
@@ -118,7 +151,7 @@ def generate_diplomacy_map(size: int, factions: dict[str, Any] | None = None, se
             continue
         _apply_rect_patch(by_coord, size, patch, terrain_labels.get(kind, kind))
 
-    faction_items = list((factions or FACTIONS).keys())
+    faction_items = [item for item in (factions or FACTIONS).keys() if item != player_faction]
     perimeter = _perimeter_ring(size)
     placement = config.get("faction_placement", {})
     cycle = list(placement.get("settlement_cycle", ["village", "castle", "town", "slum"]))
@@ -129,6 +162,8 @@ def generate_diplomacy_map(size: int, factions: dict[str, Any] | None = None, se
         label = DIPLOMACY_SETTLEMENT_LABELS.get(kind, kind)
         _set_tile(by_coord, size, x, y, kind, f"{faction}{label}", owner=faction)
 
+    if player_faction:
+        ensure_player_diplomacy_position(tiles, size, player_faction)
     return tiles
 
 
@@ -146,11 +181,29 @@ def sanitize_realm_map(tiles: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return sanitized
 
 
-def validate_generated_maps(realm_map: list[dict[str, Any]], diplomacy_map: list[dict[str, Any]], size: int) -> None:
+def validate_generated_maps(
+    realm_map: list[dict[str, Any]],
+    diplomacy_map: list[dict[str, Any]],
+    size: int,
+    known_factions: dict[str, Any] | None = None,
+) -> None:
     if len(realm_map) != size * size:
         raise ValueError("领地地图尺寸不正确")
     if len(diplomacy_map) != size * size:
         raise ValueError("外交地图尺寸不正确")
+    expected_coords = {(x, y) for y in range(1, size + 1) for x in range(1, size + 1)}
+    realm_coords = {(int(tile.get("x", 0)), int(tile.get("y", 0))) for tile in realm_map}
+    diplomacy_coords = {(int(tile.get("x", 0)), int(tile.get("y", 0))) for tile in diplomacy_map}
+    if realm_coords != expected_coords:
+        raise ValueError("领地地图坐标不完整或超出范围")
+    if diplomacy_coords != expected_coords:
+        raise ValueError("外交地图坐标不完整或超出范围")
+    unknown_realm_kinds = {str(tile.get("kind")) for tile in realm_map} - set(MAP_TILE_KINDS.keys())
+    if unknown_realm_kinds:
+        raise ValueError(f"领地地图存在未知地块类型: {sorted(unknown_realm_kinds)}")
+    unknown_diplomacy_kinds = {str(tile.get("kind")) for tile in diplomacy_map} - set(DIPLOMACY_TILE_KINDS.keys())
+    if unknown_diplomacy_kinds:
+        raise ValueError(f"外交地图存在未知地块类型: {sorted(unknown_diplomacy_kinds)}")
     center = max(1, (size + 1) // 2)
     center_tile = next((tile for tile in realm_map if tile.get("x") == center and tile.get("y") == center), None)
     if not center_tile or center_tile.get("kind") != "castle" or center_tile.get("label") != "领主堡垒":
@@ -163,3 +216,7 @@ def validate_generated_maps(realm_map: list[dict[str, Any]], diplomacy_map: list
     diplomacy_economy_kinds = {tile.get("kind") for tile in diplomacy_map} & DIPLOMACY_ECONOMY_BUILDING_KINDS
     if diplomacy_economy_kinds:
         raise ValueError(f"外交地图不得出现领地经营建筑地块: {sorted(diplomacy_economy_kinds)}")
+    known = set((known_factions or FACTIONS).keys())
+    unknown_owners = {str(tile.get("owner")) for tile in diplomacy_map if tile.get("owner") and tile.get("owner") not in known}
+    if unknown_owners:
+        raise ValueError(f"外交地图存在未知势力归属: {sorted(unknown_owners)}")

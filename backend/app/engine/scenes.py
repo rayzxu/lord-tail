@@ -5,7 +5,7 @@ from typing import Any
 from fastapi import HTTPException
 
 
-VALID_SCENE_TYPES = {"dialogue", "caravan", "diplomacy", "battle", "court", "lord_event", "daily"}
+VALID_SCENE_TYPES = {"dialogue", "caravan", "diplomacy", "battle", "court", "lord_event", "daily", "sexual"}
 
 
 def normalize_scene_state(state: dict[str, Any]) -> None:

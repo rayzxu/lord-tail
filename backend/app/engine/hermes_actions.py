@@ -33,7 +33,7 @@ def apply_hermes_action(state: dict[str, Any], action: dict[str, Any], allow_mut
     action_type = str(action.get("type", ""))
     payload = action.get("payload", {})
     if not isinstance(payload, dict):
-        raise HTTPException(422, "Hermes action payload 必须是对象")
+        raise HTTPException(422, "书记官差事内容必须是对象")
 
     if action_type == "turn_event":
         event = _normalize_turn_event(payload)
@@ -68,7 +68,7 @@ def apply_hermes_actions(state: dict[str, Any], actions: list[Any], allow_mutati
 def action_event(result: dict[str, Any], run_id: str | None = None, hermes_run_id: str | None = None) -> dict[str, Any]:
     status = result.get("status")
     event_name = "state.action_applied" if status == "applied" else "state.action_rejected"
-    message = f"Hermes action 已应用：{result.get('type')}" if status == "applied" else f"Hermes action 被拒绝：{result.get('type')}"
+    message = f"差事已记入账册：{result.get('type')}" if status == "applied" else f"差事被账册驳回：{result.get('type')}"
     event = {
         "event": event_name,
         "message": message,
@@ -80,4 +80,3 @@ def action_event(result: dict[str, Any], run_id: str | None = None, hermes_run_i
     if hermes_run_id:
         event["hermes_run_id"] = hermes_run_id
     return event
-

@@ -26,7 +26,12 @@ SAFE_LORD_TAIL_APPROVAL_PATHS = {
     "/api/agent/describe-context",
     "/api/agent/events",
     "/api/state",
+    "/api/characters",
+    "/api/items",
+    "/api/lord/components",
     "/api/time",
+    "/api/state/time/advance",
+    "/api/hermes/time/advance",
     "/api/game/strategic-turn",
     "/api/game/scenes",
     "/api/game/scenes/current/step",
@@ -39,8 +44,25 @@ SAFE_LORD_TAIL_APPROVAL_PATHS = {
     "/api/state/diplomacy",
     "/api/state/buildings",
     "/api/state/battles/resolve",
+    "/api/state/characters",
+    "/api/state/lord/items",
+    "/api/state/lord/components/body_profile",
+    "/api/state/lord/components/attributes",
+    "/api/state/lord/equipment/equip",
+    "/api/state/lord/equipment/unequip",
+    "/api/hermes/characters",
+    "/api/hermes/items",
+    "/api/hermes/lord/components",
+    "/api/hermes/lord/items",
+    "/api/hermes/lord/equipment/equip",
+    "/api/hermes/lord/equipment/unequip",
     "/api/hermes/battles/resolve",
 }
+SAFE_LORD_TAIL_APPROVAL_PATH_PREFIXES = (
+    "/api/characters/",
+    "/api/state/characters/",
+    "/api/hermes/characters/",
+)
 
 UNSAFE_SHELL_MARKERS = (";", "&&", "||", "|", "`", "$(", ">", "<")
 CURL_FLAGS_WITH_VALUES = {"-X", "--request", "-H", "--header", "-d", "--data", "--data-raw", "--data-binary"}
@@ -79,6 +101,22 @@ def _run_public(run: dict[str, Any]) -> dict[str, Any]:
         "final_text": run.get("final_text", ""),
         "last_event": run.get("events", [])[-1] if run.get("events") else None,
     }
+
+
+def _hermes_http_error_detail(action: str, error: httpx.HTTPError) -> str:
+    base_url = hermes_runs.runs_base_url() or "未配置"
+    if isinstance(error, httpx.ConnectError):
+        return f"{action}失败：无法连接书记官传信服务 {base_url}，请确认 Hermes gateway 已启动且端口配置正确。原始错误：{error}"
+    if isinstance(error, httpx.TimeoutException):
+        return f"{action}失败：连接书记官传信服务 {base_url} 超时。原始错误：{error}"
+    if isinstance(error, httpx.HTTPStatusError):
+        response = error.response
+        body = response.text.strip().replace("\n", " ")
+        if len(body) > 500:
+            body = body[:500] + "..."
+        suffix = f"，响应：{body}" if body else ""
+        return f"{action}失败：书记官传信服务 {base_url} 返回 HTTP {response.status_code}{suffix}"
+    return f"{action}失败：{error}"
 
 
 def _extract_actions(event: dict[str, Any]) -> list[Any]:
@@ -131,7 +169,7 @@ def _is_safe_lord_tail_api_url(raw_url: str) -> bool:
     if parsed.port != 8000:
         return False
     normalized_path = str(PurePosixPath(parsed.path))
-    return normalized_path in SAFE_LORD_TAIL_APPROVAL_PATHS
+    return normalized_path in SAFE_LORD_TAIL_APPROVAL_PATHS or normalized_path.startswith(SAFE_LORD_TAIL_APPROVAL_PATH_PREFIXES)
 
 
 def _is_safe_lord_tail_api_command(command: Any) -> bool:
@@ -184,7 +222,7 @@ def _is_safe_lord_tail_api_command(command: Any) -> bool:
             continue
         if token.startswith("--request="):
             method = token.split("=", 1)[1].upper()
-            if method not in {"GET", "POST"}:
+            if method not in {"GET", "POST", "PATCH"}:
                 return False
             index += 1
             continue
@@ -194,7 +232,7 @@ def _is_safe_lord_tail_api_command(command: Any) -> bool:
         if token in CURL_FLAGS_WITH_VALUES:
             if index + 1 >= len(tokens):
                 return False
-            if token in {"-X", "--request"} and tokens[index + 1].upper() not in {"GET", "POST"}:
+            if token in {"-X", "--request"} and tokens[index + 1].upper() not in {"GET", "POST", "PATCH"}:
                 return False
             index += 2
             continue
@@ -215,17 +253,17 @@ async def _auto_respond_approval_if_needed(local_run: dict[str, Any], event: dic
     command = event.get("command") or event.get("preview")
     if policy == "auto-deny":
         choice = "deny"
-        message = "审批请求已按当前策略自动拒绝。"
+        message = "令状已按当前策略自动驳回。"
     elif policy == "auto-approve":
         choice = "once"
-        message = "审批请求已按当前策略自动批准一次。"
+        message = "令状已按当前策略准行一次。"
     elif policy == "auto-safe-local":
         if _is_safe_lord_tail_api_command(command):
             choice = "once"
-            message = "Lord Tail 本地白名单 API 调用已自动批准一次。"
+            message = "领地账册内的安全差事已准行一次。"
         else:
             choice = "deny"
-            message = "审批请求不属于 Lord Tail 本地白名单 API，已自动拒绝。"
+            message = "令状不在领地账册准许范围内，已自动驳回。"
     else:
         return None
 
@@ -247,18 +285,18 @@ async def _auto_respond_approval_if_needed(local_run: dict[str, Any], event: dic
 async def create_agent_run(request: AgentRunRequest) -> dict[str, Any]:
     state = require_state()
     if hermes_runs.runs_base_url() is None:
-        raise HTTPException(503, "Hermes runs 未配置：请设置 HERMES_RUNS_BASE_URL")
+        raise HTTPException(503, "书记官传信未配置：请在后端环境变量中设置传信地址")
     payload = build_run_payload(request.mode, request.input, state, request.client_context)
     try:
         hermes_run = await hermes_runs.create_run(payload)
     except httpx.HTTPError as error:
-        raise HTTPException(502, f"Hermes runs 创建失败：{error}") from error
+        raise HTTPException(502, _hermes_http_error_detail("书记官传信创建", error)) from error
     except RuntimeError as error:
         raise HTTPException(503, str(error)) from error
 
     hermes_run_id = str(hermes_run.get("run_id") or hermes_run.get("id") or "")
     if not hermes_run_id:
-        raise HTTPException(502, "Hermes runs 返回缺少 run_id")
+        raise HTTPException(502, "书记官传信返回缺少文书编号")
     local_run = run_store.create_run(
         mode=request.mode,
         input_text=request.input,
@@ -269,7 +307,7 @@ async def create_agent_run(request: AgentRunRequest) -> dict[str, Any]:
         "event": "run.started",
         "hermes_run_id": hermes_run_id,
         "status": hermes_run.get("status", "started"),
-        "message": "Hermes run 已创建。",
+        "message": "书记官已经开卷。",
     })
     return {
         "run_id": local_run["run_id"],
@@ -284,7 +322,7 @@ async def agent_run_status(run_id: str) -> dict[str, Any]:
     try:
         return _run_public(run_store.require_run(run_id))
     except KeyError as error:
-        raise HTTPException(404, "未找到 agent run") from error
+        raise HTTPException(404, "未找到书记官文书") from error
 
 
 @router.get("/agent/runs/{run_id}/events")
@@ -292,7 +330,7 @@ async def agent_run_events(run_id: str, since_seq: int = Query(default=0, ge=0))
     try:
         local_run = run_store.require_run(run_id)
     except KeyError as error:
-        raise HTTPException(404, "未找到 agent run") from error
+        raise HTTPException(404, "未找到书记官文书") from error
 
     async def generate() -> AsyncIterator[str]:
         for event in run_store.events_after(run_id, since_seq):
@@ -304,7 +342,7 @@ async def agent_run_events(run_id: str, since_seq: int = Query(default=0, ge=0))
 
         hermes_run_id = latest.get("hermes_run_id")
         if not hermes_run_id:
-            failed = run_store.append_event(run_id, {"event": "run.failed", "error": "缺少 Hermes run id"})
+            failed = run_store.append_event(run_id, {"event": "run.failed", "error": "缺少书记官文书编号"})
             yield _sse(failed)
             return
 
@@ -336,16 +374,16 @@ async def agent_run_approval(run_id: str, request: ApprovalRequest) -> dict[str,
     try:
         local_run = run_store.require_run(run_id)
     except KeyError as error:
-        raise HTTPException(404, "未找到 agent run") from error
+        raise HTTPException(404, "未找到书记官文书") from error
     hermes_run_id = local_run.get("hermes_run_id")
     if not hermes_run_id:
-        raise HTTPException(409, "该 run 没有关联 Hermes run")
+        raise HTTPException(409, "该文书没有关联书记官传信")
     response = await hermes_runs.send_approval(hermes_run_id, request.choice)
     event = run_store.append_event(run_id, {
         "event": "approval.responded",
         "choice": request.choice,
         "resolved": 1,
-        "message": "审批响应已提交。",
+        "message": "令状批复已提交。",
     })
     return {"status": "ok", "hermes": response, "event": event}
 
@@ -355,10 +393,10 @@ async def agent_run_clarify(run_id: str, request: ClarifyRequest) -> dict[str, A
     try:
         local_run = run_store.require_run(run_id)
     except KeyError as error:
-        raise HTTPException(404, "未找到 agent run") from error
+        raise HTTPException(404, "未找到书记官文书") from error
     hermes_run_id = local_run.get("hermes_run_id")
     if not hermes_run_id:
-        raise HTTPException(409, "该 run 没有关联 Hermes run")
+        raise HTTPException(409, "该文书没有关联书记官传信")
     response = await hermes_runs.send_clarify(hermes_run_id, request.response)
     event = run_store.append_event(run_id, {
         "event": "clarify.responded",
@@ -373,10 +411,10 @@ async def agent_run_cancel(run_id: str) -> dict[str, Any]:
     try:
         local_run = run_store.require_run(run_id)
     except KeyError as error:
-        raise HTTPException(404, "未找到 agent run") from error
+        raise HTTPException(404, "未找到书记官文书") from error
     hermes_run_id = local_run.get("hermes_run_id")
     hermes_response: dict[str, Any] = {}
     if hermes_run_id:
         hermes_response = await hermes_runs.cancel_run(hermes_run_id)
-    event = run_store.append_event(run_id, {"event": "run.cancelled", "message": "Agent run 已取消。"})
+    event = run_store.append_event(run_id, {"event": "run.cancelled", "message": "书记官已经停笔。"})
     return {"status": "cancelled", "hermes": hermes_response, "event": event}

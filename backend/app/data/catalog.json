@@ -498,6 +498,65 @@
         "grass"
       ]
     },
+    "punishment_pillory": {
+      "name": "露天刑架/羞辱柱",
+      "description": "架在市集边缘的惩戒设施，用公开恐惧维护秩序与领主权威，但会持续伤害民心。",
+      "tile_kind": "punishment_pillory",
+      "cost": {
+        "gold": 45,
+        "wood": 20,
+        "stone": 5
+      },
+      "construction_turns": 1,
+      "workforce": 4,
+      "production": {
+        "authority": 1,
+        "security": 2
+      },
+      "maintenance": {
+        "gold": 1
+      },
+      "morale_effect": -3,
+      "security_effect": 2,
+      "employment": {
+        "free_peasants": 1
+      },
+      "requires": [
+        "grass"
+      ]
+    },
+    "brothel_tavern": {
+      "name": "妓院/酒馆",
+      "description": "供旅人、兵痞与商队挥霍的夜场建筑，带来服务收入和短期民心，但会恶化治安。",
+      "tile_kind": "brothel_tavern",
+      "cost": {
+        "gold": 100,
+        "wood": 35,
+        "stone": 5
+      },
+      "construction_turns": 2,
+      "workforce": 6,
+      "consumption": {
+        "food": 6,
+        "meat": 2
+      },
+      "production": {
+        "service_income": 20,
+        "gold": 12
+      },
+      "maintenance": {
+        "gold": 3
+      },
+      "morale_effect": 2,
+      "security_effect": -2,
+      "employment": {
+        "free_peasants": 5,
+        "merchants": 2
+      },
+      "requires": [
+        "grass"
+      ]
+    },
     "monastery": {
       "name": "修道院",
       "description": "提供虔信、文书秩序和少量民心。",
@@ -548,6 +607,68 @@
       "security_effect": 4,
       "employment": {
         "free_peasants": 4
+      },
+      "requires": [
+        "grass"
+      ]
+    },
+    "public_breeding_house": {
+      "name": "公共繁育所",
+      "description": "由领主命令设立的强制人口机构，以粗暴方式追求人口增长；会增加人口流入和出生压力，但严重损害民心。",
+      "tile_kind": "public_breeding_house",
+      "cost": {
+        "gold": 140,
+        "wood": 45,
+        "stone": 20
+      },
+      "construction_turns": 3,
+      "workforce": 8,
+      "consumption": {
+        "food": 10
+      },
+      "production": {
+        "population": 1,
+        "authority": 1
+      },
+      "maintenance": {
+        "gold": 5,
+        "food": 8
+      },
+      "morale_effect": -5,
+      "security_effect": -1,
+      "employment": {
+        "free_peasants": 4,
+        "serfs": 4
+      },
+      "requires": [
+        "grass"
+      ]
+    },
+    "lord_dungeon": {
+      "name": "领主专属地牢/调教室",
+      "description": "埋在堡垒阴影下的私刑密室，用来审讯、拘押和震慑不服者；强化权威与治安，但让领民更加恐惧。",
+      "tile_kind": "lord_dungeon",
+      "cost": {
+        "gold": 160,
+        "stone": 80,
+        "wood": 20,
+        "iron": 10
+      },
+      "construction_turns": 3,
+      "workforce": 10,
+      "production": {
+        "authority": 2,
+        "security": 4
+      },
+      "maintenance": {
+        "gold": 5,
+        "food": 2
+      },
+      "morale_effect": -4,
+      "security_effect": 3,
+      "employment": {
+        "free_peasants": 3,
+        "serfs": 2
       },
       "requires": [
         "grass"
@@ -936,8 +1057,12 @@
     "handicraft_workshop": { "label": "手工作坊", "category": "structure", "icon": "✦", "color": "#c9a227", "description": "" },
     "shop": { "label": "商店", "category": "structure", "icon": "$", "color": "#c9a227", "description": "" },
     "tavern": { "label": "酒馆", "category": "structure", "icon": "☕", "color": "#c9a227", "description": "" },
+    "punishment_pillory": { "label": "露天刑架/羞辱柱", "category": "structure", "icon": "🩸", "color": "#8b1e2f", "description": "公开惩戒设施，强化秩序与权威，但持续伤害民心。" },
+    "brothel_tavern": { "label": "妓院/酒馆", "category": "structure", "icon": "🎪", "color": "#b85c7a", "description": "夜场与服务建筑，带来财富和短期民心，同时恶化治安。" },
     "monastery": { "label": "修道院", "category": "structure", "icon": "✝", "color": "#9a7d3a", "description": "" },
     "prison": { "label": "监狱", "category": "structure", "icon": "⛓", "color": "#7a7a7a", "description": "" },
+    "public_breeding_house": { "label": "公共繁育所", "category": "structure", "icon": "🛏️", "color": "#8b5f78", "description": "强制人口机构，增加人口压力，但严重损害民心。" },
+    "lord_dungeon": { "label": "领主专属地牢/调教室", "category": "structure", "icon": "⛓️", "color": "#5f5450", "description": "领主私刑与审讯设施，强化权威与治安，但制造恐惧。" },
     "barracks": { "label": "训练场", "category": "structure", "icon": "⚔", "color": "#7a7a7a", "description": "" },
     "wall": { "label": "城墙", "category": "structure", "icon": "▤", "color": "#7a7a7a", "description": "" },
     "hut_yard": { "label": "窝棚区", "category": "structure", "icon": "⌢", "color": "#7a6a58", "description": "" },
@@ -954,6 +1079,231 @@
     "castle": { "label": "城堡", "category": "settlement", "icon": "♜", "color": "#9a7d3a", "description": "地区级军事政治据点，不等同于领地经营地图上的领主堡垒建筑。" },
     "village": { "label": "农村", "category": "settlement", "icon": "⌂", "color": "#8fae6c", "description": "地区级乡村聚落，不等同于领地内的农田建筑。" },
     "slum": { "label": "流民窝棚", "category": "settlement", "icon": "⌢", "color": "#7a6a58", "description": "大地图上的流民聚集区，不等同于领地内可建造的窝棚区。" }
+  },
+  "items": {
+    "rusty_sword": {
+      "name": "锈蚀长剑",
+      "type": "weapon",
+      "allowed_slots": ["left_hand", "right_hand"],
+      "occupied_slots": [],
+      "armor": 0,
+      "damage": 4,
+      "weight": 1.4,
+      "durability": 35,
+      "warmth": 0,
+      "value": 18,
+      "description": "旧军械库里翻出的长剑，刃口残缺，但仍能让持有者在近身冲突中更有威胁。",
+      "effects": {
+        "character_attributes": { "STR": 1 }
+      }
+    },
+    "wooden_shield": {
+      "name": "包铁木盾",
+      "type": "shield",
+      "allowed_slots": ["left_hand", "right_hand"],
+      "occupied_slots": [],
+      "armor": 2,
+      "damage": 1,
+      "weight": 2.8,
+      "durability": 45,
+      "warmth": 0,
+      "value": 22,
+      "description": "木板外包薄铁的普通盾牌，适合步卒和护卫抵挡箭矢与刀斧。",
+      "effects": {
+        "character_attributes": { "DEX": -1, "CON": 1 }
+      }
+    },
+    "greatsword": {
+      "name": "双手巨剑",
+      "type": "weapon",
+      "allowed_slots": ["left_hand", "right_hand"],
+      "occupied_slots": ["left_hand", "right_hand"],
+      "armor": 0,
+      "damage": 8,
+      "weight": 3.6,
+      "durability": 60,
+      "warmth": 0,
+      "value": 80,
+      "description": "需要双手握持的沉重长刃，破甲能力强，但会限制其他手持装备。",
+      "effects": {
+        "character_attributes": { "STR": 2, "DEX": -1 }
+      }
+    },
+    "heavy_chainmail": {
+      "name": "沉重旧链甲",
+      "type": "armor",
+      "allowed_slots": ["torso"],
+      "occupied_slots": ["torso"],
+      "armor": 5,
+      "damage": 0,
+      "weight": 11.5,
+      "durability": 70,
+      "warmth": 1,
+      "value": 95,
+      "description": "铁环磨得发黑的旧链甲，能让穿戴者更耐打，但行动笨重。",
+      "effects": {
+        "character_attributes": { "CON": 2, "DEX": -1 }
+      }
+    },
+    "hunter_cloak": {
+      "name": "猎人斗篷",
+      "type": "cloak",
+      "allowed_slots": ["back"],
+      "occupied_slots": ["back"],
+      "armor": 0,
+      "damage": 0,
+      "weight": 1.2,
+      "durability": 30,
+      "warmth": 2,
+      "value": 16,
+      "description": "带有泥土和烟草气味的厚斗篷，适合潜行、巡查和观察荒野。",
+      "effects": {
+        "character_attributes": { "DEX": 1, "WIS": 1 }
+      }
+    },
+    "steward_ring": {
+      "name": "书记官银戒",
+      "type": "jewelry",
+      "allowed_slots": ["accessory_1", "accessory_2"],
+      "occupied_slots": [],
+      "armor": 0,
+      "damage": 0,
+      "weight": 0.1,
+      "durability": 20,
+      "warmth": 0,
+      "value": 40,
+      "description": "刻有账册纹章的银戒，象征领主授予的文书权威。",
+      "effects": {
+        "character_attributes": { "INT": 1, "CHA": 1 }
+      }
+    },
+    "grain_tithe_seal": {
+      "name": "粮税印玺",
+      "type": "relic",
+      "allowed_slots": ["accessory_1", "accessory_2", "waist"],
+      "occupied_slots": [],
+      "armor": 0,
+      "damage": 0,
+      "weight": 0.4,
+      "durability": 35,
+      "warmth": 0,
+      "value": 65,
+      "description": "用于签押粮税命令的铜印玺。佩戴者能更容易推行征收命令，并改善粮仓调度。",
+      "effects": {
+        "character_attributes": { "CHA": 1 },
+        "realm_resources": { "authority": 5, "food": 20 }
+      }
+    },
+    "nipple_chain": {
+      "name": "乳链",
+      "type": "private_accessory",
+      "allowed_slots": ["nipple_chain"],
+      "occupied_slots": ["nipple_chain"],
+      "armor": 0,
+      "damage": 0,
+      "weight": 0.2,
+      "durability": 18,
+      "warmth": 0,
+      "value": 28,
+      "description": "仅用于成年角色的私密部位饰品，可与对应穿环形成依赖关系。",
+      "requirements": {
+        "left_nipple": { "tag": "nipple_ring" },
+        "right_nipple": { "tag": "nipple_ring" }
+      },
+      "effects": {
+        "character_attributes": { "CHA": 1 }
+      }
+    },
+    "nipple_ring": {
+      "name": "乳环",
+      "type": "private_accessory",
+      "allowed_slots": ["left_nipple", "right_nipple"],
+      "occupied_slots": [],
+      "tags": ["nipple_ring"],
+      "armor": 0,
+      "damage": 0,
+      "weight": 0.05,
+      "durability": 20,
+      "warmth": 0,
+      "value": 12,
+      "description": "仅用于成年角色的私密部位穿环，可作为乳链依赖。",
+      "effects": {}
+    },
+    "female_chastity_belt": {
+      "name": "女性贞操带",
+      "type": "private_restraint",
+      "allowed_slots": ["waist"],
+      "occupied_slots": ["waist", "vagina"],
+      "armor": 1,
+      "damage": 0,
+      "weight": 1.8,
+      "durability": 55,
+      "warmth": 0,
+      "value": 70,
+      "description": "仅用于成年角色的多部位约束装备，占据腰部和对应身体槽位。",
+      "effects": {
+        "character_attributes": { "DEX": -1 }
+      }
+    },
+    "male_chastity_device": {
+      "name": "男性贞操装置",
+      "type": "private_restraint",
+      "allowed_slots": ["penis"],
+      "occupied_slots": ["penis"],
+      "armor": 0,
+      "damage": 0,
+      "weight": 0.6,
+      "durability": 45,
+      "warmth": 0,
+      "value": 55,
+      "description": "仅用于成年角色的单部位约束装备。",
+      "effects": {
+        "character_attributes": { "DEX": -1 }
+      }
+    }
+  },
+  "event_templates": {
+    "caravan_arrival": {
+      "label": "商队到访",
+      "default_importance": 3,
+      "default_visibility": "player",
+      "default_scene_type": "caravan",
+      "default_due_clock_24": "16:00",
+      "turn_event_kind": "caravan_arrived",
+      "default_repeat": { "kind": "seasonly", "interval": 1 },
+      "tags": ["caravan", "economy", "diplomacy"],
+      "prompt_hint": "商队抵达领地边界，等待领主许可入城。"
+    },
+    "enemy_arrival": {
+      "label": "敌军抵达",
+      "default_importance": 5,
+      "default_visibility": "player",
+      "default_scene_type": "battle",
+      "default_due_clock_24": "08:00",
+      "turn_event_kind": "enemy_arrived",
+      "tags": ["war", "military"],
+      "prompt_hint": "敌军旗帜出现在远处道路上。"
+    },
+    "diplomatic_response": {
+      "label": "外交回信",
+      "default_importance": 3,
+      "default_visibility": "player",
+      "default_scene_type": "diplomacy",
+      "default_due_clock_24": "10:00",
+      "turn_event_kind": "diplomatic_response_arrived",
+      "tags": ["diplomacy"],
+      "prompt_hint": "使者带着回信抵达领主厅。"
+    },
+    "disaster_wave": {
+      "label": "灾害后续",
+      "default_importance": 4,
+      "default_visibility": "player",
+      "default_scene_type": "daily",
+      "default_due_clock_24": "06:00",
+      "turn_event_kind": "disaster_wave_due",
+      "tags": ["disaster", "daily"],
+      "prompt_hint": "灾害的后续影响开始显现。"
+    }
   },
   "factions": {
     "维尔德兰": { "color": "#5c8f6b", "banner": "🌲", "description": "友善的林地邦联，以贸易和林木资源著称。" },

@@ -147,7 +147,7 @@ def apply_structured_action(state: dict[str, Any], action: dict[str, Any]) -> di
     action_type = str(action.get("type", ""))
     payload = action.get("payload", {})
     if not isinstance(payload, dict):
-        raise HTTPException(422, "Hermes action payload 必须是对象")
+        raise HTTPException(422, "书记官差事内容必须是对象")
 
     if action_type == "resources":
         for resource, value in payload.get("values", {}).items():
@@ -213,4 +213,4 @@ def apply_structured_action(state: dict[str, Any], action: dict[str, Any]) -> di
         demographics.recalculate_housing(state)
         return {"type": action_type, "status": "applied", "building": name}
 
-    raise HTTPException(422, f"未知 Hermes action type：{action_type}")
+    raise HTTPException(422, f"未知书记官差事类型：{action_type}")

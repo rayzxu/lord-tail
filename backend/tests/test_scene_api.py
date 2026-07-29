@@ -29,6 +29,26 @@ def test_scene_start_step_and_end_do_not_advance_turn(client):
     assert state["turn"] == 1
 
 
+def test_sexual_scene_type_is_allowed_and_preserves_flags(client):
+    start_game(client)
+
+    response = client.post("/api/game/scenes", json={
+        "type": "sexual",
+        "title": "领主与艾琳的成人场景",
+        "participants": [
+            {"type": "lord", "name": "Ray"},
+            {"type": "character", "id": "char_1", "name": "艾琳", "age": 24},
+        ],
+        "flags": {"adult_scene": True, "sexual_scene": True, "requires_adult_participants": True, "character_id": "char_1"},
+    })
+    assert response.status_code == 200, response.text
+    scene = response.json()["state"]["active_scene"]
+    assert scene["type"] == "sexual"
+    assert scene["flags"]["adult_scene"] is True
+    assert scene["flags"]["sexual_scene"] is True
+    assert scene["participants"][1]["id"] == "char_1"
+
+
 def test_scene_advance_two_days_does_not_advance_turn(client):
     start_game(client)
     client.post("/api/game/scenes", json={"type": "dialogue", "title": "审问管家"})

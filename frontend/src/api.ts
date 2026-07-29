@@ -2,7 +2,7 @@ export type Talent = { id: string; name: string; description: string }
 export type Tile = { x: number; y: number; kind: string; label: string; owner: string | null }
 export type DiplomacyState = { stance: string; relation: number; treaties: unknown[]; at_war: boolean }
 export type MapTileKind = { label: string; category: 'terrain' | 'settlement' | 'structure'; icon: string; color: string; description: string }
-export type FactionStatic = { color: string; banner: string; description: string }
+export type FactionStatic = { color: string; banner: string; description: string; is_player?: boolean }
 export type MapConfig = { default_size: number; min_size: number; max_size: number }
 export type PopulationClassCatalog = {
   name: string
@@ -19,12 +19,147 @@ export type Catalog = {
   map_tile_kinds: Record<string, MapTileKind>
   diplomacy_tile_kinds: Record<string, MapTileKind>
   factions: Record<string, FactionStatic>
+  items?: Record<string, ItemCatalogEntry>
+  equipment_slots?: Record<string, EquipmentSlotInfo>
+  diplomacy?: Record<string, string | DiplomacyState>
   population_classes?: Record<string, PopulationClassCatalog>
   [key: string]: unknown
 }
-export type FactionDetail = FactionStatic & { stance: string; relation: number; treaties: { name: string; remaining_turns: number }[]; at_war: boolean; owned_tiles: Tile[]; owned_tile_count: number }
+export type AttributeId = 'STR' | 'DEX' | 'CON' | 'INT' | 'WIS' | 'CHA' | string
+export type EquipmentSlotInfo = { label: string; adult_only?: boolean; examples?: string[] }
+export type ItemCatalogEntry = {
+  name: string
+  type?: string
+  slot?: string
+  allowed_slots?: string[]
+  occupied_slots?: string[]
+  armor?: number
+  damage?: number
+  weight?: number
+  durability?: number
+  warmth?: number
+  value?: number
+  tags?: string[]
+  requirements?: Record<string, unknown>
+  description?: string
+  effects?: { character_attributes?: Record<AttributeId, number>; realm_resources?: Record<string, number> }
+}
+export type ItemsCatalogResponse = {
+  items: Record<string, ItemCatalogEntry>
+  attribute_ids: Record<AttributeId, { name: string; label: string; influence: string }>
+  equipment_slots: Record<string, EquipmentSlotInfo>
+  public_equipment_slots: string[]
+  private_equipment_slots: string[]
+  accessory_equipment_slots: string[]
+  body_slot_presets?: Record<string, { label: string; slots: string[] }>
+}
 export type ArmyStatus = { organization: number; routed: boolean; last_loss_ratio: number }
+export type FactionOperationalState = {
+  is_player?: boolean
+  resources: Record<string, number>
+  changes: Record<string, number>
+  army: Record<string, number>
+  army_status: ArmyStatus
+  buildings: Record<string, number>
+  workforce?: { available: number; assigned: number }
+  laws?: string[]
+  territory?: { owned_tile_count: number; owned_tiles: Tile[] }
+}
+export type FactionDetail = FactionStatic & { stance: string; relation: number; treaties: { name: string; remaining_turns: number }[]; at_war: boolean; owned_tiles: Tile[]; owned_tile_count: number; state?: FactionOperationalState }
 export type TurnEvent = { phase: string; kind: string; message: string; severity: 'info' | 'warning' | 'critical' | string; data: Record<string, unknown> }
+export type HistoryEntry = {
+  id: string
+  turn: number
+  calendar_day: number
+  clock_24: string
+  season: string
+  weather: string
+  title: string
+  summary_md: string
+  details_md?: string
+  source: string
+  importance: number
+  visibility: string
+  tags: string[]
+  related: Record<string, unknown>
+  created_by?: string
+  created_at?: string
+  updated_at?: string
+}
+export type HistoryResponse = { entries: HistoryEntry[]; total: number }
+export type GameTimePoint = { calendar_day: number; clock_24: string; season?: string; weather?: string }
+export type ScheduledEvent = {
+  id: string
+  type: string
+  title: string
+  description_md: string
+  status: 'scheduled' | 'due' | 'active' | 'resolved' | 'cancelled' | 'missed' | string
+  visibility: string
+  importance: number
+  created_time: GameTimePoint
+  schedule: { due_time: GameTimePoint; window_days?: number; repeat?: Record<string, unknown> | null }
+  conditions?: Record<string, unknown>
+  on_due?: Record<string, unknown>
+  on_resolve?: Record<string, unknown>
+  related?: Record<string, unknown>
+  flags?: Record<string, unknown>
+  result_md?: string
+  created_by?: string
+  updated_at?: string
+}
+export type ScheduledEventsResponse = {
+  events: ScheduledEvent[]
+  total: number
+  context?: { urgent_due_events: ScheduledEvent[]; active_events: ScheduledEvent[]; upcoming_events: ScheduledEvent[] }
+}
+export type CharacterEntry = {
+  id: string
+  kind?: string
+  name: string
+  role: string
+  gender: string
+  age?: number | null
+  faction: string
+  location: string
+  status: string
+  appearance_md: string
+  personality_md: string
+  description_md: string
+  relationship_to_lord: string
+  disposition: number
+  traits: string[]
+  memories: string[]
+  components?: Record<string, unknown>
+  flags: Record<string, unknown>
+  created_time?: GameTimePoint
+  created_at?: string
+  updated_at?: string
+}
+export type CharactersResponse = { characters: CharacterEntry[]; total: number }
+export type CharacterUpsertPayload = {
+  kind?: string
+  name: string
+  role?: string
+  gender?: string
+  age?: number | null
+  faction?: string
+  location?: string
+  status?: string
+  appearance_md?: string
+  personality_md?: string
+  description_md?: string
+  relationship_to_lord?: string
+  disposition?: number
+  traits?: string[]
+  memories?: string[]
+  flags?: Record<string, unknown>
+}
+export type CharacterMutationResult = TurnResult & { character: CharacterEntry; created?: boolean }
+export type CharacterItemGrantPayload = { item_id: string; quantity?: number; created_by?: string }
+export type CharacterEquipPayload = { item_id: string; slot?: string; auto_add?: boolean; created_by?: string }
+export type CharacterUnequipPayload = { slot?: string; item_id?: string; created_by?: string }
+export type CharacterComponentPatchPayload = { values: Record<string, unknown>; created_by?: string }
+export type LordMutationResult = TurnResult & { lord: CharacterEntry; item_effects?: Record<string, unknown> }
 export type AgentRunMode = 'strategic_turn' | 'scene_step' | 'story_turn' | 'describe_realm' | 'describe_lord' | 'describe_tile' | 'describe_item'
 export type AgentRunStartRequest = { mode: AgentRunMode; input: string; client_context?: Record<string, unknown> }
 export type AgentRunStartResponse = { run_id: string; hermes_run_id: string; status: string; events_url: string }
@@ -64,10 +199,17 @@ export type ActiveScene = {
 export type GameState = {
   realm_name: string; lord_name: string; lord_gender: string; appearance: string; personality: string
   talents: Talent[]; turn: number; season: string; weather: string
+  factions?: Record<string, FactionStatic>
   time?: GameTime; game_mode?: 'strategic' | 'scene' | string; active_scene?: ActiveScene | null
+  lord_components?: Record<string, unknown>
   resources: Record<string, number> & { gold: number; food: number; wood: number; stone: number; population: number; morale: number; authority: number }
+  effective_resources?: Record<string, number>
+  item_effects?: { realm_resource_modifiers?: Record<string, number>; sources?: Record<string, unknown>[] }
   changes: Record<string, number>; army: { infantry: number; archers: number; cavalry: number }
   army_status?: ArmyStatus; diplomacy: Record<string, string | DiplomacyState>; demographics?: Record<string, unknown>; buildings: Record<string, number>; laws: string[]; map: Tile[]; map_size: number; diplomacy_map?: Tile[]; diplomacy_map_size?: number
+  faction_states?: Record<string, FactionOperationalState>
+  scheduled_events?: { entries: ScheduledEvent[]; next_id: number }
+  characters?: { entries: CharacterEntry[]; next_id: number }
 }
 export type TurnResult = { state: GameState; narrative: string; suggestions: string[]; source: 'rules' | 'hermes' | 'state-api'; events?: TurnEvent[]; run_id?: string; trace?: AgentTraceEvent[] }
 export type ResourceMutation = { changes?: Record<string, number>; values?: Record<string, number> }
@@ -141,6 +283,10 @@ export const api = {
   talents: () => request<Talent[]>('/talents'),
   catalog: () => request<Catalog>('/catalog'),
   demographics: () => request<DemographicsResponse>('/demographics'),
+  items: () => request<ItemsCatalogResponse>('/items'),
+  characters: (query = '') => request<CharactersResponse>(`/characters${query}`),
+  history: (query = '') => request<HistoryResponse>(`/history${query}`),
+  events: (query = '') => request<ScheduledEventsResponse>(`/events${query}`),
   start: (settings: Record<string, unknown>) => request<TurnResult>('/game/start', { method: 'POST', body: JSON.stringify(settings) }),
   turn: (command: string) => request<TurnResult>('/game/turn', { method: 'POST', body: JSON.stringify({ command }) }),
   time: () => request<{ turn: number; time: GameTime; game_mode: string; active_scene: ActiveScene | null }>('/time'),
@@ -169,6 +315,19 @@ export const api = {
     army: (mutation: ArmyMutation) => request<TurnResult>('/state/army', { method: 'POST', body: JSON.stringify(mutation) }),
     diplomacy: (mutation: DiplomacyMutation) => request<TurnResult>('/state/diplomacy', { method: 'POST', body: JSON.stringify(mutation) }),
     buildings: (mutation: BuildingMutation) => request<TurnResult>('/state/buildings', { method: 'POST', body: JSON.stringify(mutation) }),
+    characters: {
+      upsert: (payload: CharacterUpsertPayload) => request<CharacterMutationResult>('/state/characters', { method: 'POST', body: JSON.stringify(payload) }),
+      grantItem: (characterId: string, payload: CharacterItemGrantPayload) => request<CharacterMutationResult>(`/state/characters/${encodeURIComponent(characterId)}/items`, { method: 'POST', body: JSON.stringify(payload) }),
+      equip: (characterId: string, payload: CharacterEquipPayload) => request<CharacterMutationResult>(`/state/characters/${encodeURIComponent(characterId)}/equipment/equip`, { method: 'POST', body: JSON.stringify(payload) }),
+      unequip: (characterId: string, payload: CharacterUnequipPayload) => request<CharacterMutationResult>(`/state/characters/${encodeURIComponent(characterId)}/equipment/unequip`, { method: 'POST', body: JSON.stringify(payload) }),
+      patchComponent: (characterId: string, componentId: string, payload: CharacterComponentPatchPayload) => request<CharacterMutationResult>(`/state/characters/${encodeURIComponent(characterId)}/components/${encodeURIComponent(componentId)}`, { method: 'PATCH', body: JSON.stringify(payload) }),
+    },
+    lord: {
+      grantItem: (payload: CharacterItemGrantPayload) => request<LordMutationResult>('/state/lord/items', { method: 'POST', body: JSON.stringify(payload) }),
+      equip: (payload: CharacterEquipPayload) => request<LordMutationResult>('/state/lord/equipment/equip', { method: 'POST', body: JSON.stringify(payload) }),
+      unequip: (payload: CharacterUnequipPayload) => request<LordMutationResult>('/state/lord/equipment/unequip', { method: 'POST', body: JSON.stringify(payload) }),
+      patchComponent: (componentId: string, payload: CharacterComponentPatchPayload) => request<LordMutationResult>(`/state/lord/components/${encodeURIComponent(componentId)}`, { method: 'PATCH', body: JSON.stringify(payload) }),
+    },
     battles: {
       resolve: (payload: BattleResolveRequest) => request<TurnResult & { battle_result: BattleResult }>('/state/battles/resolve', {
         method: 'POST',

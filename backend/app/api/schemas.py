@@ -13,6 +13,10 @@ class StartRequest(BaseModel):
     personality: str = Field(default="", max_length=600)
     talents: list[dict[str, Any]] = Field(min_length=2, max_length=2)
     map_size: int | None = Field(default=None, ge=1)
+    diplomacy: dict[str, Any] | None = None
+    factions: dict[str, Any] | None = None
+    realm_map: list[dict[str, Any]] = Field(default_factory=list)
+    diplomacy_map: list[dict[str, Any]] = Field(default_factory=list)
 
 
 class TurnRequest(BaseModel):
@@ -43,6 +47,10 @@ class SceneAdvanceTimeRequest(BaseModel):
     days: int = Field(default=0, ge=0, le=365)
     reason: str = Field(default="", max_length=500)
     run_due_strategic_turns: bool = True
+
+
+class TimeAdvanceRequest(SceneAdvanceTimeRequest):
+    source: str = Field(default="hermes", max_length=60)
 
 
 class SceneEndRequest(BaseModel):
@@ -87,3 +95,170 @@ class BattleResolveRequest(BaseModel):
     source: str = Field(default="api", max_length=40)
     label: str = Field(default="", max_length=120)
     notes: str = Field(default="", max_length=1000)
+
+
+class HistoryEntryRequest(BaseModel):
+    title: str = Field(min_length=1, max_length=160)
+    summary_md: str = Field(default="", max_length=8000)
+    details_md: str = Field(default="", max_length=20000)
+    source: str = Field(default="scene", max_length=60)
+    importance: int = Field(default=3, ge=1, le=5)
+    visibility: str = Field(default="player", max_length=40)
+    tags: list[str] = Field(default_factory=list)
+    related: dict[str, Any] = Field(default_factory=dict)
+    created_by: str = Field(default="hermes", max_length=60)
+
+
+class HistoryPatchRequest(BaseModel):
+    title: str | None = Field(default=None, max_length=160)
+    summary_md: str | None = Field(default=None, max_length=8000)
+    details_md: str | None = Field(default=None, max_length=20000)
+    source: str | None = Field(default=None, max_length=60)
+    importance: int | None = Field(default=None, ge=1, le=5)
+    visibility: str | None = Field(default=None, max_length=40)
+    tags: list[str] | None = None
+    related: dict[str, Any] | None = None
+    created_by: str | None = Field(default=None, max_length=60)
+
+
+class CharacterUpsertRequest(BaseModel):
+    id: str | None = Field(default=None, max_length=80)
+    kind: str | None = Field(default=None, max_length=80)
+    name: str = Field(min_length=1, max_length=80)
+    role: str = Field(default="", max_length=120)
+    gender: str = Field(default="未说明", max_length=40)
+    age: int | None = Field(default=None, ge=0, le=130)
+    faction: str = Field(default="", max_length=80)
+    location: str = Field(default="", max_length=120)
+    status: str = Field(default="active", max_length=40)
+    appearance_md: str = Field(default="", max_length=8000)
+    personality_md: str = Field(default="", max_length=8000)
+    description_md: str = Field(default="", max_length=12000)
+    relationship_to_lord: str = Field(default="", max_length=1000)
+    disposition: int = Field(default=0, ge=-100, le=100)
+    traits: list[str] | None = None
+    memories: list[str] | None = None
+    identity: dict[str, Any] = Field(default_factory=dict)
+    profile: dict[str, Any] = Field(default_factory=dict)
+    relationship: dict[str, Any] = Field(default_factory=dict)
+    memory: dict[str, Any] = Field(default_factory=dict)
+    components: dict[str, Any] = Field(default_factory=dict)
+    flags: dict[str, Any] = Field(default_factory=dict)
+
+
+class CharacterPatchRequest(BaseModel):
+    kind: str | None = Field(default=None, max_length=80)
+    name: str | None = Field(default=None, max_length=80)
+    role: str | None = Field(default=None, max_length=120)
+    gender: str | None = Field(default=None, max_length=40)
+    age: int | None = Field(default=None, ge=0, le=130)
+    faction: str | None = Field(default=None, max_length=80)
+    location: str | None = Field(default=None, max_length=120)
+    status: str | None = Field(default=None, max_length=40)
+    appearance_md: str | None = Field(default=None, max_length=8000)
+    personality_md: str | None = Field(default=None, max_length=8000)
+    description_md: str | None = Field(default=None, max_length=12000)
+    relationship_to_lord: str | None = Field(default=None, max_length=1000)
+    disposition: int | None = Field(default=None, ge=-100, le=100)
+    traits: list[str] | None = None
+    memories: list[str] | None = None
+    identity: dict[str, Any] | None = None
+    profile: dict[str, Any] | None = None
+    relationship: dict[str, Any] | None = None
+    memory: dict[str, Any] | None = None
+    components: dict[str, Any] | None = None
+    flags: dict[str, Any] | None = None
+
+
+class CharacterMemoryAppendRequest(BaseModel):
+    entry: str | None = Field(default=None, max_length=2000)
+    entries: list[str] = Field(default_factory=list)
+    created_by: str = Field(default="hermes", max_length=60)
+
+
+class CharacterComponentPatchRequest(BaseModel):
+    values: dict[str, Any] = Field(default_factory=dict)
+    created_by: str = Field(default="hermes", max_length=60)
+
+
+class CharacterItemGrantRequest(BaseModel):
+    item_id: str = Field(min_length=1, max_length=80)
+    quantity: int = Field(default=1, ge=1, le=1000)
+    created_by: str = Field(default="hermes", max_length=60)
+
+
+class CharacterEquipItemRequest(BaseModel):
+    item_id: str = Field(min_length=1, max_length=80)
+    slot: str = Field(default="", max_length=80)
+    auto_add: bool = True
+    created_by: str = Field(default="hermes", max_length=60)
+
+
+class CharacterUnequipItemRequest(BaseModel):
+    slot: str = Field(default="", max_length=80)
+    item_id: str = Field(default="", max_length=80)
+    created_by: str = Field(default="hermes", max_length=60)
+
+
+class CharacterSexualEncounterRequest(BaseModel):
+    partner_character_id: str = Field(min_length=1, max_length=80)
+    partner_name_snapshot: str = Field(default="", max_length=80)
+    position_id: str = Field(min_length=1, max_length=80)
+    count: int = Field(default=1, ge=1, le=1000)
+    time: dict[str, Any] | None = None
+    notes: list[str] = Field(default_factory=list)
+    created_by: str = Field(default="hermes", max_length=60)
+
+
+class CharacterReproductiveContentRequest(BaseModel):
+    target: str = Field(pattern="^(stomach|intestine|uterus)$")
+    content_type: str = Field(default="unknown", max_length=80)
+    source_character_id: str = Field(min_length=1, max_length=80)
+    source_name_snapshot: str = Field(default="", max_length=80)
+    amount: int = Field(default=1, ge=1, le=1000)
+    received_time: dict[str, Any] | None = None
+    expires_time: dict[str, Any] | None = None
+    fertility_context: dict[str, Any] = Field(default_factory=dict)
+    tags: list[str] = Field(default_factory=list)
+    created_by: str = Field(default="hermes", max_length=60)
+
+
+class CharacterReproductiveContentsClearExpiredRequest(BaseModel):
+    now: dict[str, Any] | None = None
+
+
+class ScheduledEventScheduleRequest(BaseModel):
+    event_type: str = Field(min_length=1, max_length=80)
+    title: str | None = Field(default=None, max_length=160)
+    description_md: str = Field(default="", max_length=8000)
+    due_time: dict[str, Any] | None = None
+    in_days: int | None = Field(default=None, ge=0, le=3650)
+    in_hours: int | None = Field(default=None, ge=0, le=24 * 365)
+    in_minutes: int | None = Field(default=None, ge=0, le=60 * 24 * 365)
+    clock_24: str | None = Field(default=None, max_length=5)
+    visibility: str | None = Field(default=None, max_length=40)
+    importance: int | None = Field(default=None, ge=1, le=5)
+    related: dict[str, Any] = Field(default_factory=dict)
+    conditions: dict[str, Any] = Field(default_factory=dict)
+    flags: dict[str, Any] = Field(default_factory=dict)
+    created_by: str = Field(default="hermes", max_length=60)
+
+
+class ScheduledEventCancelRequest(BaseModel):
+    reason_md: str = Field(default="", max_length=8000)
+    cancelled_by: str = Field(default="hermes", max_length=60)
+
+
+class ScheduledEventRescheduleRequest(BaseModel):
+    due_time: dict[str, Any] | None = None
+    in_days: int | None = Field(default=None, ge=0, le=3650)
+    in_hours: int | None = Field(default=None, ge=0, le=24 * 365)
+    in_minutes: int | None = Field(default=None, ge=0, le=60 * 24 * 365)
+    clock_24: str | None = Field(default=None, max_length=5)
+    reason_md: str = Field(default="", max_length=8000)
+
+
+class ScheduledEventResolveRequest(BaseModel):
+    result_md: str = Field(default="", max_length=12000)
+    outcome: dict[str, Any] = Field(default_factory=dict)
+    resolved_by: str = Field(default="hermes", max_length=60)

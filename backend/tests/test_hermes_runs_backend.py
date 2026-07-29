@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 
+import pytest
+
 from conftest import start_game
 
 
@@ -216,6 +218,126 @@ def test_approval_request_auto_approves_battle_resolve_api(client, monkeypatch):
     assert any(event["event"] == "approval.responded" and event["choice"] == "once" for event in events)
 
 
+def test_approval_request_auto_approves_character_api(client, monkeypatch):
+    from app.integrations import hermes_runs
+
+    start_game(client)
+    monkeypatch.setenv("HERMES_RUNS_BASE_URL", "http://hermes.test")
+    monkeypatch.delenv("HERMES_APPROVAL_POLICY", raising=False)
+    approvals: list[tuple[str, str]] = []
+
+    async def fake_create_run(payload):
+        return {"run_id": "run_approval_character", "status": "started"}
+
+    async def fake_stream_run_events(hermes_run_id):
+        yield {
+            "event": "approval.request",
+            "choices": ["once", "session", "deny"],
+            "command": (
+                "curl -s -X PATCH http://127.0.0.1:8000/api/state/characters/char_1 "
+                "-H 'Content-Type: application/json' "
+                """-d '{"location":"地牢门外","disposition":-30}'"""
+            ),
+            "description": "更新人物账册",
+        }
+        yield {"event": "run.completed", "output": "审批已处理。"}
+
+    async def fake_send_approval(hermes_run_id, choice):
+        approvals.append((hermes_run_id, choice))
+        return {"status": "ok"}
+
+    monkeypatch.setattr(hermes_runs, "create_run", fake_create_run)
+    monkeypatch.setattr(hermes_runs, "stream_run_events", fake_stream_run_events)
+    monkeypatch.setattr(hermes_runs, "send_approval", fake_send_approval)
+
+    run_id = client.post("/api/agent/runs", json={"mode": "story_turn", "input": "更新玛尔塔的位置"}).json()["run_id"]
+    with client.stream("GET", f"/api/agent/runs/{run_id}/events") as response:
+        events = _sse_json_events(response.read().decode())
+
+    assert approvals == [("run_approval_character", "once")]
+    assert any(event["event"] == "approval.responded" and event["choice"] == "once" for event in events)
+
+
+def test_approval_request_auto_approves_character_adult_stat_api(client, monkeypatch):
+    from app.integrations import hermes_runs
+
+    start_game(client)
+    monkeypatch.setenv("HERMES_RUNS_BASE_URL", "http://hermes.test")
+    monkeypatch.delenv("HERMES_APPROVAL_POLICY", raising=False)
+    approvals: list[tuple[str, str]] = []
+
+    async def fake_create_run(payload):
+        return {"run_id": "run_approval_character_adult_stats", "status": "started"}
+
+    async def fake_stream_run_events(hermes_run_id):
+        yield {
+            "event": "approval.request",
+            "choices": ["once", "session", "deny"],
+            "command": (
+                "curl -s -X POST http://127.0.0.1:8000/api/state/characters/char_1/reproductive-contents "
+                "-H 'Content-Type: application/json' "
+                """-d '{"target":"stomach","content_type":"water","source_character_id":"external_unknown"}'"""
+            ),
+            "description": "更新人物内容物状态",
+        }
+        yield {"event": "run.completed", "output": "审批已处理。"}
+
+    async def fake_send_approval(hermes_run_id, choice):
+        approvals.append((hermes_run_id, choice))
+        return {"status": "ok"}
+
+    monkeypatch.setattr(hermes_runs, "create_run", fake_create_run)
+    monkeypatch.setattr(hermes_runs, "stream_run_events", fake_stream_run_events)
+    monkeypatch.setattr(hermes_runs, "send_approval", fake_send_approval)
+
+    run_id = client.post("/api/agent/runs", json={"mode": "story_turn", "input": "更新人物状态"}).json()["run_id"]
+    with client.stream("GET", f"/api/agent/runs/{run_id}/events") as response:
+        events = _sse_json_events(response.read().decode())
+
+    assert approvals == [("run_approval_character_adult_stats", "once")]
+    assert any(event["event"] == "approval.responded" and event["choice"] == "once" for event in events)
+
+
+def test_approval_request_auto_approves_scribe_time_advance_api(client, monkeypatch):
+    from app.integrations import hermes_runs
+
+    start_game(client)
+    monkeypatch.setenv("HERMES_RUNS_BASE_URL", "http://hermes.test")
+    monkeypatch.delenv("HERMES_APPROVAL_POLICY", raising=False)
+    approvals: list[tuple[str, str]] = []
+
+    async def fake_create_run(payload):
+        return {"run_id": "run_approval_time_advance", "status": "started"}
+
+    async def fake_stream_run_events(hermes_run_id):
+        yield {
+            "event": "approval.request",
+            "choices": ["once", "session", "deny"],
+            "command": (
+                "curl -s -X POST http://127.0.0.1:8000/api/state/time/advance "
+                "-H 'Content-Type: application/json' "
+                """-d '{"hours":2,"reason":"等待两个小时","source":"hermes"}'"""
+            ),
+            "description": "推进领地时间",
+        }
+        yield {"event": "run.completed", "output": "审批已处理。"}
+
+    async def fake_send_approval(hermes_run_id, choice):
+        approvals.append((hermes_run_id, choice))
+        return {"status": "ok"}
+
+    monkeypatch.setattr(hermes_runs, "create_run", fake_create_run)
+    monkeypatch.setattr(hermes_runs, "stream_run_events", fake_stream_run_events)
+    monkeypatch.setattr(hermes_runs, "send_approval", fake_send_approval)
+
+    run_id = client.post("/api/agent/runs", json={"mode": "story_turn", "input": "等待两个小时"}).json()["run_id"]
+    with client.stream("GET", f"/api/agent/runs/{run_id}/events") as response:
+        events = _sse_json_events(response.read().decode())
+
+    assert approvals == [("run_approval_time_advance", "once")]
+    assert any(event["event"] == "approval.responded" and event["choice"] == "once" for event in events)
+
+
 def test_approval_request_auto_denies_non_whitelisted_command(client, monkeypatch):
     from app.integrations import hermes_runs
 
@@ -320,3 +442,25 @@ def test_agent_runs_requires_configuration(client, monkeypatch):
     monkeypatch.delenv("HERMES_RUNS_BASE_URL", raising=False)
     response = client.post("/api/agent/runs", json={"mode": "story_turn", "input": "巡视领地"})
     assert response.status_code == 503
+
+
+@pytest.mark.anyio
+async def test_hermes_runs_client_ignores_proxy_env_by_default(monkeypatch):
+    from app.integrations import hermes_runs
+
+    monkeypatch.setenv("HTTP_PROXY", "http://127.0.0.1:7897")
+    monkeypatch.setenv("HTTPS_PROXY", "http://127.0.0.1:7899")
+    monkeypatch.delenv("HERMES_RUNS_TRUST_ENV", raising=False)
+
+    async with hermes_runs.runs_client() as client:
+        assert client._trust_env is False
+
+
+@pytest.mark.anyio
+async def test_hermes_runs_client_can_explicitly_trust_env(monkeypatch):
+    from app.integrations import hermes_runs
+
+    monkeypatch.setenv("HERMES_RUNS_TRUST_ENV", "true")
+
+    async with hermes_runs.runs_client() as client:
+        assert client._trust_env is True

@@ -7,8 +7,18 @@ from typing import Any
 
 from fastapi import HTTPException
 
-from ..catalog import BUILDINGS, DEFAULT_RESOURCES, DIPLOMACY, FACTIONS, MAP_CONFIG, TALENTS, UNITS
-from .mapgen import generate_diplomacy_map, generate_realm_map, sanitize_realm_map, validate_generated_maps
+from ..catalog import (
+    BUILDINGS,
+    DEFAULT_RESOURCES,
+    DIPLOMACY,
+    DIPLOMACY_TILE_KINDS,
+    FACTIONS,
+    MAP_CONFIG,
+    MAP_TILE_KINDS,
+    TALENTS,
+    UNITS,
+)
+from .mapgen import ensure_player_diplomacy_position, ensure_player_faction, generate_diplomacy_map, generate_realm_map, sanitize_realm_map, validate_generated_maps
 from .mutations import clamp_resource
 from .narrative import serialize_events
 
@@ -40,6 +50,67 @@ def initial_map(size: int | None = None) -> list[dict[str, Any]]:
 
 def initial_diplomacy_map(size: int | None = None) -> list[dict[str, Any]]:
     return generate_diplomacy_map(resolve_map_size(size), FACTIONS)
+
+
+def infer_custom_map_size(tiles: list[dict[str, Any]]) -> int | None:
+    if not tiles:
+        return None
+    root = int(len(tiles) ** 0.5)
+    if root * root == len(tiles):
+        return root
+    return None
+
+
+def label_for_kind(kind: str, source: str) -> str:
+    catalog = DIPLOMACY_TILE_KINDS if source == "diplomacy" else MAP_TILE_KINDS
+    return str(catalog.get(kind, {}).get("label") or kind)
+
+
+def normalize_submitted_tiles(tiles: list[dict[str, Any]], size: int, source: str) -> list[dict[str, Any]]:
+    normalized: list[dict[str, Any]] = []
+    for item in tiles:
+        x = int(item.get("x", 0))
+        y = int(item.get("y", 0))
+        kind = str(item.get("kind", "grass"))
+        label = str(item.get("label") or label_for_kind(kind, source))
+        owner = item.get("owner") if source == "diplomacy" else None
+        normalized.append({"x": x, "y": y, "kind": kind, "label": label, "owner": owner})
+    if source == "realm":
+        normalized = sanitize_realm_map(normalized)
+        center = max(1, (size + 1) // 2)
+        for tile in normalized:
+            if tile["x"] == center and tile["y"] == center:
+                tile.update(kind="castle", label="领主堡垒", owner=None)
+                break
+    return normalized
+
+
+def starting_factions_from_request(request: Any) -> dict[str, Any]:
+    overrides = getattr(request, "factions", None)
+    factions = {} if overrides is not None else deepcopy(FACTIONS)
+    overrides = overrides or {}
+    diplomacy_overrides = getattr(request, "diplomacy", None) or {}
+    for faction in diplomacy_overrides:
+        factions.setdefault(str(faction), {"color": "#8a8a8a", "banner": "⚑", "description": ""})
+    for faction, value in overrides.items():
+        name = str(faction)
+        base = factions.setdefault(name, {"color": "#8a8a8a", "banner": "⚑", "description": ""})
+        if isinstance(value, dict):
+            for key in ("color", "banner", "description"):
+                if key in value:
+                    base[key] = str(value[key])
+    ensure_player_faction(factions, getattr(request, "realm_name", "玩家"))
+    return factions
+
+
+def starting_diplomacy_from_request(request: Any, factions: dict[str, Any]) -> dict[str, Any]:
+    requested = getattr(request, "diplomacy", None) or {}
+    diplomacy = {faction: deepcopy(DIPLOMACY.get(faction, "中立")) for faction in factions}
+    for faction, value in requested.items():
+        diplomacy[str(faction)] = deepcopy(value)
+    player = ensure_player_faction(factions, getattr(request, "realm_name", "玩家"))
+    diplomacy[player] = {"stance": "己方", "relation": 100, "treaties": [], "at_war": False}
+    return diplomacy
 
 
 def buildings_from_realm_map(tiles: list[dict[str, Any]]) -> dict[str, int]:
@@ -80,14 +151,25 @@ def make_state(request: Any) -> dict[str, Any]:
     for talent in chosen_talents:
         for resource, amount in talent["effects"].get("initial_resources", {}).items():
             resources[resource] = clamp_resource(resource, resources.get(resource, 0) + int(amount))
-    map_size = resolve_map_size(getattr(request, "map_size", None))
-    realm_map = initial_map(map_size)
+    requested_realm_map = list(getattr(request, "realm_map", []) or [])
+    requested_diplomacy_map = list(getattr(request, "diplomacy_map", []) or [])
+    inferred_size = infer_custom_map_size(requested_realm_map) or infer_custom_map_size(requested_diplomacy_map)
+    map_size = resolve_map_size(getattr(request, "map_size", None) or inferred_size)
+    factions = starting_factions_from_request(request)
+    realm_map = normalize_submitted_tiles(requested_realm_map, map_size, "realm") if requested_realm_map else initial_map(map_size)
+    diplomacy_map = (
+        normalize_submitted_tiles(requested_diplomacy_map, map_size, "diplomacy")
+        if requested_diplomacy_map
+        else generate_diplomacy_map(map_size, factions, player_faction=request.realm_name)
+    )
+    diplomacy_map = ensure_player_diplomacy_position(diplomacy_map, map_size, request.realm_name)
     state = {
         "realm_name": request.realm_name,
         "lord_name": request.lord_name,
         "lord_gender": request.lord_gender,
         "appearance": request.appearance,
         "personality": request.personality,
+        "lord_components": {},
         "talents": chosen_talents,
         "turn": 1,
         "season": "春季",
@@ -115,7 +197,9 @@ def make_state(request: Any) -> dict[str, Any]:
         "training_queue": [],
         "training_seq": 0,
         "battles": [],
-        "diplomacy": deepcopy(DIPLOMACY),
+        "factions": factions,
+        "diplomacy": starting_diplomacy_from_request(request, factions),
+        "faction_states": {},
         "buildings": buildings_from_realm_map(realm_map),
         "construction_queue": [],
         "construction_seq": 0,
@@ -124,11 +208,18 @@ def make_state(request: Any) -> dict[str, Any]:
         "map_size": map_size,
         "map": realm_map,
         "diplomacy_map_size": map_size,
-        "diplomacy_map": initial_diplomacy_map(map_size),
+        "diplomacy_map": diplomacy_map,
+        "history": {"entries": [], "next_id": 1},
+        "last_history_entries_created": [],
+        "scheduled_events": {"entries": [], "next_id": 1},
+        "characters": {"entries": [], "next_id": 1},
     }
+    from ..systems.characters import normalize_characters
     from ..systems.demographics import normalize_demographics
-    from ..systems.diplomacy import normalize_diplomacy_state
+    from ..systems.diplomacy import normalize_diplomacy_state, normalize_faction_states
     from ..systems.military import normalize_army_status
+    from ..systems.scheduled_events import normalize_scheduled_events, schedule_event
+    from .history import normalize_history
     from .scenes import normalize_scene_state
     from .time import normalize_time
 
@@ -138,7 +229,20 @@ def make_state(request: Any) -> dict[str, Any]:
     normalize_scene_state(state)
     normalize_army_status(state)
     normalize_diplomacy_state(state)
+    normalize_faction_states(state)
     normalize_demographics(state)
+    normalize_history(state)
+    normalize_scheduled_events(state)
+    normalize_characters(state)
+    if not state["scheduled_events"]["entries"]:
+        schedule_event(
+            state,
+            event_type="caravan_arrival",
+            title="春季末商队到访",
+            description_md="春季末，商队将沿着泥泞道路来到领地边界，要求入境贸易。",
+            in_days=89,
+            created_by="system",
+        )
     return state
 
 
@@ -173,13 +277,16 @@ def load_current_state() -> dict[str, Any]:
         raise HTTPException(404, "未找到存档")
     state = json.loads(SAVE_PATH.read_text(encoding="utf-8"))
     from ..systems.demographics import normalize_demographics
-    from ..systems.diplomacy import normalize_diplomacy_state
+    from ..systems.diplomacy import normalize_diplomacy_state, normalize_faction_states
     from ..systems.military import normalize_army_status
+    from ..systems.characters import normalize_characters
 
     normalize_state(state)
     normalize_army_status(state)
     normalize_diplomacy_state(state)
+    normalize_faction_states(state)
     normalize_demographics(state)
+    normalize_characters(state)
     return set_current_state(state)
 
 
@@ -209,14 +316,24 @@ def normalize_map(state: dict[str, Any]) -> None:
     for tile in diplomacy_tiles:
         tile.setdefault("owner", None)
     state["diplomacy_map_size"] = state.get("diplomacy_map_size") or size
-    validate_generated_maps(state["map"], state["diplomacy_map"], int(size))
+    if not isinstance(state.get("factions"), dict) or not state.get("factions"):
+        state["factions"] = deepcopy(FACTIONS)
+    factions = state.setdefault("factions", {})
+    player = ensure_player_faction(factions, state.get("realm_name", "玩家"))
+    diplomacy = state.setdefault("diplomacy", {})
+    diplomacy[player] = {"stance": "己方", "relation": 100, "treaties": [], "at_war": False}
+    ensure_player_diplomacy_position(diplomacy_tiles, int(size), player)
+    validate_generated_maps(state["map"], state["diplomacy_map"], int(size), state.get("factions") or FACTIONS)
     prune_stale_catalog_only_starting_buildings(state)
 
 
 def normalize_state(state: dict[str, Any]) -> None:
+    from ..systems.characters import normalize_characters
     from ..systems.demographics import normalize_demographics
-    from ..systems.diplomacy import normalize_diplomacy_state
+    from ..systems.diplomacy import normalize_diplomacy_state, normalize_faction_states
     from ..systems.military import normalize_army_status
+    from ..systems.scheduled_events import normalize_scheduled_events
+    from .history import normalize_history
     from .scenes import normalize_scene_state
     from .time import normalize_time
 
@@ -226,7 +343,11 @@ def normalize_state(state: dict[str, Any]) -> None:
     normalize_scene_state(state)
     normalize_army_status(state)
     normalize_diplomacy_state(state)
+    normalize_faction_states(state)
     normalize_demographics(state)
+    normalize_history(state)
+    normalize_scheduled_events(state)
+    normalize_characters(state)
 
 
 def result(
@@ -236,7 +357,15 @@ def result(
     source: str,
     events: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
-    return {"state": state, "narrative": narrative, "suggestions": suggestions, "source": source, "events": events or []}
+    normalize_state(state)
+    return {
+        "state": state,
+        "narrative": narrative,
+        "suggestions": suggestions,
+        "source": source,
+        "events": events or [],
+        "history_entries_created": state.get("last_history_entries_created", []),
+    }
 
 
 def mutation_result(state: dict[str, Any], message: str, events: list[Any] | None = None) -> dict[str, Any]:

@@ -10,6 +10,7 @@ from ..engine.hermes_context import catalog_summary, compact_state_for_agent, pu
 from ..engine.hermes_actions import VALID_EVENT_SEVERITIES
 from ..engine.mutations import tile_at
 from ..engine.state import mutation_result, require_state
+from ..systems import characters
 
 router = APIRouter()
 
@@ -22,6 +23,7 @@ DescribeTargetType = Literal[
     "unit",
     "diplomacy",
     "army_status",
+    "character",
     "item",
 ]
 
@@ -124,6 +126,17 @@ def _resolve_target(
         return {"faction": faction_name, "state": diplomacy[faction_name]}
     if target_type == "army_status":
         return {"army": state.get("army", {}), "army_status": state.get("army_status", {})}
+    if target_type == "character":
+        character_key = key or name
+        if not character_key:
+            raise HTTPException(422, "描述 character 必须提供 key 或 name")
+        try:
+            return characters.public_character_entry(characters.get_character(state, character_key))
+        except KeyError:
+            matches = [item for item in characters.list_characters(state) if item.get("name") == character_key]
+            if matches:
+                return matches[0]
+            raise HTTPException(404, "未找到人物")
     return {"key": key, "name": name, "faction": faction, "x": x, "y": y}
 
 
@@ -138,6 +151,7 @@ def agent_context() -> dict[str, Any]:
         "mutation_api": {
             "read": "GET /api/state",
             "time": "GET /api/time",
+            "time_advance": "POST /api/state/time/advance",
             "strategic_turn": "POST /api/game/strategic-turn",
             "scene_start": "POST /api/game/scenes",
             "scene_step": "POST /api/game/scenes/current/step",
@@ -151,6 +165,16 @@ def agent_context() -> dict[str, Any]:
             "buildings": "POST /api/state/buildings",
             "battles": "POST /api/state/battles/resolve",
             "events": "POST /api/agent/events",
+            "scheduled_events_read": "GET /api/events",
+            "scheduled_event_schedule": "POST /api/state/events/schedule",
+            "scheduled_event_check_due": "POST /api/state/events/check-due",
+            "scheduled_event_cancel": "POST /api/state/events/{event_id}/cancel",
+            "scheduled_event_reschedule": "POST /api/state/events/{event_id}/reschedule",
+            "scheduled_event_resolve": "POST /api/state/events/{event_id}/resolve",
+            "history": "POST /api/state/history",
+            "characters_read": "GET /api/characters",
+            "character_upsert": "POST /api/state/characters",
+            "character_patch": "PATCH /api/state/characters/{character_id}",
         },
     }
 
@@ -171,6 +195,7 @@ def describe_context(
         "surrounding_state": {
             "realm": _realm_target(state),
             "lord": _lord_target(state),
+            "characters": characters.list_characters(state, include_inactive=False)[:30],
             "recent_events": state.get("recent_events", [])[-10:],
         },
         "catalog_summary": catalog_summary(),
@@ -186,4 +211,4 @@ def record_agent_event(request: AgentEventRequest) -> dict[str, Any]:
     event = request.model_dump()
     state.setdefault("recent_events", []).append(event)
     state["recent_events"] = state["recent_events"][-50:]
-    return mutation_result(state, f"Agent event 已记录：{request.kind}")
+    return mutation_result(state, f"书记官事件已入册：{request.kind}")
