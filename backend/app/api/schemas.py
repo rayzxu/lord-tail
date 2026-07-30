@@ -28,6 +28,24 @@ class StrategicTurnRequest(TurnRequest):
     force_end_scene: bool = False
 
 
+class CouncilResolveRequest(BaseModel):
+    proposal_id: str = Field(min_length=1, max_length=100)
+    management_mode: str = Field(default="delegated", pattern="^(delegated|advisory|manual)$")
+
+
+class ManagementModeRequest(BaseModel):
+    mode: str = Field(pattern="^(delegated|advisory|manual)$")
+
+
+class StrategicActionRequest(BaseModel):
+    action: dict[str, Any]
+    actor: str = Field(default="player", max_length=60)
+
+
+class AdviceAcceptRequest(BaseModel):
+    action_id: str = Field(default="", max_length=200)
+
+
 class SceneStartRequest(BaseModel):
     type: str = Field(default="daily", max_length=40)
     title: str = Field(default="领主事件", min_length=1, max_length=120)

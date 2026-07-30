@@ -290,6 +290,11 @@ def activate_due_events(state: dict[str, Any], *, source: str = "pipeline") -> l
         event["status"] = "active"
         event["activated_time"] = time_point_from_state(state)
         event["updated_at"] = _now()
+        if event.get("type") == "council_session":
+            from .council import open_meeting_from_event
+
+            meeting = open_meeting_from_event(state, event)
+            event.setdefault("flags", {})["meeting_id"] = meeting["id"]
         on_due = event.get("on_due", {})
         events.append(TurnEvent(
             phase="scheduled_events",

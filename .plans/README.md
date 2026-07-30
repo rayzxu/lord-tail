@@ -31,6 +31,7 @@
 | [016_history_memory_system.md](./016_history_memory_system.md) | 新增历史系统：书记官记录重要事情为结构化领地记忆，供前端编年史与 Hermes 上下文使用 | P0 |
 | [017_scheduled_event_system.md](./017_scheduled_event_system.md) | 新增长期/计划事件系统：管理商队季末到访、敌军几回合后抵达、取消/改期/持续事件与事件面板 | P0 |
 | [018_character_component_system.md](./018_character_component_system.md) | 把人物账册重构为 kind + components + factory/registry 的可扩展 NPC 系统 | P1 |
+| [019_council_directive_management_ai.md](./019_council_directive_management_ai.md) | 新增财政／军事／外交领主议会、长期战略方针，以及危机规则 + Utility + 短期预测驱动的确定性领地管理 AI | P0 |
 
 ## 通用约定
 

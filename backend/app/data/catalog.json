@@ -1303,6 +1303,16 @@
       "turn_event_kind": "disaster_wave_due",
       "tags": ["disaster", "daily"],
       "prompt_hint": "灾害的后续影响开始显现。"
+    },
+    "council_session": {
+      "label": "领主议会",
+      "default_importance": 5,
+      "default_visibility": "player",
+      "default_scene_type": "council",
+      "default_due_clock_24": "09:00",
+      "turn_event_kind": "council_opened",
+      "tags": ["council", "strategy", "finance", "military", "diplomacy"],
+      "prompt_hint": "财政官、军事统帅与外交官已经在领主厅候命，等待领主裁定未来数月的战略方针。"
     }
   },
   "factions": {

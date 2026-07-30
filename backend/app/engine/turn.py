@@ -1,14 +1,12 @@
 from __future__ import annotations
 
-import re
 from copy import deepcopy
 from typing import Any
 
-from ..catalog import UNITS_BY_NAME, BUILDINGS_BY_NAME
-from ..systems import construction, demographics, diplomacy, economy, events, military, scheduled_events, weather
-from .commands import command_coordinate, first_mentioned
+from ..ai.actions import execute_action, parse_command_action
+from ..ai.planner import plan_management_action
+from ..systems import construction, council, demographics, diplomacy, economy, events, military, scheduled_events, weather
 from .history import auto_record_turn_events
-from .mutations import change_resource
 from .narrative import events_to_report, serialize_events, suggest_next_actions
 from . import scenes
 from .time import advance_strategic_clock, current_time_key, set_time_point, time_key
@@ -33,40 +31,68 @@ def run_income(state: dict[str, Any], context: TurnContext) -> None:
 
 
 def run_player_action(state: dict[str, Any], context: TurnContext) -> None:
-    command = context.command
-    resources, changes = state["resources"], state["changes"]
-    building = first_mentioned(BUILDINGS_BY_NAME, command)
-    unit = first_mentioned(UNITS_BY_NAME, command)
-    if building and any(word in command for word in ["建造", "修建", "建设"]):
-        coordinate = command_coordinate(command)
-        if coordinate is None:
-            raise ValueError("请指定建设坐标，例如：在 E4 建造农田")
-        construction.start_project(state, building["id"], coordinate[0], coordinate[1], context)
-        return
-    if unit and any(word in command for word in ["招募", "训练", "征召"]):
-        quantity_match = re.search(r"(\d+)\s*(?:名|个|队)?", command)
-        quantity = int(quantity_match.group(1)) if quantity_match else 1
-        military.start_training(state, unit["id"], quantity, context)
-        return
-    if any(word in command for word in ["贸易", "外交", "使者"]):
-        change_resource(resources, changes, "gold", 30)
-        change_resource(resources, changes, "food", -20)
-        message = "使者带回一纸谨慎的贸易意向，以及一袋足以安抚账房的硬币。"
-        context.events.append(TurnEvent(phase="player_action", kind="trade", message=message, data={"gold": 30, "food": -20}))
-        return
-    if any(word in command for word in ["税", "法令", "律"]):
-        economy.apply_tax_income(state, context)
-        law = command[:42]
-        state["laws"].append(law)
+    council.normalize_council_state(state)
+    manual_action = parse_command_action(state, context.command, actor=context.actor)
+    directive = state.get("strategic_directive")
+    management = state["management_ai"]
+    occupied_slot = management.get("action_slot")
+    if isinstance(occupied_slot, dict) and int(occupied_slot.get("turn", -1)) == int(state.get("turn", 1)):
+        if manual_action is not None:
+            raise ValueError(
+                f"第 {state.get('turn', 1)} 轮的战略行动已经由 "
+                f"{occupied_slot.get('actor', '未知来源')} 使用"
+            )
         context.events.append(TurnEvent(
-            phase="player_action",
-            kind="law_enacted",
-            severity="warning",
-            message=f"领主发布法令：{law}",
-            data={"law": law},
+            phase="management_action",
+            kind="action_slot_already_used",
+            message="本轮战略行动已由公开行动接口执行，管家不会获得第二次行动。",
+            data={"action_slot": occupied_slot},
         ))
         return
-    context.events.append(TurnEvent(phase="player_action", kind="noop", message="领地的书记官记录下了这项命令。"))
+    if manual_action is not None:
+        execute_action(state, manual_action, context, directive=directive, enforce_budget=False)
+        context.events.append(TurnEvent(
+            phase="management_action",
+            kind="manual_action_override",
+            message="领主的明确命令覆盖了本轮管理 AI 行动；长期方针保持不变。",
+            data={"action": manual_action, "directive_id": directive.get("id") if isinstance(directive, dict) else None},
+        ))
+        management["accepted_action"] = None
+        return
+    if not management.get("enabled", True) or not isinstance(directive, dict) or directive.get("status") != "active":
+        context.events.append(TurnEvent(phase="player_action", kind="noop", message="本轮没有可执行的结构化战略行动。"))
+        return
+    mode = management.get("mode", "delegated")
+    if mode == "manual":
+        context.events.append(TurnEvent(phase="player_action", kind="manual_mode_noop", message="领地处于手动管理模式，本轮未下达战略行动。"))
+        return
+    if mode == "advisory":
+        action = management.pop("accepted_action", None)
+        if not isinstance(action, dict):
+            context.events.append(TurnEvent(phase="management_action", kind="management_advice_missing", severity="warning", message="顾问方案尚未由领主确认。"))
+            return
+        decision = management.get("pending_advice")
+    else:
+        decision = plan_management_action(
+            state,
+            directive,
+            mode=mode,
+            seed=int(management.get("planner_seed", 0)) + int(state.get("turn", 1)),
+        )
+        action = decision["selected_action"]
+    execute_action(state, action, context, directive=directive, enforce_budget=True)
+    management["last_decision"] = decision
+    management["pending_advice"] = None
+    if action.get("type") == "wait":
+        management["consecutive_no_action_turns"] += 1
+    else:
+        management["consecutive_no_action_turns"] = 0
+    context.events.append(TurnEvent(
+        phase="management_action",
+        kind="management_ai_decision",
+        message=f"领地管家依照「{directive['title']}」执行：{decision.get('selected_label', action.get('action_id'))}",
+        data={"decision": decision, "action": action},
+    ))
 
 
 def run_construction(state: dict[str, Any], context: TurnContext) -> None:
@@ -191,6 +217,40 @@ def try_interrupt_for_scheduled_events(state: dict[str, Any], context: TurnConte
             data={"time": state.get("time", {})},
         ))
         return True
+    if council.current_meeting(state):
+        context.events.append(TurnEvent(
+            phase="council",
+            kind="strategic_advance_blocked_by_council",
+            severity="warning",
+            message="领主议会尚未裁定战略方针，九天推进没有继续执行。",
+            data={"meeting": council.current_meeting(state)},
+        ))
+        return True
+    directive = state.get("strategic_directive")
+    management = state.get("management_ai", {})
+    if (
+        isinstance(directive, dict)
+        and directive.get("status") == "active"
+        and management.get("enabled", True)
+        and management.get("mode") == "advisory"
+        and parse_command_action(state, context.command, actor=context.actor) is None
+        and not isinstance(management.get("accepted_action"), dict)
+    ):
+        decision = plan_management_action(
+            state,
+            directive,
+            mode="advisory",
+            seed=int(management.get("planner_seed", 0)) + int(state.get("turn", 1)),
+        )
+        management["pending_advice"] = decision
+        context.events.append(TurnEvent(
+            phase="management_action",
+            kind="management_advice_required",
+            severity="warning",
+            message="顾问已经列出候选方案，等待领主确认后再推进九天。",
+            data={"decision": decision},
+        ))
+        return True
     interrupting = _interrupting_event_within_turn(state, context.advance_calendar_days)
     if interrupting is None:
         return False
@@ -230,6 +290,8 @@ def run_strategic_turn(
     if not interrupted:
         for phase in TURN_PHASES:
             phase(working, context)
+        context.events.extend(council.update_directive_after_turn(working))
+        context.events.extend(council.schedule_emergency_if_needed(working))
     auto_record_turn_events(working, context.events)
     narrative = build_narrative(context)
     context.suggestions = suggest_next_actions(working, context.events) or list(DEFAULT_SUGGESTIONS)

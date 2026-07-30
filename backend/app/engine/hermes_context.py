@@ -5,6 +5,7 @@ import os
 from typing import Any
 
 from ..catalog import BUILDINGS, ITEMS, RESOURCES, UNITS
+from ..ai.analysis import analyze_realm
 from .history import select_history_context
 from ..systems import characters, scheduled_events
 
@@ -84,6 +85,10 @@ def compact_state_for_agent(state: dict[str, Any], client_context: dict[str, Any
         },
         "recent_events": state.get("recent_events", [])[-20:],
         "scheduled_event_context": scheduled_events.event_context(state),
+        "council": state.get("council", {}),
+        "strategic_directive": state.get("strategic_directive"),
+        "management_ai": state.get("management_ai", {}),
+        "management_analysis": analyze_realm(state),
         "history_context": select_history_context(
             state,
             tiles=history_tiles,
@@ -137,6 +142,7 @@ def public_action_contract() -> dict[str, Any]:
             "scene_dialogue": "lord-tail-scene-dialogue",
             "scene_battle": "lord-tail-scene-battle",
             "scene_diplomacy": "lord-tail-scene-diplomacy",
+            "council": "lord-tail-council",
         },
         "ids": {
             "resources": list(RESOURCES.keys()),
@@ -165,6 +171,21 @@ def public_action_contract() -> dict[str, Any]:
                 "method": "POST",
                 "path": "/api/game/strategic-turn",
                 "payload": {"command": "让领地按当前安排运转九天", "source": "hermes"},
+            },
+            "council_read": {"method": "GET", "path": "/api/council/current"},
+            "council_resolve": {
+                "method": "POST",
+                "path": "/api/council/{meeting_id}/resolve",
+                "payload": {"proposal_id": "finance_food_security", "management_mode": "delegated"},
+            },
+            "strategy_read": {"method": "GET", "path": "/api/strategy/current"},
+            "strategy_analysis": {"method": "GET", "path": "/api/strategy/analysis"},
+            "strategy_advice": {"method": "GET", "path": "/api/strategy/advice"},
+            "legal_actions": {"method": "GET", "path": "/api/actions/legal"},
+            "execute_action": {
+                "method": "POST",
+                "path": "/api/actions/execute",
+                "payload": {"actor": "hermes", "action": {"type": "wait", "payload": {"reason": "player_order"}}},
             },
             "scene_start": {
                 "method": "POST",
@@ -404,6 +425,7 @@ def public_action_contract() -> dict[str, Any]:
             "battle_cavalry": ["POST /api/state/battles/resolve", "POST /api/agent/events after successful battle resolution", "POST /api/state/history for notable valor, rout, named casualties, or strategic outcome"],
             "statue": ["POST /api/agent/events only; no statue building id exists"],
             "strategic_turn": ["POST /api/game/strategic-turn"],
+            "council": ["GET /api/council/current", "POST /api/council/{meeting_id}/resolve only after the player explicitly chooses a proposal", "GET /api/strategy/analysis"],
             "scene_step": ["POST /api/game/scenes if no active scene", "POST /api/game/scenes/current/step", "POST /api/game/scenes/current/advance-time only when time explicitly passes", "POST /api/game/scenes/current/end only when the event is complete"],
             "scene_battle": ["POST /api/game/scenes if no active battle scene", "POST /api/state/battles/resolve for decisive combat exchange", "POST /api/game/scenes/current/step", "POST /api/game/scenes/current/end when battle is resolved"],
         },
@@ -504,6 +526,8 @@ def build_strategic_turn_context(state: dict[str, Any], command: str, client_con
         due_event_prompt_prefix(state) +
         "你是 Lord Tail 的领地书记官，当前职责是 strategic_turn 战略回合誊写与执行。\n"
         "本模式代表一个 9 天战略回合，只处理领地经营尺度的命令。\n"
+        "领主议会、领地指标、合法行动、Utility 评分和预测由后端确定性管理系统负责；你不得自行改写提案、评分、预测或方针数值。\n"
+        "如果后端返回开放议会，只叙述大臣陈奏并等待玩家明确选择，不得替玩家采纳提案。\n"
         f"如果需要由后端执行完整九天结算，调用 {api_base_url}/api/game/strategic-turn。\n"
         "如需在结算前做状态修改，只能调用上下文 allowed_actions.apis 中列出的 Lord Tail HTTP API。\n"
         "最终回答只输出面向玩家的中文本轮报告和简短后续建议；不要输出 JSON actions/state_patch。\n\n"
@@ -536,7 +560,7 @@ def build_scene_step_context(state: dict[str, Any], command: str, client_context
         f"如只想记录当前 active_scene 内的时间经过，也可调用 {api_base_url}/api/game/scenes/current/advance-time；累计达到 9 天时可由后端触发战略结算。\n"
         f"只有当前事件明确完成时，才调用 {api_base_url}/api/game/scenes/current/end 结束场景。\n"
         "不要把状态修改写成最终 JSON，不要在最终回答中返回 actions。最终回答只输出面向玩家的中文故事和简短后续建议。\n"
-        "允许的 scene 包括 daily, dialogue, caravan, diplomacy, battle, court, lord_event, sexual。\n"
+        "允许的 scene 包括 daily, dialogue, caravan, diplomacy, battle, court, council, lord_event, sexual。\n"
         "不要直接输出 state_patch；不要创造 catalog 外的资源、建筑、兵种 id；API 调用失败时要在故事中体现执行失败。\n\n"
         f"上下文 JSON：\n{json.dumps(payload, ensure_ascii=False, indent=2)}"
     )

@@ -112,6 +112,101 @@ export type ScheduledEventsResponse = {
   total: number
   context?: { urgent_due_events: ScheduledEvent[]; active_events: ScheduledEvent[]; upcoming_events: ScheduledEvent[] }
 }
+export type ManagementMode = 'delegated' | 'advisory' | 'manual'
+export type RealmAnalysis = {
+  resources: Record<string, number>
+  finance: Record<string, unknown>
+  military: Record<string, unknown>
+  diplomacy: Record<string, unknown>
+  stability: Record<string, number>
+  metrics: Record<string, number | string | null>
+}
+export type CouncilProposal = {
+  id: string
+  domain: 'finance' | 'military' | 'diplomacy' | 'reserve' | string
+  title: string
+  minister: string
+  summary: string
+  speech_md: string
+  evidence: string[]
+  targets: Record<string, number>
+  budget_limits: Record<string, number>
+  allowed_action_tags: string[]
+  risks: string[]
+  forecast?: { horizon_turns?: number; status?: string; summary?: string }
+}
+export type CouncilMeeting = {
+  id: string
+  event_id?: string
+  status: string
+  reason: string
+  trigger_key: string
+  opened_time: GameTimePoint
+  analysis_snapshot: RealmAnalysis
+  crisis_summary: string[]
+  proposals: CouncilProposal[]
+  resolved_proposal_id?: string | null
+  resolved_time?: GameTimePoint | null
+  management_mode?: ManagementMode | null
+}
+export type StrategicDirective = {
+  id: string
+  source_meeting_id: string
+  proposal_id: string
+  domain: string
+  title: string
+  status: 'active' | 'completed' | 'expired' | 'suspended' | 'replaced' | string
+  started_time: GameTimePoint
+  expires_time: GameTimePoint
+  duration_strategic_turns: number
+  executed_strategic_turns: number
+  targets: Record<string, number>
+  budget_limits: Record<string, number>
+  allowed_action_tags: string[]
+  progress: Record<string, { target: number; actual: number | null; completed: boolean }>
+  completed_targets: string[]
+}
+export type StrategicAction = {
+  type: string
+  action_id: string
+  actor: string
+  tags: string[]
+  payload: Record<string, unknown>
+  estimated_cost: Record<string, number>
+  explanation_key: string
+}
+export type ManagementCandidate = {
+  action: StrategicAction
+  label: string
+  legal: boolean
+  score: number
+  score_breakdown: Record<string, number>
+  hard_constraint_failures: string[]
+  reason: string
+  planned_sequence: string[]
+}
+export type ManagementDecision = {
+  id: string
+  mode: ManagementMode
+  directive_id: string
+  turn: number
+  selected_action: StrategicAction
+  selected_label: string
+  reason: string
+  score: number
+  score_breakdown: Record<string, number>
+  candidates: ManagementCandidate[]
+  planned_sequence_labels: string[]
+  forecast: Record<string, unknown>
+}
+export type ManagementAiState = {
+  enabled: boolean
+  mode: ManagementMode
+  last_decision?: ManagementDecision | null
+  pending_advice?: ManagementDecision | null
+  accepted_action?: StrategicAction | null
+  consecutive_no_action_turns: number
+}
 export type CharacterEntry = {
   id: string
   kind?: string
@@ -209,6 +304,9 @@ export type GameState = {
   army_status?: ArmyStatus; diplomacy: Record<string, string | DiplomacyState>; demographics?: Record<string, unknown>; buildings: Record<string, number>; laws: string[]; map: Tile[]; map_size: number; diplomacy_map?: Tile[]; diplomacy_map_size?: number
   faction_states?: Record<string, FactionOperationalState>
   scheduled_events?: { entries: ScheduledEvent[]; next_id: number }
+  council?: { current_meeting: CouncilMeeting | null; history: CouncilMeeting[]; next_id: number }
+  strategic_directive?: StrategicDirective | null
+  management_ai?: ManagementAiState
   characters?: { entries: CharacterEntry[]; next_id: number }
 }
 export type TurnResult = { state: GameState; narrative: string; suggestions: string[]; source: 'rules' | 'hermes' | 'state-api'; events?: TurnEvent[]; run_id?: string; trace?: AgentTraceEvent[] }
@@ -291,6 +389,23 @@ export const api = {
   turn: (command: string) => request<TurnResult>('/game/turn', { method: 'POST', body: JSON.stringify({ command }) }),
   time: () => request<{ turn: number; time: GameTime; game_mode: string; active_scene: ActiveScene | null }>('/time'),
   strategicTurn: (payload: StrategicTurnRequest) => request<TurnResult>('/game/strategic-turn', { method: 'POST', body: JSON.stringify(payload) }),
+  council: {
+    current: () => request<{ meeting: CouncilMeeting | null; history: CouncilMeeting[]; directive: StrategicDirective | null; management_ai: ManagementAiState }>('/council/current'),
+    resolve: (meetingId: string, payload: { proposal_id: string; management_mode: ManagementMode }) => request<TurnResult & { meeting: CouncilMeeting; directive: StrategicDirective; idempotent: boolean }>(`/council/${encodeURIComponent(meetingId)}/resolve`, { method: 'POST', body: JSON.stringify(payload) }),
+    requestReview: () => request<TurnResult & { meeting: CouncilMeeting }>('/council/request-review', { method: 'POST' }),
+  },
+  strategy: {
+    current: () => request<{ directive: StrategicDirective | null; management_ai: ManagementAiState }>('/strategy/current'),
+    analysis: () => request<{ analysis: RealmAnalysis }>('/strategy/analysis'),
+    setMode: (mode: ManagementMode) => request<TurnResult & { management_ai: ManagementAiState }>('/strategy/management-mode', { method: 'POST', body: JSON.stringify({ mode }) }),
+    advice: () => request<{ decision: ManagementDecision }>('/strategy/advice'),
+    acceptAdvice: (decisionId: string, actionId = '') => request<TurnResult & { decision: ManagementDecision; accepted_action: StrategicAction }>(`/strategy/advice/${encodeURIComponent(decisionId)}/accept`, { method: 'POST', body: JSON.stringify({ action_id: actionId }) }),
+  },
+  actions: {
+    legal: () => request<{ actions: StrategicAction[] }>('/actions/legal'),
+    validate: (action: StrategicAction, actor = 'player') => request<{ legal: boolean; action: StrategicAction; errors: string[] }>('/actions/validate', { method: 'POST', body: JSON.stringify({ action, actor }) }),
+    execute: (action: StrategicAction, actor = 'player') => request<TurnResult & { action: StrategicAction }>('/actions/execute', { method: 'POST', body: JSON.stringify({ action, actor }) }),
+  },
   save: () => request<{ message: string }>('/game/save', { method: 'POST' }),
   load: () => request<TurnResult>('/game/load', { method: 'POST' }),
   scenes: {

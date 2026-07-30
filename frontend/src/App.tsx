@@ -1,7 +1,8 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { AgentRunMode, AgentSseEvent, AgentTraceEvent, api, Catalog, CharacterEntry, CharactersResponse, CharacterUpsertPayload, DemographicsResponse, DiplomacyState, FactionDetail, GameState, HistoryEntry, HistoryResponse, ItemCatalogEntry, PopulationClassCatalog, PopulationClassState, ScheduledEvent, ScheduledEventsResponse, Talent, Tile, TurnResult } from './api'
+import { AgentRunMode, AgentSseEvent, AgentTraceEvent, api, Catalog, CharacterEntry, CharactersResponse, CharacterUpsertPayload, DemographicsResponse, DiplomacyState, FactionDetail, GameState, HistoryEntry, HistoryResponse, ItemCatalogEntry, ManagementDecision, ManagementMode, PopulationClassCatalog, PopulationClassState, RealmAnalysis, ScheduledEvent, ScheduledEventsResponse, Talent, Tile, TurnResult } from './api'
+import CouncilPanel from './components/CouncilPanel'
 
 const markdownPlugins = [remarkGfm]
 const fallbackIcon: Record<string, string> = { grass: '·', castle: '♜', homes: '⌂', farm: '≋', forest: '♣', lumberyard: '♧', quarry: '◆', barracks: '⚔', wall: '▤' }
@@ -297,7 +298,7 @@ function GameScreen({ game, onGame, onBack, catalog }: { game: TurnResult; onGam
   const [command, setCommand] = useState('')
   const [busy, setBusy] = useState(false)
   const [toast, setToast] = useState('')
-  const [panel, setPanel] = useState<'realm' | 'population' | 'lord' | 'characters' | 'history' | 'events' | null>(null)
+  const [panel, setPanel] = useState<'realm' | 'population' | 'lord' | 'characters' | 'history' | 'events' | 'strategy' | null>(null)
   const [demographics, setDemographics] = useState<DemographicsResponse | null>(null)
   const [demographicsLoading, setDemographicsLoading] = useState(false)
   const [demographicsError, setDemographicsError] = useState('')
@@ -310,6 +311,10 @@ function GameScreen({ game, onGame, onBack, catalog }: { game: TurnResult; onGam
   const [characters, setCharacters] = useState<CharactersResponse | null>(null)
   const [charactersLoading, setCharactersLoading] = useState(false)
   const [charactersError, setCharactersError] = useState('')
+  const [strategyAnalysis, setStrategyAnalysis] = useState<RealmAnalysis | null>(null)
+  const [strategyDecision, setStrategyDecision] = useState<ManagementDecision | null>(null)
+  const [strategyLoading, setStrategyLoading] = useState(false)
+  const [strategyError, setStrategyError] = useState('')
   const [trace, setTrace] = useState<AgentTraceEvent[]>(game.trace ?? [])
   const [traceCollapsed, setTraceCollapsed] = useState(false)
   const [streamText, setStreamText] = useState('')
@@ -557,6 +562,86 @@ function GameScreen({ game, onGame, onBack, catalog }: { game: TurnResult; onGam
       setCharactersLoading(false)
     }
   }
+  async function openStrategyPanel() {
+    setPanel('strategy')
+    setStrategyLoading(true)
+    setStrategyError('')
+    setStrategyDecision(state.management_ai?.pending_advice ?? null)
+    try {
+      const response = await api.strategy.analysis()
+      setStrategyAnalysis(response.analysis)
+    } catch (e) {
+      setStrategyError(e instanceof Error ? e.message : '领地战略分析读取失败')
+    } finally {
+      setStrategyLoading(false)
+    }
+  }
+  async function resolveCouncil(proposalId: string, mode: ManagementMode) {
+    const meeting = state.council?.current_meeting
+    if (!meeting) return
+    setStrategyLoading(true)
+    try {
+      const response = await api.council.resolve(meeting.id, { proposal_id: proposalId, management_mode: mode })
+      applyStateApiResult(response)
+      setStrategyAnalysis((await api.strategy.analysis()).analysis)
+      setStrategyDecision(null)
+      setToast(`方针已经确立：${response.directive.title}`)
+    } catch (e) {
+      setStrategyError(e instanceof Error ? e.message : '议会裁定失败')
+    } finally {
+      setStrategyLoading(false)
+    }
+  }
+  async function changeManagementMode(mode: ManagementMode) {
+    setStrategyLoading(true)
+    try {
+      const response = await api.strategy.setMode(mode)
+      applyStateApiResult(response)
+      if (mode !== 'advisory') setStrategyDecision(null)
+      setToast(`管理方式已改为：${mode}`)
+    } catch (e) {
+      setStrategyError(e instanceof Error ? e.message : '管理方式修改失败')
+    } finally {
+      setStrategyLoading(false)
+    }
+  }
+  async function requestCouncilReview() {
+    setStrategyLoading(true)
+    try {
+      const response = await api.council.requestReview()
+      applyStateApiResult(response)
+      setStrategyDecision(null)
+      setToast('大臣已经入厅，等待领主裁定')
+    } catch (e) {
+      setStrategyError(e instanceof Error ? e.message : '召集议会失败')
+    } finally {
+      setStrategyLoading(false)
+    }
+  }
+  async function loadManagementAdvice() {
+    setStrategyLoading(true)
+    try {
+      const response = await api.strategy.advice()
+      setStrategyDecision(response.decision)
+    } catch (e) {
+      setStrategyError(e instanceof Error ? e.message : '顾问方案生成失败')
+    } finally {
+      setStrategyLoading(false)
+    }
+  }
+  async function acceptManagementAdvice(decisionId: string, actionId: string) {
+    setStrategyLoading(true)
+    try {
+      const response = await api.strategy.acceptAdvice(decisionId, actionId)
+      applyStateApiResult(response)
+      setStrategyDecision(response.decision)
+      setToast('顾问行动已经盖印，将在推进九天时执行')
+    } catch (e) {
+      setStrategyError(e instanceof Error ? e.message : '顾问行动确认失败')
+    } finally {
+      setStrategyLoading(false)
+    }
+  }
   async function createCharacter(payload: CharacterUpsertPayload) {
     const result = await api.state.characters.upsert(payload)
     onGame({ ...game, state: result.state, narrative: result.narrative || game.narrative, suggestions: result.suggestions ?? game.suggestions, source: result.source ?? 'state-api', trace: result.trace ?? game.trace })
@@ -651,7 +736,14 @@ function GameScreen({ game, onGame, onBack, catalog }: { game: TurnResult; onGam
       onGame(nextGame)
       setCommand('')
       const interrupted = (nextGame.events || []).some(event => event.kind === 'strategic_advance_interrupted' || event.kind === 'strategic_advance_blocked_by_due_event')
-      setToast(interrupted ? '推进被到期事件打断' : '九天战略回合已结算')
+      const councilBlocked = (nextGame.events || []).some(event => event.kind === 'council_opened' || event.kind === 'strategic_advance_blocked_by_council')
+      const adviceBlocked = (nextGame.events || []).some(event => event.kind === 'management_advice_required')
+      if (councilBlocked || adviceBlocked) {
+        setPanel('strategy')
+        setStrategyDecision(nextGame.state.management_ai?.pending_advice ?? null)
+        api.strategy.analysis().then(response => setStrategyAnalysis(response.analysis)).catch(() => undefined)
+      }
+      setToast(councilBlocked ? '推进被领主议会中断' : adviceBlocked ? '顾问方案等待裁定' : interrupted ? '推进被到期事件打断' : '九天战略回合已结算')
     } catch (e) {
       setToast(e instanceof Error ? e.message : '战略回合推进失败')
     } finally {
@@ -684,7 +776,7 @@ function GameScreen({ game, onGame, onBack, catalog }: { game: TurnResult; onGam
   const modeLabel = activeScene ? `场景：${activeScene.title}` : '战略'
   const highlightedDiplomacy = Object.entries(state.diplomacy).find(([name]) => !(state.factions?.[name]?.is_player))
   return <main className="game-page">
-    <header className="status-bar"><div className="brand"><span className="crest">♜</span><div><small>领地纪事</small><strong>{state.realm_name}</strong></div></div><div className="building-count">建筑 <b>{Object.values(state.buildings).reduce((a, b) => a + b, 0)}</b><span>处</span></div><div className="stat-cluster">{(['gold','food','wood','stone'] as const).map(key => <Resource key={key} name={key} state={state} onDescribe={() => describe('describe_item', resourceLabels[key][0], `描述资源：${resourceLabels[key][0]}`, { target_type: 'resource', key })} />)}</div><div className="military"><span>⚔ {state.army.infantry + state.army.archers + state.army.cavalry}</span><span>组织 {state.army_status?.organization ?? 100}</span>{highlightedDiplomacy && <span className="diplomacy-dot">{diplomacyLabel(highlightedDiplomacy[1])} · {highlightedDiplomacy[0]}</span>}</div><div className="menu"><button onClick={() => setPanel('realm')}>领地详情</button><button onClick={openPopulationPanel}>居民分析</button><button onClick={() => describe('describe_realm', '领地描述', `描述领地：${state.realm_name}`, { target_type: 'realm' })}>描述领地</button><button onClick={() => setPanel('lord')}>领主详情</button><button onClick={() => describe('describe_lord', '领主描述', `描述领主：${state.lord_name}`, { target_type: 'lord' })}>描述领主</button><button onClick={openCharactersPanel}>人物</button><button onClick={openEventsPanel}>事件</button><button onClick={openHistoryPanel}>历史</button><button onClick={save}>保存</button><button onClick={load}>读取</button><button onClick={onBack}>退出</button></div></header>
+    <header className="status-bar"><div className="brand"><span className="crest">♜</span><div><small>领地纪事</small><strong>{state.realm_name}</strong></div></div><div className="building-count">建筑 <b>{Object.values(state.buildings).reduce((a, b) => a + b, 0)}</b><span>处</span></div><div className="stat-cluster">{(['gold','food','wood','stone'] as const).map(key => <Resource key={key} name={key} state={state} onDescribe={() => describe('describe_item', resourceLabels[key][0], `描述资源：${resourceLabels[key][0]}`, { target_type: 'resource', key })} />)}</div><div className="military"><span>⚔ {state.army.infantry + state.army.archers + state.army.cavalry}</span><span>组织 {state.army_status?.organization ?? 100}</span>{highlightedDiplomacy && <span className="diplomacy-dot">{diplomacyLabel(highlightedDiplomacy[1])} · {highlightedDiplomacy[0]}</span>}</div><div className="menu"><button className={state.council?.current_meeting ? 'attention' : ''} onClick={openStrategyPanel}>{state.council?.current_meeting ? '议会待裁' : '战略方针'}</button><button onClick={() => setPanel('realm')}>领地详情</button><button onClick={openPopulationPanel}>居民分析</button><button onClick={() => describe('describe_realm', '领地描述', `描述领地：${state.realm_name}`, { target_type: 'realm' })}>描述领地</button><button onClick={() => setPanel('lord')}>领主详情</button><button onClick={() => describe('describe_lord', '领主描述', `描述领主：${state.lord_name}`, { target_type: 'lord' })}>描述领主</button><button onClick={openCharactersPanel}>人物</button><button onClick={openEventsPanel}>事件</button><button onClick={openHistoryPanel}>历史</button><button onClick={save}>保存</button><button onClick={load}>读取</button><button onClick={onBack}>退出</button></div></header>
     <section className="turn-strip"><span>第 {state.turn} 轮</span><i /> <span>第 {time?.calendar_day ?? 1} 日</span><i /> <span>{clock24(time)}</span><i /> <span>本轮第 {time?.day_in_turn ?? 1}/{time?.turn_days ?? 9} 日</span><i /> <span>{state.season}</span><i /> <span>{state.weather}</span><i /> <span>{modeLabel}</span>{activeScene && <span>已过 {activeScene.elapsed_days} 日 {activeScene.elapsed_hours} 时 {activeScene.elapsed_minutes ?? 0} 分</span>}<span className="engine-badge">{game.source === 'hermes' ? '书记官执笔叙事' : '管家按律核算'}</span></section>
     <div className="game-layout"><section className="story-column"><div className="report"><div className="report-top"><span>本轮报告</span><span className="wax">{busy ? '✦ 书记官裁决中' : '✦ 已裁决'}</span></div><div className="report-markdown"><ReactMarkdown skipHtml remarkPlugins={markdownPlugins}>{streamText || game.narrative}</ReactMarkdown></div><div className="secondary-stats"><Meter label="民心" value={state.resources.morale} /><Meter label="统治力" value={state.resources.authority} /><span>人口 <b>{state.resources.population}</b></span></div></div><AgentTracePanel trace={trace} collapsed={traceCollapsed} setCollapsed={setTraceCollapsed} running={busy} /><div className="prompt-box"><label>{activeScene ? `场景命令 · ${activeScene.title}` : '故事互动 / 场景命令'}</label><textarea value={command} onChange={e => setCommand(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) send() }} placeholder={activeScene ? '例如：我命令卫兵把商队头领带到火盆前问话……' : '例如：召见管家询问粮仓亏空，或点击“推进九天”结算战略回合……'} /><div className="composer-footer"><span>⌘ Enter 递交书记官</span><div className="mode-actions">{!activeScene && <button className="ghost-button" type="button" onClick={startScene} disabled={busy}>开始场景</button>}{activeScene && <button className="ghost-button" type="button" onClick={endScene} disabled={busy}>结束场景</button>}<button className="ghost-button" type="button" onClick={advanceStrategicTurn} disabled={busy || !!activeScene}>推进九天</button><button className="primary-button compact" onClick={() => send()} disabled={busy}>{busy ? '裁决中…' : '递交文书 →'}</button></div></div></div><div className="suggestions">{game.suggestions.map(item => <button key={item} onClick={() => send(item)} disabled={busy}>+ {item}</button>)}</div></section>
       <div className="map-column">
@@ -693,7 +785,7 @@ function GameScreen({ game, onGame, onBack, catalog }: { game: TurnResult; onGam
         {mapMode === 'diplomacy' && <aside className="map-panel diplomacy-panel"><div className="map-head"><div><span className="section-label">外交地图</span><small>大地理与势力领地 · 点击后自动描述</small></div><span>{Object.keys(state.diplomacy).length} 方势力</span></div><div className="coordinates" style={{ gridTemplateColumns: `repeat(${diplomacyMapSize}, 1fr)` }}>{Array.from({ length: diplomacyMapSize }, (_, index) => <span key={index}>{columnLabel(index)}</span>)}</div><div className="map-grid diplomacy-grid" style={{ gridTemplateColumns: `repeat(${diplomacyMapSize}, 1fr)` }}>{Array.from({ length: diplomacyMapSize * diplomacyMapSize }, (_, index) => { const x = (index % diplomacyMapSize) + 1, y = Math.floor(index / diplomacyMapSize) + 1, tile = diplomacyTiles.get(`${x}-${y}`) ?? { x, y, kind: 'grass', label: '草地', owner: null }; const owner = tile.owner ? state.factions?.[tile.owner] ?? catalog?.factions?.[tile.owner] : null; const style = owner ? { background: `${owner.color}3d`, borderColor: owner.color, color: owner.color } : undefined; return <button title={`${coordLabel(x, y)} · ${tile.label}${tile.owner ? ` · ${tile.owner}` : ''}`} key={`${x}-${y}`} className={`tile diplomacy-tile ${tile.owner ? 'owned' : 'unowned'}`} style={style} onClick={() => openTileDrawer(tile, 'diplomacy')}><span>{owner?.banner ?? diplomacyTileIcon(catalog, tile.kind)}</span></button> })}</div><div className="legend faction-legend">{Object.entries(state.diplomacy).map(([name, value]) => { const info = state.factions?.[name] ?? catalog?.factions?.[name]; return <button key={name} type="button" className="faction-chip" onClick={() => setFactionDetail(name)}><b style={{ color: info?.color ?? '#8a8a8a' }}>{info?.banner ?? '⚑'}</b>{name} · {diplomacyLabel(value)}</button> })}</div></aside>}
       </div>
     </div>
-    {description.open && <DescriptionDrawer description={description} close={() => setDescription(previous => ({ ...previous, open: false }))} />}{panel && panel !== 'population' && panel !== 'history' && panel !== 'events' && panel !== 'characters' && <DetailPanel panel={panel} state={state} catalog={catalog} close={() => setPanel(null)} onGrantItem={grantEquipmentItem} onEquipItem={equipEquipmentItem} onUnequipItem={unequipEquipmentItem} onPatchBodyProfile={patchBodyProfile} />}{panel === 'population' && <PopulationAnalysisPanel demographics={demographics} catalog={catalog} loading={demographicsLoading} error={demographicsError} close={() => setPanel(null)} />}{panel === 'characters' && <CharactersPanel characters={characters} catalog={catalog} loading={charactersLoading} error={charactersError} close={() => setPanel(null)} refresh={openCharactersPanel} onCreate={createCharacter} onDescribe={(character) => describe('describe_item', `人物描述：${character.name}`, `描述人物：${character.name}`, { target_type: 'character', key: character.id })} onTalk={(character) => startCharacterScene(character, 'dialogue')} onAdultScene={(character) => startCharacterScene(character, 'sexual')} onGrantItem={grantEquipmentItem} onEquipItem={equipEquipmentItem} onUnequipItem={unequipEquipmentItem} onPatchBodyProfile={patchBodyProfile} />}{panel === 'events' && <EventsPanel events={events} loading={eventsLoading} error={eventsError} close={() => setPanel(null)} refresh={openEventsPanel} currentDay={time?.calendar_day ?? 1} />}{panel === 'history' && <HistoryPanel history={history} loading={historyLoading} error={historyError} close={() => setPanel(null)} refresh={openHistoryPanel} />}
+    {description.open && <DescriptionDrawer description={description} close={() => setDescription(previous => ({ ...previous, open: false }))} />}{panel && panel !== 'population' && panel !== 'history' && panel !== 'events' && panel !== 'characters' && panel !== 'strategy' && <DetailPanel panel={panel} state={state} catalog={catalog} close={() => setPanel(null)} onGrantItem={grantEquipmentItem} onEquipItem={equipEquipmentItem} onUnequipItem={unequipEquipmentItem} onPatchBodyProfile={patchBodyProfile} />}{panel === 'population' && <PopulationAnalysisPanel demographics={demographics} catalog={catalog} loading={demographicsLoading} error={demographicsError} close={() => setPanel(null)} />}{panel === 'characters' && <CharactersPanel characters={characters} catalog={catalog} loading={charactersLoading} error={charactersError} close={() => setPanel(null)} refresh={openCharactersPanel} onCreate={createCharacter} onDescribe={(character) => describe('describe_item', `人物描述：${character.name}`, `描述人物：${character.name}`, { target_type: 'character', key: character.id })} onTalk={(character) => startCharacterScene(character, 'dialogue')} onAdultScene={(character) => startCharacterScene(character, 'sexual')} onGrantItem={grantEquipmentItem} onEquipItem={equipEquipmentItem} onUnequipItem={unequipEquipmentItem} onPatchBodyProfile={patchBodyProfile} />}{panel === 'events' && <EventsPanel events={events} loading={eventsLoading} error={eventsError} close={() => setPanel(null)} refresh={openEventsPanel} currentDay={time?.calendar_day ?? 1} />}{panel === 'history' && <HistoryPanel history={history} loading={historyLoading} error={historyError} close={() => setPanel(null)} refresh={openHistoryPanel} />}{panel === 'strategy' && <CouncilPanel meeting={state.council?.current_meeting ?? null} directive={state.strategic_directive ?? null} management={state.management_ai ?? null} analysis={strategyAnalysis} decision={strategyDecision ?? state.management_ai?.pending_advice ?? null} loading={strategyLoading} error={strategyError} close={() => setPanel(null)} resolveMeeting={resolveCouncil} setMode={changeManagementMode} requestReview={requestCouncilReview} loadAdvice={loadManagementAdvice} acceptAdvice={acceptManagementAdvice} />}
     {tileDetail && <TileDetailDrawer detail={tileDetail} catalog={catalog} factions={state.factions} close={() => setTileDetail(null)} onRefresh={() => openTileDrawer(tileDetail.tile, tileDetail.source, true)} onViewFaction={(faction) => { setFactionDetail(faction) }} />}
     {factionDetail && <FactionDetailPanel faction={factionDetail} detail={buildFactionDetail(state, catalog, factionDetail)} close={() => setFactionDetail(null)} />}
     {toast && <div className="toast" onAnimationEnd={() => setToast('')}>{toast}</div>}

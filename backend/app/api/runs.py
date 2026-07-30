@@ -57,11 +57,22 @@ SAFE_LORD_TAIL_APPROVAL_PATHS = {
     "/api/hermes/lord/equipment/equip",
     "/api/hermes/lord/equipment/unequip",
     "/api/hermes/battles/resolve",
+    "/api/council/current",
+    "/api/council/request-review",
+    "/api/strategy/current",
+    "/api/strategy/analysis",
+    "/api/strategy/management-mode",
+    "/api/strategy/advice",
+    "/api/actions/legal",
+    "/api/actions/validate",
+    "/api/actions/execute",
 }
 SAFE_LORD_TAIL_APPROVAL_PATH_PREFIXES = (
     "/api/characters/",
     "/api/state/characters/",
     "/api/hermes/characters/",
+    "/api/council/",
+    "/api/strategy/advice/",
 )
 
 UNSAFE_SHELL_MARKERS = (";", "&&", "||", "|", "`", "$(", ">", "<")

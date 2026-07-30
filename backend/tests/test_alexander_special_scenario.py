@@ -5,8 +5,9 @@ import random
 from typing import Any
 
 from app.catalog import BUILDINGS, TALENTS, UNITS
+from app.engine.state import require_state
 from app.engine.types import TurnContext
-from app.systems import diplomacy, military
+from app.systems import council, diplomacy, military
 
 
 SCENARIO_SETTINGS = {
@@ -30,7 +31,17 @@ def _scenario_talents() -> list[dict[str, str]]:
 def _start_alexander(client) -> dict[str, Any]:
     response = client.post("/api/game/start", json={**SCENARIO_SETTINGS, "talents": _scenario_talents()})
     assert response.status_code == 200, response.text
-    return response.json()
+    data = response.json()
+    state = require_state()
+    event = next(item for item in state["scheduled_events"]["entries"] if item["type"] == "council_session")
+    meeting = council.open_meeting_from_event(state, event)
+    council.resolve_meeting(state, meeting["id"], meeting["proposals"][0]["id"], "manual")
+    # 这些专项回归测试聚焦既有建筑、训练和结算行为；定期议会中断
+    # 由 test_council.py 单独覆盖，避免长训练循环停在下一场议会。
+    state["scheduled_events"]["entries"] = []
+    state["strategic_directive"]["expires_time"]["calendar_day"] = 10_000
+    data["state"] = state
+    return data
 
 
 def _sse_json_events(text: str) -> list[dict[str, Any]]:

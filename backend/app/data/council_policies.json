@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "meeting": {
+    "directive_duration_days": 90,
+    "directive_duration_strategic_turns": 10,
+    "regular_clock_24": "09:00",
+    "requested_review_cooldown_days": 18,
+    "emergency_cooldown_days": 18,
+    "emergency": {
+      "food_runway_days_below": 18,
+      "gold_runway_days_below": 18,
+      "military_readiness_below": 0.8,
+      "threat_defense_ratio_above": 1.5,
+      "no_action_turns": 2
+    }
+  },
+  "planner": {
+    "depth": 3,
+    "beam_width": 6,
+    "max_legal_actions": 40,
+    "max_build_coordinates": 3,
+    "max_expansions_per_node": 20,
+    "advice_count": 3,
+    "recruit_quantities": [1, 5, 10],
+    "minimum_gold_reserve": 40
+  },
+  "action_rules": {
+    "tax_policies": {
+      "standard_levy": {
+        "name": "征收常例税",
+        "gold": 55,
+        "morale": -5,
+        "tags": ["finance", "treasury", "tax"]
+      }
+    },
+    "envoy_missions": {
+      "trade": {
+        "name": "商路交涉",
+        "cost": {"food": 20},
+        "gain": {"gold": 30},
+        "relation_delta": 3,
+        "minimum_relation": -60,
+        "tags": ["diplomacy", "trade", "commerce"]
+      },
+      "appease": {
+        "name": "遣使缓和",
+        "cost": {"gold": 20},
+        "gain": {},
+        "relation_delta": 12,
+        "minimum_relation": -100,
+        "tags": ["diplomacy", "appeasement", "stability"]
+      },
+      "alliance": {
+        "name": "联盟试探",
+        "cost": {"gold": 35},
+        "gain": {},
+        "relation_delta": 6,
+        "minimum_relation": 40,
+        "treaty": "共同防御意向",
+        "treaty_duration_turns": 6,
+        "tags": ["diplomacy", "alliance", "defense"]
+      }
+    }
+  },
+  "proposals": {
+    "finance_food_security": {
+      "domain": "finance",
+      "title": "确保粮食安全",
+      "minister": "财政官",
+      "summary": "扩充粮食产出、适配住房与安全库存，先让粮仓足以承受坏年景。",
+      "allowed_action_tags": ["food", "agriculture", "housing", "wait"],
+      "action_tag_weights": {"food": 10.0, "agriculture": 8.0, "housing": 0.5, "wait": 0.0},
+      "targets": {"food_runway_days": 54, "food_net_turn": 0},
+      "budget_limits": {"gold_spend_ratio": 0.45, "minimum_gold_reserve": 100},
+      "weights": {"survival": 10.0, "food_security": 2.4, "treasury": 0.8, "stability": 1.2, "defense": 0.4, "diplomacy": 0.2},
+      "selection": {"food_runway_days_below": 54, "food_net_turn_below": 1}
+    },
+    "finance_treasury_recovery": {
+      "domain": "finance",
+      "title": "整饬财政",
+      "minister": "财政官",
+      "summary": "克制工程支出，改善收入与生产瓶颈，恢复能够支付维护费的金库。",
+      "allowed_action_tags": ["treasury", "tax", "low_cost", "production", "wait"],
+      "action_tag_weights": {"treasury": 8.0, "tax": 7.0, "low_cost": 2.0, "production": 3.0, "wait": 1.0},
+      "targets": {"gold_runway_days": 54, "gold_net_turn": 0},
+      "budget_limits": {"gold_spend_ratio": 0.2, "minimum_gold_reserve": 120},
+      "weights": {"survival": 10.0, "food_security": 1.0, "treasury": 2.6, "stability": 1.0, "defense": 0.4, "diplomacy": 0.3},
+      "selection": {"gold_runway_days_below": 54, "gold_net_turn_below": 0}
+    },
+    "finance_commercial_growth": {
+      "domain": "finance",
+      "title": "扩张工商",
+      "minister": "财政官",
+      "summary": "打通原料、工坊、商店与商路，让工匠和商人的财富进入领主账房。",
+      "allowed_action_tags": ["commerce", "craft", "production", "trade", "housing", "wait"],
+      "action_tag_weights": {"commerce": 7.0, "craft": 6.0, "production": 4.0, "trade": 5.0, "housing": 0.5, "wait": 0.0},
+      "targets": {"gold_net_turn": 20, "employment_rate": 0.75},
+      "budget_limits": {"gold_spend_ratio": 0.55, "minimum_gold_reserve": 80},
+      "weights": {"survival": 10.0, "food_security": 0.8, "treasury": 2.0, "stability": 0.8, "defense": 0.3, "diplomacy": 0.8},
+      "selection": {}
+    },
+    "military_border_defense": {
+      "domain": "military",
+      "title": "固守边境",
+      "minister": "军事统帅",
+      "summary": "维持守军组织，修补防御缺口，使敌军不能以一次突袭压垮领地。",
+      "allowed_action_tags": ["defense", "fortification", "military", "organization", "wait"],
+      "action_tag_weights": {"defense": 7.0, "fortification": 6.0, "military": 4.0, "organization": 5.0, "wait": 0.0},
+      "targets": {"military_readiness": 1.2, "organization": 70},
+      "budget_limits": {"gold_spend_ratio": 0.45, "minimum_gold_reserve": 80},
+      "weights": {"survival": 10.0, "food_security": 1.0, "treasury": 0.7, "stability": 1.0, "defense": 2.8, "diplomacy": 0.4},
+      "selection": {"military_readiness_below": 1.0}
+    },
+    "military_force_expansion": {
+      "domain": "military",
+      "title": "扩充军力",
+      "minister": "军事统帅",
+      "summary": "建立训练能力并扩充可承担的兵力，形成步兵、弓兵与骑兵的组合。",
+      "allowed_action_tags": ["military", "recruitment", "training", "defense", "wait"],
+      "action_tag_weights": {"military": 6.0, "recruitment": 8.0, "training": 6.0, "defense": 3.0, "wait": 0.0},
+      "targets": {"army_size": 20, "military_readiness": 1.5},
+      "budget_limits": {"gold_spend_ratio": 0.5, "minimum_gold_reserve": 80},
+      "weights": {"survival": 10.0, "food_security": 0.9, "treasury": 0.6, "stability": 0.8, "defense": 2.5, "diplomacy": 0.2},
+      "selection": {"army_size_below": 20}
+    },
+    "military_fortification": {
+      "domain": "military",
+      "title": "营造要塞",
+      "minister": "军事统帅",
+      "summary": "把石料与劳役投入永久工事，在领地核心建立可依赖的防线。",
+      "allowed_action_tags": ["fortification", "defense", "stone", "construction", "wait"],
+      "action_tag_weights": {"fortification": 8.0, "defense": 6.0, "stone": 4.0, "construction": 1.0, "wait": 0.0},
+      "targets": {"defensive_power": 30},
+      "budget_limits": {"gold_spend_ratio": 0.55, "minimum_gold_reserve": 70},
+      "weights": {"survival": 10.0, "food_security": 0.8, "treasury": 0.6, "stability": 0.9, "defense": 2.7, "diplomacy": 0.2},
+      "selection": {}
+    },
+    "diplomacy_trade_opening": {
+      "domain": "diplomacy",
+      "title": "开放商路",
+      "minister": "外交官",
+      "summary": "向可接触的邻国派出使团，以贸易改善收入与关系。",
+      "allowed_action_tags": ["diplomacy", "trade", "commerce", "wait"],
+      "action_tag_weights": {"diplomacy": 4.0, "trade": 8.0, "commerce": 5.0, "wait": 0.0},
+      "targets": {"trade_opportunities": 2, "average_relation": 15},
+      "budget_limits": {"gold_spend_ratio": 0.3, "minimum_gold_reserve": 80},
+      "weights": {"survival": 10.0, "food_security": 0.8, "treasury": 1.2, "stability": 0.8, "defense": 0.4, "diplomacy": 2.5},
+      "selection": {}
+    },
+    "diplomacy_appeasement": {
+      "domain": "diplomacy",
+      "title": "缓和敌意",
+      "minister": "外交官",
+      "summary": "以礼物、使节和克制降低最危险邻国的敌意。",
+      "allowed_action_tags": ["diplomacy", "appeasement", "stability", "wait"],
+      "action_tag_weights": {"diplomacy": 4.0, "appeasement": 9.0, "stability": 3.0, "wait": 0.0},
+      "targets": {"hostile_neighbors": 0, "war_risk": 0.25},
+      "budget_limits": {"gold_spend_ratio": 0.35, "minimum_gold_reserve": 70},
+      "weights": {"survival": 10.0, "food_security": 0.9, "treasury": 0.7, "stability": 1.3, "defense": 0.8, "diplomacy": 2.8},
+      "selection": {"hostile_neighbors_above": 0}
+    },
+    "diplomacy_alliance_building": {
+      "domain": "diplomacy",
+      "title": "缔结联盟",
+      "minister": "外交官",
+      "summary": "经营已有善意的邻国，为共同防御和稳定边境准备盟约。",
+      "allowed_action_tags": ["diplomacy", "alliance", "defense", "wait"],
+      "action_tag_weights": {"diplomacy": 4.0, "alliance": 9.0, "defense": 3.0, "wait": 0.0},
+      "targets": {"friendly_neighbors": 2, "alliances": 1},
+      "budget_limits": {"gold_spend_ratio": 0.4, "minimum_gold_reserve": 80},
+      "weights": {"survival": 10.0, "food_security": 0.8, "treasury": 0.7, "stability": 0.8, "defense": 1.0, "diplomacy": 3.0},
+      "selection": {"friendly_neighbors_above": 0}
+    },
+    "status_quo_reserve": {
+      "domain": "reserve",
+      "title": "维持现状",
+      "minister": "领主",
+      "summary": "不启动高成本扩张，积累储备并完成已有工程。",
+      "allowed_action_tags": ["low_cost", "stability", "wait"],
+      "action_tag_weights": {"low_cost": 5.0, "stability": 5.0, "wait": 6.0},
+      "targets": {"food_runway_days": 45, "gold_runway_days": 45},
+      "budget_limits": {"gold_spend_ratio": 0.1, "minimum_gold_reserve": 150},
+      "weights": {"survival": 10.0, "food_security": 1.5, "treasury": 1.5, "stability": 1.6, "defense": 0.5, "diplomacy": 0.3},
+      "selection": {}
+    }
+  }
+}

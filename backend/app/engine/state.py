@@ -212,6 +212,25 @@ def make_state(request: Any) -> dict[str, Any]:
         "history": {"entries": [], "next_id": 1},
         "last_history_entries_created": [],
         "scheduled_events": {"entries": [], "next_id": 1},
+        "council": {
+            "current_meeting": None,
+            "history": [],
+            "next_id": 1,
+            "next_directive_id": 1,
+            "last_regular_time": None,
+            "last_requested_review_time": None,
+            "emergency_cooldowns": {},
+        },
+        "strategic_directive": None,
+        "management_ai": {
+            "enabled": True,
+            "mode": "delegated",
+            "last_decision": None,
+            "pending_advice": None,
+            "accepted_action": None,
+            "consecutive_no_action_turns": 0,
+            "action_slot": None,
+        },
         "characters": {"entries": [], "next_id": 1},
     }
     from ..systems.characters import normalize_characters
@@ -243,6 +262,9 @@ def make_state(request: Any) -> dict[str, Any]:
             in_days=89,
             created_by="system",
         )
+    from ..systems.council import ensure_initial_council
+
+    ensure_initial_council(state)
     return state
 
 
@@ -333,6 +355,7 @@ def normalize_state(state: dict[str, Any]) -> None:
     from ..systems.diplomacy import normalize_diplomacy_state, normalize_faction_states
     from ..systems.military import normalize_army_status
     from ..systems.scheduled_events import normalize_scheduled_events
+    from ..systems.council import normalize_council_state
     from .history import normalize_history
     from .scenes import normalize_scene_state
     from .time import normalize_time
@@ -347,6 +370,7 @@ def normalize_state(state: dict[str, Any]) -> None:
     normalize_demographics(state)
     normalize_history(state)
     normalize_scheduled_events(state)
+    normalize_council_state(state)
     normalize_characters(state)
 
 

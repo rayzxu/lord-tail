@@ -183,6 +183,8 @@ def state_time_advance(request: TimeAdvanceRequest) -> dict[str, Any]:
 def strategic_turn(request: StrategicTurnRequest) -> dict[str, Any]:
     current_state = require_state()
     if current_state.get("active_scene") is not None:
+        if current_state.get("active_scene", {}).get("type") == "council":
+            raise HTTPException(409, "领主议会必须先作出裁定，不能强制跳过")
         if not request.force_end_scene:
             raise HTTPException(409, "当前有进行中的场景；请先结束场景或设置 force_end_scene=true")
         scenes.end_scene(current_state, summary="战略回合开始前，当前场景被强制归档。")
