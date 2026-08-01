@@ -61,6 +61,8 @@ def load_definitions() -> dict[tuple[str, str], dict[str, Any]]:
         if path.name in RESERVED_FILES:
             continue
         document = _read_json(path)
+        if document.get("status") == "archived":
+            continue
         raw_nodes = document.get("nodes", {})
         if int(document.get("schema_version", 1)) == 2:
             if not isinstance(raw_nodes, dict):
@@ -107,6 +109,8 @@ def load_arc_definitions() -> dict[str, dict[str, Any]]:
         if path.name in RESERVED_FILES:
             continue
         document = _read_json(path)
+        if document.get("status") == "archived":
+            continue
         if int(document.get("schema_version", 1)) != 2:
             continue
         definition = dict(document)

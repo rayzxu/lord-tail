@@ -3,6 +3,11 @@ frontend/dist/
 frontend/*.tsbuildinfo
 frontend/vite.config.js
 frontend/vite.config.d.ts
+admin/node_modules/
+admin/dist/
+admin/*.tsbuildinfo
+admin/test-results/
+admin/playwright-report/
 *.tsbuildinfo
 backend/__pycache__/
 backend/app/__pycache__/
@@ -13,3 +18,5 @@ __pycache__/
 backend/.lord-tail-save.json
 backend/.venv/
 .lord-tail-hermes-gateway.log
+.env
+.content-admin/

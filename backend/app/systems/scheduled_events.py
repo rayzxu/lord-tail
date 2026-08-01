@@ -184,7 +184,11 @@ def schedule_event(
         in_days=in_days,
         in_hours=in_hours,
         in_minutes=in_minutes,
-        clock_24=clock_24 if clock_24 or due_time is not None else template.get("default_due_clock_24"),
+        clock_24=(
+            clock_24
+            if clock_24 or due_time is not None or in_hours is not None or in_minutes is not None
+            else template.get("default_due_clock_24")
+        ),
     )
     event = {
         "id": _next_event_id(state),
@@ -291,32 +295,37 @@ def activate_due_events(state: dict[str, Any], *, source: str = "pipeline") -> l
                 data={"event": event, "source": source},
             ))
             continue
-        event["status"] = "active"
-        event["activated_time"] = time_point_from_state(state)
-        event["updated_at"] = _now()
         arc_definition_id = event.get("flags", {}).get("story_arc_definition_id")
         if event.get("type") == "story_arc_node":
             from ..storylets.runtime import activate_timed_node
 
             activation = activate_timed_node(state, event)
+            event = _event_by_id(state, event["id"])
             event.setdefault("flags", {})["story_arc_activation"] = activation.get("status", "active")
             stop_after_event = state.get("active_scene") is not None
         elif arc_definition_id:
-            from ..storylets.runtime import start_arc_from_scheduled_event
+            from ..storylets.runtime import try_activate_arc_entry
 
-            arc = start_arc_from_scheduled_event(
-                state, str(arc_definition_id), event["id"],
-                seed=int(event.get("flags", {}).get("story_arc_seed", 2001)),
+            activation = try_activate_arc_entry(
+                state, event["id"], seed=int(event.get("flags", {}).get("story_arc_seed", 2001)),
             )
             event = _event_by_id(state, event["id"])
-            event.setdefault("flags", {})["story_arc_chain_id"] = arc["chain"]["id"]
+            if activation.get("run_id"):
+                event.setdefault("flags", {}).update({
+                    "story_arc_run_id": activation["run_id"],
+                    "story_arc_chain_id": activation["run_id"],
+                })
             stop_after_event = state.get("active_scene") is not None
-        elif event.get("type") == "council_session":
+        else:
+            event["status"] = "active"
+            event["activated_time"] = time_point_from_state(state)
+            event["updated_at"] = _now()
+        if event.get("type") == "council_session" and not arc_definition_id:
             from .council import open_meeting_from_event
 
             meeting = open_meeting_from_event(state, event)
             event.setdefault("flags", {})["meeting_id"] = meeting["id"]
-        elif event.get("type") == "storylet_event":
+        elif event.get("type") == "storylet_event" and not arc_definition_id:
             from ..storylets.service import activate_storylet_for_event
 
             instance = activate_storylet_for_event(state, event)
@@ -330,6 +339,17 @@ def activate_due_events(state: dict[str, Any], *, source: str = "pipeline") -> l
             data={"event": event, "source": source},
         ))
         if stop_after_event:
+            # The due list was snapshotted before this blocking Scene started.
+            # Preserve every other authored event as an explicit queue entry so
+            # releasing the Scene can continue without another time advance.
+            for pending in due_events(state):
+                if pending.get("id") == event.get("id"):
+                    continue
+                flags = pending.get("flags", {}) if isinstance(pending.get("flags"), dict) else {}
+                if pending.get("type") == "story_arc_node" or flags.get("story_arc_definition_id"):
+                    pending["status"] = "due"
+                    flags["queued_for_scene"] = True
+                    flags["activation_state"] = "queued"
             break
     if events:
         state.setdefault("recent_events", []).extend(event.model_dump() for event in events)

@@ -282,6 +282,8 @@ PYTHONPATH=backend backend/.venv/bin/python tools/run_storylet_long_simulation.p
 
 ## 常见失败
 
+> 本文描述的 schema v1 Storylet 仍以顶层 Instance/Chain 运行。需要显式分支图、timed node、自动过场和可靠终局的事件应使用 schema v2 Story Arc；其运行状态是 `StoryArcRun + NodeVisit`，维护规则见 `.docs/预编剧情图事件手工维护指南.md`。不要在 schema v2 中使用 `schedule_followup` 或 `transition_to` 隐藏迁移边。
+
 - 启动时报“未知 effect/trigger”：名字未进入白名单或拼写错误。
 - 预览报“没有合法建筑与地块”：地图、材料或空闲劳力不满足，并非文案错误。
 - 事件创建了但没有立即弹出：这是预期行为；回合末只创建 ready，下一次推进才激活。

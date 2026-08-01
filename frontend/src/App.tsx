@@ -993,8 +993,9 @@ function InterruptEventModal({ scene, scheduledEvent, storylet, choose, requestC
   const [storyletDetail, setStoryletDetail] = useState<StoryletInstance | undefined>(storylet)
   const activeStorylet = storyletDetail ?? storylet
   const sceneFlags = asRecord(scene.flags)
+  const sceneStoryEventId = String(sceneFlags.story_event_id ?? '')
   const isAuthoredArc = String(sceneFlags.source ?? '') === 'story_arc'
-  const isStorylet = ['storylet', 'story_arc'].includes(String(sceneFlags.source ?? '')) && !!activeStorylet
+  const isStorylet = ['storylet', 'story_arc'].includes(String(sceneFlags.source ?? '')) && (!!activeStorylet || !!sceneStoryEventId)
   const [storyArc, setStoryArc] = useState<StoryArc | null>(null)
   const fallback = activeStorylet?.narrative_md || scheduledEvent?.description_md || `**${scene.title}** 已经打断领地的日常秩序。`
   const recentMessages = Array.isArray(scene.recent_messages) ? scene.recent_messages.map(asRecord) : []
@@ -1008,11 +1009,12 @@ function InterruptEventModal({ scene, scheduledEvent, storylet, choose, requestC
   const [lastPlayerAction, setLastPlayerAction] = useState('')
   const actionOptions = interruptEventOptions(scene.type, scheduledEvent)
   useEffect(() => {
-    if (!storylet?.id) return
+    const detailId = storylet?.id || sceneStoryEventId
+    if (!detailId) return
     let active = true
-    api.storylets.detail(storylet.id).then(response => { if (active) setStoryletDetail(response.instance) }).catch(() => undefined)
+    api.storylets.detail(detailId).then(response => { if (active) setStoryletDetail(response.instance) }).catch(() => undefined)
     return () => { active = false }
-  }, [storylet?.id])
+  }, [storylet?.id, sceneStoryEventId])
   useEffect(() => {
     const chainId = String(sceneFlags.story_arc_chain_id ?? '')
     if (!isAuthoredArc || !chainId) return
@@ -1121,6 +1123,7 @@ function InterruptEventModal({ scene, scheduledEvent, storylet, choose, requestC
     <header><div><span className="section-label">时间推进已中断</span><h2>{activeStorylet?.title ?? scheduledEvent?.title ?? scene.title}</h2></div><span className="interrupt-seal">紧急事件</span></header>
     <div className="event-meta"><span>{scheduledEvent?.type ?? activeStorylet?.category ?? scene.type}</span><span>{scheduledEvent?.id ?? activeStorylet?.id ?? scene.id}</span>{scheduledEvent?.schedule?.due_time && <span>第 {scheduledEvent.schedule.due_time.calendar_day} 日 {scheduledEvent.schedule.due_time.clock_24}</span>}</div>
     {storyArc && <div className="arc-progress"><div><b>预编剧情 · 第 {storyArc.timeline.length} 幕</b><span>状态由后端卷宗锁定</span></div><div className="arc-timeline">{storyArc.timeline.map((entry, index) => <span key={`${entry.node_id}-${index}`} className={entry.status}><i>{index + 1}</i>{entry.title}{entry.selected_choice_id && <small>{entry.selected_choice_id}</small>}</span>)}</div></div>}
+    {!!storyArc?.transition_log.length && <section className="arc-transition-log"><span className="section-label">已发生的过场</span>{storyArc.transition_log.map(entry => <article key={entry.visit_id}><ReactMarkdown skipHtml remarkPlugins={markdownPlugins}>{entry.narrative_md}</ReactMarkdown><small>{entry.effects_summary}</small></article>)}</section>}
     {activeStorylet && <div className="storylet-cast">{Object.entries(activeStorylet.cast_snapshots ?? {}).map(([role, person]) => <article key={role}><small>{role}</small><b>{person.name ?? '无名人物'}</b><span>{person.role || person.class_id || '领民'}</span></article>)}</div>}
     {lastPlayerAction && <div className="event-player-action"><small>领主方才下令</small><p>{lastPlayerAction}</p></div>}
     <div className={`markdown-description interrupt-narrative ${loading ? 'writing' : ''}`}><ReactMarkdown skipHtml remarkPlugins={markdownPlugins}>{text}</ReactMarkdown>{loading && <span className="scribe-writing">书记官正在推进事件……</span>}</div>

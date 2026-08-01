@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "id": "default_steward",
+  "name": "奥斯温",
+  "kind": "steward",
+  "gender": "男",
+  "age": 46,
+  "role": "领地管家",
+  "description_md": "一名熟悉账册、仓储与领地旧例的中年管家。",
+  "body_preset_id": "male",
+  "components": {
+    "attributes": {"base": {"STR": 8, "DEX": 9, "CON": 10, "INT": 13, "WIS": 13, "CHA": 11}},
+    "personality_axes": {"ambition": 35, "greed": 42, "boldness": 30, "loyalty": 68, "compassion": 45, "piety": 50, "deceit": 38}
+  },
+  "initial_inventory": [],
+  "initial_equipment": {},
+  "tags": ["court", "management"],
+  "status": "active"
+}

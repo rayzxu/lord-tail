@@ -50,12 +50,18 @@ def test_arc_lifecycle_cannot_be_bypassed_and_completes_atomically(client):
 def test_choice_is_idempotent_and_freeform_budget_does_not_move_node(client):
     state, _, arc = activate_caravan(client)
     instance_id = arc["current_instance"]["id"]
-    for index in range(3):
+    for index in range(2):
         stepped = client.post("/api/game/scenes/current/step", json={"input": f"追问 {index}"})
         assert stepped.status_code == 200
+    messages_before = len(state["active_scene"]["recent_messages"])
+    events_before = len(state["recent_events"])
+    rejected = client.post("/api/game/scenes/current/step", json={"input": "第三次追问"})
+    assert rejected.status_code == 409
+    assert len(state["active_scene"]["recent_messages"]) == messages_before
+    assert len(state["recent_events"]) == events_before
     current = client.get("/api/story-arcs/current").json()["arc"]
     assert current["chain"]["current_node_id"] == "arrival_gate"
-    assert current["interaction_budget"] == {"used": 3, "maximum": 2, "freeform_allowed": False}
+    assert current["interaction_budget"] == {"used": 2, "maximum": 2, "freeform_allowed": False}
 
     chosen = choose(client, current, "inspect_outside")
     assert chosen.status_code == 200

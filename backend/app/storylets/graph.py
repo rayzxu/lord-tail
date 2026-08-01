@@ -1,13 +1,15 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import json
+import math
 from typing import Any
 
 
 NODE_KINDS = {"choice", "automatic", "timed", "terminal"}
 CONDITION_OPS = {
     "fact_equals", "fact_gte", "fact_lte", "choice_was", "resource_minimum",
-    "relationship_minimum", "character_trait_minimum", "season_any", "any",
+    "season_any", "any",
 }
 
 
@@ -38,12 +40,45 @@ def _validate_condition(condition: Any, label: str) -> None:
     unknown = set(condition) - CONDITION_OPS
     if unknown:
         raise ValueError(f"{label}: 未知剧情图条件 {sorted(unknown)}")
-    if "any" in condition:
-        rows = condition["any"]
-        if not isinstance(rows, list) or not rows:
-            raise ValueError(f"{label}: any 必须是非空数组")
-        for index, item in enumerate(rows):
-            _validate_condition(item, f"{label}.any[{index}]")
+    for op, spec in condition.items():
+        if op in {"fact_equals", "fact_gte", "fact_lte", "resource_minimum"}:
+            if not isinstance(spec, dict) or not spec:
+                raise ValueError(f"{label}: {op} 必须是非空对象")
+            if op != "fact_equals":
+                for value in spec.values():
+                    if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(float(value)):
+                        raise ValueError(f"{label}: {op} 的值必须是有限数值")
+            elif any(isinstance(value, (dict, list)) for value in spec.values()):
+                raise ValueError(f"{label}: fact_equals 的值必须是标量")
+        elif op == "choice_was" and (not isinstance(spec, str) or not spec):
+            raise ValueError(f"{label}: choice_was 必须是非空字符串")
+        elif op == "season_any" and (not isinstance(spec, list) or not spec or any(not isinstance(value, str) or not value for value in spec)):
+            raise ValueError(f"{label}: season_any 必须是非空字符串数组")
+        elif op == "any":
+            if not isinstance(spec, list) or not spec:
+                raise ValueError(f"{label}: any 必须是非空数组")
+            for index, item in enumerate(spec):
+                _validate_condition(item, f"{label}.any[{index}]")
+
+
+def _validate_effects(effects: Any, label: str, effect_ops: set[str]) -> None:
+    if not isinstance(effects, list):
+        raise ValueError(f"{label}: effects 必须是数组")
+    required = {
+        "change_resources": "changes", "change_resources_from_fact": "fact",
+        "set_arc_fact": "key", "increment_arc_fact": "key",
+        "append_character_memory": "role", "patch_character_component": "role",
+        "set_character_hook": "role", "clear_character_hook": "role",
+    }
+    for index, effect in enumerate(effects):
+        effect_label = f"{label}.effects[{index}]"
+        if not isinstance(effect, dict) or effect.get("op") not in effect_ops:
+            raise ValueError(f"{effect_label}: 未知 effect {effect}")
+        if effect.get("op") in {"schedule_followup", "transition_to"}:
+            raise ValueError(f"{effect_label}: schema v2 禁止 {effect.get('op')}")
+        required_key = required.get(str(effect.get("op")))
+        if required_key and required_key not in effect:
+            raise ValueError(f"{effect_label}: {effect.get('op')} 缺少 {required_key}")
 
 
 def analyze_graph(
@@ -92,14 +127,8 @@ def analyze_graph(
                 raise ValueError(f"{choice_label}: choice 缺少 label 或 description_md")
             if not isinstance(choice.get("transition"), dict):
                 raise ValueError(f"{choice_label}: choice 必须有且只有一个 transition")
-            for effect in choice.get("effects", []):
-                if not isinstance(effect, dict) or effect.get("op") not in effect_ops:
-                    raise ValueError(f"{choice_label}: 未知 effect {effect}")
-                if effect.get("op") in {"schedule_followup", "transition_to"}:
-                    raise ValueError(f"{choice_label}: schema v2 禁止 {effect.get('op')}")
-        for effect in raw_node.get("effects", []):
-            if not isinstance(effect, dict) or effect.get("op") not in effect_ops:
-                raise ValueError(f"{node_label}: 未知 effect {effect}")
+            _validate_effects(choice.get("effects", []), choice_label, effect_ops)
+        _validate_effects(raw_node.get("effects", []), node_label, effect_ops)
         transitions = _transitions(raw_node)
         if kind == "terminal":
             terminals.add(str(node_id))
@@ -113,6 +142,21 @@ def analyze_graph(
             fallbacks = [row for row in transitions if not row.get("when")]
             if len(fallbacks) != 1:
                 raise ValueError(f"{node_label}: automatic 必须有且只有一个 fallback transition")
+            conditional = [row for row in transitions if row.get("when")]
+            priorities = []
+            conditions = []
+            for row in conditional:
+                priority = row.get("priority")
+                if isinstance(priority, bool) or not isinstance(priority, int):
+                    raise ValueError(f"{node_label}: conditional transition 必须提供整数 priority")
+                priorities.append(priority)
+                conditions.append(json.dumps(row["when"], ensure_ascii=False, sort_keys=True, separators=(",", ":")))
+            if len(priorities) != len(set(priorities)):
+                raise ValueError(f"{node_label}: conditional transition priority 必须唯一")
+            if len(conditions) != len(set(conditions)):
+                raise ValueError(f"{node_label}: conditional transition condition 不能重复")
+            if any("priority" in row for row in fallbacks):
+                raise ValueError(f"{node_label}: fallback transition 不允许 priority")
         if kind == "timed":
             delay_hours = int(raw_node.get("after_hours", 0) or 0)
             delay_days = int(raw_node.get("after_days", 0) or 0)
@@ -173,9 +217,9 @@ def condition_matches(condition: dict[str, Any] | None, state: dict[str, Any], c
     if not condition:
         return True
     facts = chain.get("facts", {})
-    if "any" in condition:
-        return any(condition_matches(item, state, chain) for item in condition["any"])
     for key, spec in condition.items():
+        if key == "any" and not any(condition_matches(item, state, chain) for item in spec):
+            return False
         if key == "fact_equals" and any(facts.get(name) != value for name, value in spec.items()):
             return False
         if key == "fact_gte" and any(float(facts.get(name, 0)) < float(value) for name, value in spec.items()):
@@ -189,10 +233,5 @@ def condition_matches(condition: dict[str, Any] | None, state: dict[str, Any], c
         if key == "resource_minimum" and any(float(state.get("resources", {}).get(name, 0)) < float(value) for name, value in spec.items()):
             return False
         if key == "season_any" and state.get("season") not in spec:
-            return False
-        if key == "relationship_minimum":
-            if float(chain.get("facts", {}).get("merchant_attitude", 0)) < float(spec):
-                return False
-        if key == "character_trait_minimum":
             return False
     return True

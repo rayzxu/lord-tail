@@ -610,14 +610,20 @@ def build_description_context(state: dict[str, Any], mode: str, input_text: str,
 def build_storylet_context(state: dict[str, Any], mode: str, input_text: str, client_context: dict[str, Any] | None = None) -> str:
     from ..storylets.instances import instance_by_id, public_instance
     from ..storylets.config import get_definition
+    from ..storylets.runs import definition_for_run, find_visit, public_visit
 
     instance_id = str((client_context or {}).get("story_event_id") or state.get("storylets", {}).get("current_instance_id") or "")
-    instance = instance_by_id(state, instance_id) if instance_id else None
-    public = public_instance(instance, get_definition(instance["definition_id"], instance["node_key"])) if instance else None
     from ..storylets.runtime import public_arc
-
-    chain = state.get("storylets", {}).get("chains", {}).get(instance.get("chain_id"), {}) if instance else {}
-    story_arc = public_arc(state, instance["chain_id"]) if instance and chain.get("runtime_version") == 2 else None
+    matched = find_visit(state, instance_id) if instance_id else None
+    if matched:
+        run, visit = matched
+        node = definition_for_run(run)["nodes"][visit["node_id"]]
+        public = public_visit(run, visit, node)
+        story_arc = public_arc(state, run["id"])
+    else:
+        instance = instance_by_id(state, instance_id) if instance_id else None
+        public = public_instance(instance, get_definition(instance["definition_id"], instance["node_key"])) if instance else None
+        story_arc = None
     payload = {
         "mode": mode, "request": input_text, "storylet": public, "story_arc": story_arc,
         "cast": public.get("cast_snapshots", {}) if public else {},

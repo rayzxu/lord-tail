@@ -32,11 +32,15 @@ def normalize_storylet_state(state: dict[str, Any]) -> None:
     raw["instances"] = [item for item in instances if isinstance(item, dict)]
     raw.setdefault("current_instance_id", None)
     raw["chains"] = raw.get("chains") if isinstance(raw.get("chains"), dict) else {}
+    raw["arc_runs"] = raw.get("arc_runs") if isinstance(raw.get("arc_runs"), dict) else {}
+    raw["runtime_schema_version"] = 3
     raw["cooldowns"] = raw.get("cooldowns") if isinstance(raw.get("cooldowns"), dict) else {}
     raw["recent_template_ids"] = raw.get("recent_template_ids") if isinstance(raw.get("recent_template_ids"), list) else []
     raw["recent_cast"] = raw.get("recent_cast") if isinstance(raw.get("recent_cast"), dict) else {}
     max_instance = 0
     max_chain = 0
+    max_run = 0
+    max_visit = 0
     for instance in raw["instances"]:
         try:
             max_instance = max(max_instance, int(str(instance.get("id", "")).removeprefix("story_evt_")))
@@ -49,13 +53,31 @@ def normalize_storylet_state(state: dict[str, Any]) -> None:
             max_chain = max(max_chain, int(str(chain_id).removeprefix("story_chain_")))
         except ValueError:
             pass
+    for run_id, run in raw["arc_runs"].items():
+        try:
+            max_run = max(max_run, int(str(run_id).removeprefix("story_run_")))
+        except ValueError:
+            pass
+        if isinstance(run, dict):
+            for visit in run.get("node_visits", []):
+                try:
+                    max_visit = max(max_visit, int(str(visit.get("visit_id", "")).removeprefix("visit_")))
+                except ValueError:
+                    pass
     raw["next_instance_id"] = max(max_instance + 1, int(raw.get("next_instance_id", 1) or 1))
     raw["next_chain_id"] = max(max_chain + 1, int(raw.get("next_chain_id", 1) or 1))
+    raw["next_run_id"] = max(max_run + 1, int(raw.get("next_run_id", 1) or 1))
+    raw["next_visit_id"] = max(max_visit + 1, int(raw.get("next_visit_id", 1) or 1))
+    raw.setdefault("focused_arc_id", None)
     director = raw.setdefault("director", {})
     defaults = {"enabled": True, "seed": 2001, "last_run_time": None, "last_decision": None, "major_events_this_turn": 0, "minor_events_this_turn": 0}
     for key, value in defaults.items():
         director.setdefault(key, value)
     normalize_relationship_state(state)
+    # Kept at the end so legacy fields above are normalized before conversion.
+    from .runs import migrate_v2_runs
+
+    migrate_v2_runs(state)
 
 
 def _next_instance_id(state: dict[str, Any]) -> str:
@@ -239,6 +261,17 @@ def choose_storylet(
     expected_transition_seq: int | None = None,
 ) -> dict[str, Any]:
     normalize_storylet_state(state)
+    from .runs import find_visit
+
+    matched_visit = find_visit(state, instance_id)
+    if matched_visit:
+        from .runtime import choose_arc_node
+
+        run, _ = matched_visit
+        return choose_arc_node(
+            state, str(run["id"]), instance_id, choice_id,
+            expected_transition_seq=expected_transition_seq, actor=actor,
+        )
     current = instance_by_id(state, instance_id)
     chain = state["storylets"]["chains"].get(current.get("chain_id"), {})
     if chain.get("runtime_version") == 2:
@@ -322,7 +355,20 @@ def list_storylets(state: dict[str, Any], *, status: str | None = None, chain_id
     if status: rows = [row for row in rows if row.get("status") == status]
     if chain_id: rows = [row for row in rows if row.get("chain_id") == chain_id]
     if character_id: rows = [row for row in rows if character_id in row.get("cast", {}).values()]
-    return [public_instance(row, get_definition(row["definition_id"], row["node_key"])) for row in rows]
+    result = [public_instance(row, get_definition(row["definition_id"], row["node_key"])) for row in rows]
+    from .runs import definition_for_run, public_visit
+    for run in state["storylets"]["arc_runs"].values():
+        if chain_id and run.get("id") != chain_id:
+            continue
+        if character_id and character_id not in run.get("cast", {}).values():
+            continue
+        graph = definition_for_run(run)
+        for visit in run.get("node_visits", []):
+            projected = public_visit(run, visit, graph["nodes"][visit["node_id"]])
+            if status and projected.get("status") != status:
+                continue
+            result.append(projected)
+    return result
 
 
 def current_storylet(state: dict[str, Any]) -> dict[str, Any] | None:
@@ -330,5 +376,10 @@ def current_storylet(state: dict[str, Any]) -> dict[str, Any] | None:
     instance_id = state["storylets"].get("current_instance_id")
     if not instance_id:
         return None
+    from .runs import definition_for_run, find_visit, public_visit
+    matched = find_visit(state, str(instance_id))
+    if matched:
+        run, visit = matched
+        return public_visit(run, visit, definition_for_run(run)["nodes"][visit["node_id"]])
     instance = instance_by_id(state, instance_id)
     return public_instance(instance, get_definition(instance["definition_id"], instance["node_key"]))

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "body_parts": {
+    "head": {"label": "头部", "category": "vital", "side": "both", "parent_id": null, "pair_id": null, "adult_only": false, "sex_restriction": "any", "tags": ["head"]},
+    "neck": {"label": "颈部", "category": "vital", "side": "both", "parent_id": "torso", "pair_id": null, "adult_only": false, "sex_restriction": "any", "tags": ["neck"]},
+    "torso": {"label": "躯干", "category": "vital", "side": "both", "parent_id": null, "pair_id": null, "adult_only": false, "sex_restriction": "any", "tags": ["torso"]},
+    "back": {"label": "背部", "category": "torso", "side": "both", "parent_id": "torso", "pair_id": null, "adult_only": false, "sex_restriction": "any", "tags": ["back"]},
+    "waist": {"label": "腰部", "category": "torso", "side": "both", "parent_id": "torso", "pair_id": null, "adult_only": false, "sex_restriction": "any", "tags": ["waist"]},
+    "left_arm": {"label": "左臂", "category": "limb", "side": "left", "parent_id": "torso", "pair_id": "right_arm", "adult_only": false, "sex_restriction": "any", "tags": ["arm"]},
+    "right_arm": {"label": "右臂", "category": "limb", "side": "right", "parent_id": "torso", "pair_id": "left_arm", "adult_only": false, "sex_restriction": "any", "tags": ["arm"]},
+    "left_hand": {"label": "左手", "category": "limb", "side": "left", "parent_id": "left_arm", "pair_id": "right_hand", "adult_only": false, "sex_restriction": "any", "tags": ["hand", "grasping"]},
+    "right_hand": {"label": "右手", "category": "limb", "side": "right", "parent_id": "right_arm", "pair_id": "left_hand", "adult_only": false, "sex_restriction": "any", "tags": ["hand", "grasping"]},
+    "left_leg": {"label": "左腿", "category": "limb", "side": "left", "parent_id": "torso", "pair_id": "right_leg", "adult_only": false, "sex_restriction": "any", "tags": ["leg"]},
+    "right_leg": {"label": "右腿", "category": "limb", "side": "right", "parent_id": "torso", "pair_id": "left_leg", "adult_only": false, "sex_restriction": "any", "tags": ["leg"]},
+    "left_foot": {"label": "左脚", "category": "limb", "side": "left", "parent_id": "left_leg", "pair_id": "right_foot", "adult_only": false, "sex_restriction": "any", "tags": ["foot"]},
+    "right_foot": {"label": "右脚", "category": "limb", "side": "right", "parent_id": "right_leg", "pair_id": "left_foot", "adult_only": false, "sex_restriction": "any", "tags": ["foot"]},
+    "left_nipple": {"label": "左乳头", "category": "private", "side": "left", "parent_id": "torso", "pair_id": "right_nipple", "adult_only": true, "sex_restriction": "any", "tags": ["nipple"]},
+    "right_nipple": {"label": "右乳头", "category": "private", "side": "right", "parent_id": "torso", "pair_id": "left_nipple", "adult_only": true, "sex_restriction": "any", "tags": ["nipple"]},
+    "penis": {"label": "阴茎", "category": "private", "side": "both", "parent_id": "waist", "pair_id": null, "adult_only": true, "sex_restriction": "male", "tags": ["genital"]},
+    "vagina": {"label": "阴道", "category": "private", "side": "both", "parent_id": "waist", "pair_id": null, "adult_only": true, "sex_restriction": "female", "tags": ["genital"]},
+    "anus": {"label": "肛门", "category": "private", "side": "both", "parent_id": "waist", "pair_id": null, "adult_only": true, "sex_restriction": "any", "tags": ["private"]}
+  }
+}

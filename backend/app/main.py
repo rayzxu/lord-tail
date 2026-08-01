@@ -6,7 +6,7 @@ from typing import Any
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-from .api import agent_tools, council, debug, game, runs, state, storylets
+from .api import agent_tools, council, debug, game, internal, runs, state, storylets
 from .catalog import TALENTS, public_catalog, validate_map_tile_kinds_catalog
 from .engine import request_audit
 from .systems.military import validate_unit_combat_catalog
@@ -41,6 +41,7 @@ app.include_router(state.router, prefix="/api")
 app.include_router(council.router, prefix="/api")
 app.include_router(debug.router, prefix="/api")
 app.include_router(storylets.router, prefix="/api")
+app.include_router(internal.router)
 
 
 @app.get("/api/health")

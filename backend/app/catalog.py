@@ -6,10 +6,15 @@ from pathlib import Path
 from typing import Any
 
 DATA_PATH = Path(__file__).parent / "data" / "catalog.json"
+ITEMS_PATH = Path(__file__).parent / "data" / "items.json"
 
 
 def _load_catalog() -> dict[str, Any]:
-    return json.loads(DATA_PATH.read_text(encoding="utf-8"))
+    catalog = json.loads(DATA_PATH.read_text(encoding="utf-8"))
+    if ITEMS_PATH.exists():
+        item_file = json.loads(ITEMS_PATH.read_text(encoding="utf-8"))
+        catalog["items"] = item_file.get("items", item_file)
+    return catalog
 
 
 CATALOG = _load_catalog()
@@ -45,6 +50,33 @@ def resource_limits(key: str) -> tuple[int, int | None]:
 
 def public_catalog() -> dict[str, Any]:
     return deepcopy(CATALOG)
+
+
+def reload_catalog() -> None:
+    """Reload JSON-backed catalog dictionaries without invalidating imported dict references."""
+    fresh = _load_catalog()
+    mappings = {
+        "resources": RESOURCES, "talents": TALENTS, "buildings": BUILDINGS,
+        "units": UNITS, "items": ITEMS, "starting_buildings": STARTING_BUILDINGS,
+        "diplomacy": DIPLOMACY, "population_classes": POPULATION_CLASSES,
+        "map_generation": MAP_GENERATION, "map_tile_kinds": MAP_TILE_KINDS,
+        "diplomacy_tile_kinds": DIPLOMACY_TILE_KINDS, "factions": FACTIONS,
+        "event_templates": EVENT_TEMPLATES,
+    }
+    for key, target in mappings.items():
+        target.clear()
+        value = fresh.get(key, {})
+        if isinstance(value, dict):
+            target.update(deepcopy(value))
+    CATALOG.clear()
+    CATALOG.update(deepcopy(fresh))
+    for key, target in mappings.items():
+        CATALOG[key] = target
+    DEFAULT_RESOURCES.clear(); DEFAULT_RESOURCES.update({key: int(value.get("initial", 0)) for key, value in RESOURCES.items()})
+    TALENTS_BY_NAME.clear(); TALENTS_BY_NAME.update({item["name"]: {"id": key, **item} for key, item in TALENTS.items()})
+    BUILDINGS_BY_NAME.clear(); BUILDINGS_BY_NAME.update({item["name"]: {"id": key, **item} for key, item in BUILDINGS.items()})
+    UNITS_BY_NAME.clear(); UNITS_BY_NAME.update({item["name"]: {"id": key, **item} for key, item in UNITS.items()})
+    ITEMS_BY_NAME.clear(); ITEMS_BY_NAME.update({item["name"]: {"id": key, **item} for key, item in ITEMS.items()})
 
 
 def validate_map_tile_kinds_catalog() -> None:

@@ -12,6 +12,17 @@ from ..systems.characters import append_memory, get_character, patch_component
 from .relationships import create_relationship, update_relationship
 
 
+def _arc_state(state: dict[str, Any], instance: dict[str, Any]) -> dict[str, Any]:
+    run_id = str(instance.get("arc_run_id") or instance.get("chain_id") or "")
+    run = state.get("storylets", {}).get("arc_runs", {}).get(run_id)
+    if isinstance(run, dict):
+        return run
+    chain = state.get("storylets", {}).get("chains", {}).get(run_id)
+    if isinstance(chain, dict):
+        return chain
+    raise HTTPException(500, "剧情执行上下文缺少 Run")
+
+
 def _character_for_role(state: dict[str, Any], instance: dict[str, Any], role: str) -> dict[str, Any]:
     character_id = instance.get("cast", {}).get(role)
     if not character_id or character_id == "player_lord":
@@ -104,7 +115,7 @@ def execute_effects(state: dict[str, Any], instance: dict[str, Any], choice: dic
                 "amount_gold": int(instance["facts"].get("requested_support", {}).get("gold", 0)),
                 "collateral": instance["facts"].get("collateral_variant"), "status": "active", "created_by": instance["id"],
             }
-            chain = state["storylets"]["chains"][instance["chain_id"]]
+            chain = _arc_state(state, instance)
             chain.setdefault("obligations", []).append(obligation)
             result["obligations"].append(deepcopy(obligation))
             if debtor_id and debtor_id != "player_lord":
@@ -112,7 +123,7 @@ def execute_effects(state: dict[str, Any], instance: dict[str, Any], choice: dic
                 character.setdefault("components", {}).setdefault("economy_agent", {"wealth": 0, "income": 0, "debts": []}).setdefault("debts", []).append(deepcopy(obligation))
                 _append_hook(character, "building_debt")
         elif op == "settle_obligation":
-            chain = state["storylets"]["chains"][instance["chain_id"]]
+            chain = _arc_state(state, instance)
             active = next((item for item in chain.get("obligations", []) if item.get("status") == "active"), None)
             if active:
                 if not effect.get("forgiven") and active.get("debtor_id") != "player_lord":
@@ -133,7 +144,7 @@ def execute_effects(state: dict[str, Any], instance: dict[str, Any], choice: dic
             if not key:
                 raise HTTPException(422, "set_arc_fact 缺少 key")
             value = deepcopy(effect.get("value"))
-            state["storylets"]["chains"][instance["chain_id"]].setdefault("facts", {})[key] = value
+            _arc_state(state, instance).setdefault("facts", {})[key] = value
             instance.setdefault("facts", {})[key] = deepcopy(value)
             result.setdefault("arc_fact_changes", {})[key] = value
         elif op == "increment_arc_fact":
@@ -141,7 +152,7 @@ def execute_effects(state: dict[str, Any], instance: dict[str, Any], choice: dic
             if not key:
                 raise HTTPException(422, "increment_arc_fact 缺少 key")
             delta = int(effect.get("delta", 1))
-            facts = state["storylets"]["chains"][instance["chain_id"]].setdefault("facts", {})
+            facts = _arc_state(state, instance).setdefault("facts", {})
             facts[key] = int(facts.get(key, 0)) + delta
             instance.setdefault("facts", {})[key] = facts[key]
             result.setdefault("arc_fact_changes", {})[key] = facts[key]

@@ -5,6 +5,7 @@ set -euo pipefail
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKEND_DIR="$PROJECT_DIR/backend"
 FRONTEND_DIR="$PROJECT_DIR/frontend"
+ADMIN_DIR="$PROJECT_DIR/admin"
 VENV_DIR="$BACKEND_DIR/.venv"
 HERMES_AGENT_DIR="${HERMES_AGENT_DIR:-/Users/ray/GD/hermes-agent}"
 HERMES_HOME_DIR="${HERMES_HOME:-/Users/ray/.hermes}"
@@ -21,6 +22,9 @@ cleanup() {
   echo
   echo "正在停止 Lord Tail 服务…"
   [[ -n "${API_PID:-}" ]] && kill "$API_PID" 2>/dev/null || true
+  [[ -n "${FRONTEND_PID:-}" ]] && kill "$FRONTEND_PID" 2>/dev/null || true
+  [[ -n "${ADMIN_API_PID:-}" ]] && kill "$ADMIN_API_PID" 2>/dev/null || true
+  [[ -n "${ADMIN_UI_PID:-}" ]] && kill "$ADMIN_UI_PID" 2>/dev/null || true
   if [[ -n "${HERMES_GATEWAY_STARTED_BY_SCRIPT_PID:-}" ]]; then
     echo "正在停止本次启动的 Lord Tail Hermes Gateway…"
     kill "$HERMES_GATEWAY_STARTED_BY_SCRIPT_PID" 2>/dev/null || true
@@ -42,6 +46,11 @@ if [[ ! -d "$FRONTEND_DIR/node_modules" ]]; then
   (cd "$FRONTEND_DIR" && npm ci)
 fi
 
+if [[ ! -d "$ADMIN_DIR/node_modules" ]]; then
+  echo "正在安装管理端依赖…"
+  (cd "$ADMIN_DIR" && npm ci)
+fi
+
 load_env_file() {
   local env_file="$1"
   [[ -f "$env_file" ]] || return 0
@@ -51,6 +60,7 @@ load_env_file() {
   set +a
 }
 
+load_env_file "$PROJECT_DIR/.env"
 load_env_file "$HERMES_AGENT_DIR/.env.wam"
 load_env_file "$HERMES_AGENT_DIR/.env"
 
@@ -211,6 +221,14 @@ export HERMES_RUNS_MODEL="${HERMES_RUNS_MODEL:-deepseek-v4-flash}"
 export HERMES_APPROVAL_POLICY="${HERMES_APPROVAL_POLICY:-auto-approve}"
 export LORD_TAIL_AGENT_API_BASE_URL="${LORD_TAIL_AGENT_API_BASE_URL:-http://127.0.0.1:8000}"
 export HERMES_RUNS_TRUST_ENV="${HERMES_RUNS_TRUST_ENV:-false}"
+export LORD_TAIL_ADMIN_ENABLED="${LORD_TAIL_ADMIN_ENABLED:-true}"
+export LORD_TAIL_ADMIN_HOST="${LORD_TAIL_ADMIN_HOST:-127.0.0.1}"
+export LORD_TAIL_ADMIN_PORT="${LORD_TAIL_ADMIN_PORT:-${LORD_TAIL_ADMIN_API_PORT:-8001}}"
+export LORD_TAIL_ADMIN_UI_PORT="${LORD_TAIL_ADMIN_UI_PORT:-5174}"
+export LORD_TAIL_ADMIN_API_TARGET="http://127.0.0.1:$LORD_TAIL_ADMIN_PORT"
+export LORD_TAIL_ADMIN_UI_ORIGIN="http://127.0.0.1:$LORD_TAIL_ADMIN_UI_PORT"
+export LORD_TAIL_INTERNAL_CONTENT_TOKEN="${LORD_TAIL_INTERNAL_CONTENT_TOKEN:-$($VENV_DIR/bin/python -c 'import secrets; print(secrets.token_urlsafe(32))')}"
+export LORD_TAIL_GAME_RELOAD_URL="${LORD_TAIL_GAME_RELOAD_URL:-http://127.0.0.1:8000/internal/content/reload}"
 
 if [[ -z "$HERMES_RUNS_API_KEY" ]]; then
   echo "警告：HERMES_RUNS_API_KEY 未配置；如 Hermes gateway 需要鉴权，书记官传信会失败。" >&2
@@ -228,6 +246,30 @@ echo "启动 API：http://localhost:8000"
 API_PID=$!
 
 echo "启动前端：http://localhost:5173"
-echo "按 Ctrl+C 可同时停止前后端服务。"
-cd "$FRONTEND_DIR"
-npm run dev -- --host 127.0.0.1
+(cd "$FRONTEND_DIR" && exec npm run dev -- --host 127.0.0.1) &
+FRONTEND_PID=$!
+
+if [[ "$LORD_TAIL_ADMIN_ENABLED" == "true" || "$LORD_TAIL_ADMIN_ENABLED" == "1" ]]; then
+  if [[ "$LORD_TAIL_ADMIN_HOST" != "127.0.0.1" ]]; then
+    echo "Admin 已取消 token，必须绑定到 127.0.0.1。" >&2
+    exit 1
+  fi
+
+  echo "启动管理 API：http://$LORD_TAIL_ADMIN_HOST:$LORD_TAIL_ADMIN_PORT/admin-docs"
+  (
+    cd "$BACKEND_DIR"
+    exec "$VENV_DIR/bin/python" -m uvicorn app.admin_main:app --reload \
+      --host "$LORD_TAIL_ADMIN_HOST" --port "$LORD_TAIL_ADMIN_PORT"
+  ) &
+  ADMIN_API_PID=$!
+
+  echo "启动内容管理后台：http://127.0.0.1:$LORD_TAIL_ADMIN_UI_PORT"
+  (
+    cd "$ADMIN_DIR"
+    exec npm run dev -- --host 127.0.0.1 --port "$LORD_TAIL_ADMIN_UI_PORT"
+  ) &
+  ADMIN_UI_PID=$!
+fi
+
+echo "按 Ctrl+C 可同时停止全部 Lord Tail 服务。"
+wait

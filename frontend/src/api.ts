@@ -126,12 +126,16 @@ export type StoryletInstance = {
 }
 export type StoryletsResponse = { instances: StoryletInstance[]; total: number; current_instance_id?: string | null }
 export type StoryArcTimelineEntry = { node_id: string; title: string; status: 'completed' | 'active' | string; selected_choice_id?: string | null }
+export type StoryArcTransitionLogEntry = { visit_id: string; node_id: string; kind: string; title: string; narrative_md: string; effects_summary?: string; transition_to?: string | null; activated_time?: GameTimePoint }
 export type StoryArc = {
+  run: Record<string, unknown> & { id: string; definition_id: string; status: string; current_node_id?: string; transition_seq: number }
   chain: Record<string, unknown> & { id: string; definition_id: string; status: string; current_node_id?: string; transition_seq: number }
-  definition: { id: string; version: number; title: string }
+  definition: { id: string; version: number; hash?: string; title: string }
   current_node?: Record<string, unknown> | null
+  current_visit?: Record<string, unknown> | null
   current_instance?: StoryletInstance | null
   timeline: StoryArcTimelineEntry[]
+  transition_log: StoryArcTransitionLogEntry[]
   legal_choices: StoryletChoice[]
   interaction_budget: { used: number; maximum: number; freeform_allowed: boolean }
 }
@@ -418,7 +422,7 @@ export const api = {
     choose: (id: string, choiceId: string, expectedTransitionSeq?: number) => request<TurnResult & { instance: StoryletInstance; result: Record<string, unknown>; idempotent: boolean; arc?: StoryArc }>(`/storylets/${encodeURIComponent(id)}/choose`, { method: 'POST', body: JSON.stringify({ choice_id: choiceId, actor: 'player', expected_transition_seq: expectedTransitionSeq }) }),
   },
   storyArcs: {
-    current: () => request<{ arc: StoryArc | null }>('/story-arcs/current'),
+    current: () => request<{ focused_arc_id?: string | null; arc: StoryArc | null; active_arcs?: StoryArc[] }>('/story-arcs/current'),
     detail: (chainId: string) => request<StoryArc>(`/story-arcs/${encodeURIComponent(chainId)}`),
   },
   start: (settings: Record<string, unknown>) => request<TurnResult>('/game/start', { method: 'POST', body: JSON.stringify(settings) }),

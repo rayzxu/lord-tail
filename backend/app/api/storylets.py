@@ -11,16 +11,31 @@ from ..storylets.director import run_director
 from ..storylets.instances import instance_by_id, public_choice, public_instance
 from ..storylets.relationships import relationships_for, create_relationship, update_relationship
 from ..storylets.service import choose_storylet, current_storylet, instantiate_storylet, list_storylets, normalize_storylet_state
-from ..storylets.runtime import current_arc, public_arc
+from ..storylets.runtime import choose_arc_node, current_arc, debug_arc_state, focused_arc_id, list_active_arcs, public_arc
+from ..storylets.runs import definition_for_run, find_visit, public_visit, run_by_id, visit_by_id
 from .schemas import RelationshipCreateRequest, RelationshipPatchRequest, StoryletChoiceRequest, StoryletDirectorRequest, StoryletPreviewRequest
 
 router = APIRouter()
 
 
+def _choice_narrative(payload: dict[str, Any], choice_id: str) -> str:
+    rows = payload.get("transition_log", [])
+    if not isinstance(rows, list) or not rows:
+        return f"剧情事件已裁定：{choice_id}"
+    return "\n\n---\n\n".join(str(row.get("narrative_md", "")) for row in rows if isinstance(row, dict) and row.get("narrative_md"))
+
+
 @router.get("/story-arcs/current")
 def story_arc_current() -> dict[str, Any]:
     state = require_state(); normalize_storylet_state(state)
-    return {"arc": current_arc(state)}
+    focused = focused_arc_id(state)
+    return {"focused_arc_id": focused, "arc": current_arc(state), "active_arcs": list_active_arcs(state)}
+
+
+@router.get("/story-arcs/debug")
+def story_arc_debug() -> dict[str, Any]:
+    state = require_state(); normalize_storylet_state(state)
+    return debug_arc_state(state)
 
 
 @router.get("/story-arcs/{chain_id}")
@@ -45,13 +60,25 @@ def storylet_list(status: str | None = None, chain_id: str | None = None, charac
 @router.get("/storylets/{story_event_id}")
 def storylet_detail(story_event_id: str) -> dict[str, Any]:
     state = require_state(); normalize_storylet_state(state)
+    matched = find_visit(state, story_event_id)
+    if matched:
+        run, visit = matched
+        node = definition_for_run(run)["nodes"][visit["node_id"]]
+        return {"instance": public_visit(run, visit, node), "visit": deepcopy(visit), "run": public_arc(state, run["id"]), "chain": public_arc(state, run["id"])["chain"]}
     instance = instance_by_id(state, story_event_id)
     return {"instance": public_instance(instance, get_definition(instance["definition_id"], instance["node_key"])), "chain": deepcopy(state["storylets"]["chains"].get(instance["chain_id"], {}))}
 
 
 @router.get("/storylets/{story_event_id}/choices")
 def storylet_choices(story_event_id: str) -> dict[str, Any]:
-    state = require_state(); instance = instance_by_id(state, story_event_id)
+    state = require_state(); normalize_storylet_state(state)
+    matched = find_visit(state, story_event_id)
+    if matched:
+        run, visit = matched
+        node = definition_for_run(run)["nodes"][visit["node_id"]]
+        choices = public_visit(run, visit, node)["choices"]
+        return {"choices": choices, "status": visit.get("status")}
+    instance = instance_by_id(state, story_event_id)
     definition = get_definition(instance["definition_id"], instance["node_key"])
     allowed = set(instance.get("choice_ids", []))
     return {"choices": [public_choice(choice) for choice in definition.get("choices", []) if choice.get("id") in allowed], "status": instance.get("status")}
@@ -63,7 +90,19 @@ def storylet_choose(story_event_id: str, request: StoryletChoiceRequest) -> dict
         state, story_event_id, request.choice_id, actor=request.actor,
         expected_transition_seq=request.expected_transition_seq,
     )
-    body = result(state, f"剧情事件已裁定：{request.choice_id}", [], "state-api", payload.get("events", []))
+    body = result(state, _choice_narrative(payload, request.choice_id), [], "state-api", payload.get("events", []))
+    body.update(payload)
+    return body
+
+
+@router.post("/story-arcs/{run_id}/visits/{visit_id}/choose")
+def story_arc_visit_choose(run_id: str, visit_id: str, request: StoryletChoiceRequest) -> dict[str, Any]:
+    state = require_state(); normalize_storylet_state(state)
+    payload = choose_arc_node(
+        state, run_id, visit_id, request.choice_id, actor=request.actor,
+        expected_transition_seq=request.expected_transition_seq,
+    )
+    body = result(state, _choice_narrative(payload, request.choice_id), [], "state-api", payload.get("events", []))
     body.update(payload)
     return body
 

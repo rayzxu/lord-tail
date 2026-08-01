@@ -226,24 +226,33 @@ def start_scene(request: SceneStartRequest) -> dict[str, Any]:
 def scene_step(request: SceneStepRequest) -> dict[str, Any]:
     current_state = require_state()
     scene = scenes.require_active_scene(current_state)
+    input_text = request.input.strip()
+    narrative_text = request.narrative.strip()
+    if not input_text and not narrative_text and not request.events:
+        raise HTTPException(422, "empty_scene_step: 场景推进必须包含输入、叙述或事件")
     arc_payload = None
     if scene.get("flags", {}).get("source") == "story_arc":
-        from ..storylets.instances import instance_by_id
         from ..storylets.runtime import public_arc
+        from ..storylets.runs import run_by_id, visit_by_id
 
-        instance = instance_by_id(current_state, str(scene["flags"].get("story_event_id", "")))
-        instance["freeform_steps_used"] = int(instance.get("freeform_steps_used", 0)) + 1
-        arc_payload = public_arc(current_state, str(scene["flags"]["story_arc_chain_id"]))
-    if request.input:
-        scenes.append_scene_message(current_state, "player", request.input)
-    if request.narrative:
-        scenes.append_scene_message(current_state, "assistant", request.narrative)
+        run_id = str(scene["flags"].get("story_arc_run_id") or scene["flags"].get("story_arc_chain_id") or "")
+        run = run_by_id(current_state, run_id)
+        visit = visit_by_id(run, str(scene["flags"].get("story_arc_visit_id") or scene["flags"].get("story_event_id") or ""))
+        arc_payload = public_arc(current_state, run_id)
+        if int(arc_payload["interaction_budget"]["used"]) >= int(arc_payload["interaction_budget"]["maximum"]):
+            raise HTTPException(409, "interaction_budget_exhausted: 本幕自由交互已用尽，请提交正式裁断")
+        visit["freeform_steps_used"] = int(visit.get("freeform_steps_used", 0)) + 1
+        arc_payload = public_arc(current_state, run_id)
+    if input_text:
+        scenes.append_scene_message(current_state, "player", input_text)
+    if narrative_text:
+        scenes.append_scene_message(current_state, "assistant", narrative_text)
     events = list(request.events)
     event = {
         "phase": "scene",
         "kind": "scene_step",
         "severity": "info",
-        "message": request.narrative or request.input or f"场景继续：{scene['title']}",
+        "message": narrative_text or input_text or f"场景继续：{scene['title']}",
         "data": {"scene_id": scene["id"]},
     }
     events.append(event)

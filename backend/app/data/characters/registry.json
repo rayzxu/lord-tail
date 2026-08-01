@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "attributes": {
+    "STR": {"name": "Strength", "label": "力量", "influence": "近战伤害、负重、推拉、破坏物体"},
+    "DEX": {"name": "Dexterity", "label": "敏捷", "influence": "命中、闪避、潜行、反应速度、精细操作"},
+    "CON": {"name": "Constitution", "label": "体质", "influence": "生命值、耐力、抗病、抗毒、身体恢复"},
+    "INT": {"name": "Intelligence", "label": "智力", "influence": "学习、知识、分析、法术、技能点"},
+    "WIS": {"name": "Wisdom", "label": "感知／智慧", "influence": "察觉、直觉、意志、判断、精神抗性"},
+    "CHA": {"name": "Charisma", "label": "魅力", "influence": "说服、威吓、领导、欺骗、人际影响"}
+  },
+  "base_components": ["attributes", "body_profile", "inventory", "equipment", "social_identity", "personality_axes", "household", "narrative", "wardrobe", "provenance"],
+  "kinds": {
+    "commoner": {"label": "普通领民", "components": ["health"]},
+    "steward": {"label": "管家", "components": ["court_official", "economy_agent", "health"]},
+    "merchant": {"label": "商人", "components": ["merchant", "economy_agent", "health"]},
+    "envoy": {"label": "使者", "components": ["envoy", "diplomacy_agent", "health"]},
+    "knight": {"label": "骑士", "components": ["noble", "combatant", "health"]},
+    "soldier": {"label": "士兵", "components": ["combatant", "health"]},
+    "craftsman": {"label": "工匠", "components": ["craftsman", "economy_agent", "health"]},
+    "prisoner": {"label": "俘虏", "components": ["prisoner", "health"]},
+    "spy": {"label": "间谍", "components": ["spy", "health"]}
+  },
+  "role_kind_hints": [
+    {"terms": ["管家", "账房", "总管"], "kind": "steward"},
+    {"terms": ["商人", "商队"], "kind": "merchant"},
+    {"terms": ["使者", "外交"], "kind": "envoy"},
+    {"terms": ["骑士", "贵族"], "kind": "knight"},
+    {"terms": ["士兵", "护卫", "雇佣兵"], "kind": "soldier"},
+    {"terms": ["工匠", "铁匠", "木匠"], "kind": "craftsman"},
+    {"terms": ["俘虏", "囚犯"], "kind": "prisoner"},
+    {"terms": ["间谍", "密探", "线人"], "kind": "spy"}
+  ],
+  "sex_position_ids": {"missionary": "正面", "standing": "站立", "rear": "背后", "oral": "口交", "anal": "肛交"},
+  "body_content_types": {"semen": "精液", "urine": "尿液", "food": "食物", "water": "水", "wine": "酒", "medicine": "药物", "poison": "毒物", "blood": "血液", "bile": "胆汁", "parasite": "寄生物", "unknown": "未知内容物"},
+  "reproductive_content_targets": {"stomach": "stomach_contents", "intestine": "intestinal_contents", "uterus": "uterine_contents"},
+  "default_content_expiry": {"stomach": {"hours": 12}, "intestine": {"days": 2}, "uterus": {"days": 3}},
+  "components": {
+    "attributes": {"base": {"STR": 10, "DEX": 10, "CON": 10, "INT": 10, "WIS": 10, "CHA": 10}, "modifiers": {}, "equipment_modifiers": {}, "effective": {"STR": 10, "DEX": 10, "CON": 10, "INT": 10, "WIS": 10, "CHA": 10}},
+    "body_profile": {"available_slots": [], "notes": ""},
+    "inventory": {"items": []},
+    "equipment": {"slots": {}, "attribute_effects": {}, "realm_effects": {}, "sources": []},
+    "health": {"condition": "healthy", "wounds": [], "stress": 0, "disease": ""},
+    "court_official": {"rank": "", "access_level": 1, "manages": []},
+    "economy_agent": {"wealth": 0, "income": 0, "debts": []},
+    "merchant": {"goods": [], "credit": 50, "route": "", "next_visit_hint": ""},
+    "envoy": {"home_faction": "", "authority": 0, "message": "", "negotiation_stance": "neutral"},
+    "diplomacy_agent": {"faction": "", "influence": 0, "grievances": [], "promises": []},
+    "noble": {"rank": "", "house": "", "honor": 0},
+    "combatant": {"unit_type": "", "skill": 20, "morale": 50, "equipment": []},
+    "craftsman": {"craft": "", "skill": 20, "workshop": "", "orders": []},
+    "prisoner": {"captor": "", "reason": "", "security_level": 1, "ransom": 0},
+    "spy": {"cover": "", "loyalty_to": "", "secrecy": 50, "known_secrets": []},
+    "sexual_history": {"enabled": true, "adult_only": true, "total_partner_count": 0, "total_encounter_count": 0, "partners": {}, "position_totals": {}, "last_encounter_time": null},
+    "reproductive_contents": {"stomach_contents": [], "intestinal_contents": [], "uterine_contents": []},
+    "social_identity": {"class_id": "", "legal_status": "", "occupation_id": "", "reputation": 0},
+    "personality_axes": {"ambition": 50, "greed": 50, "boldness": 50, "loyalty": 50, "compassion": 50, "piety": 50, "deceit": 50},
+    "household": {"household_id": "", "home_tile": "", "member_ids": [], "dependent_ids": []},
+    "narrative": {"goals": [], "hooks": [], "secrets": [], "recent_event_ids": [], "active_chain_ids": []},
+    "wardrobe": {"template_id": "", "wealth_band": "poor", "season": "spring", "description_md": ""},
+    "provenance": {"generator_version": 0, "seed": null, "archetype_id": "", "created_by_story_event_id": "", "population_origin": {}}
+  }
+}

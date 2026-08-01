@@ -34,6 +34,8 @@
 | [019_council_directive_management_ai.md](./019_council_directive_management_ai.md) | 新增财政／军事／外交领主议会、长期战略方针，以及危机规则 + Utility + 短期预测驱动的确定性领地管理 AI | P0 |
 | [020_storylet_event_director.md](./020_storylet_event_director.md) | 新增确定性 Storylet 事件导演、NPC 选角／人口具名化、家庭关系生成、冻结事实选择结算与 Hermes 只读叙事框架 | P0 |
 | [021_scripted_story_arc_graph.md](./021_scripted_story_arc_graph.md) | 将 Storylet Chain 升级为可验证、原子推进的预编剧情图运行时，并把春季商队重构为有分支、有收束、有可靠终局的子事件 DAG | P0 |
+| [022_admin_content_management_portal.md](./022_admin_content_management_portal.md) | 新增隔离的内容管理 Admin Portal，以图形界面维护剧情图、Storylet、预设人物、装备、身体部位和槽位，并提供草稿、校验、原子发布、引用保护与回滚 | P0 |
+| [023_story_arc_runtime_reliability.md](./023_story_arc_runtime_reliability.md) | 修复剧情入口卡死、Definition 未冻结、终局重试和预算绕过，并将 schema v2 运行时收拢为 StoryArcRun + NodeVisit | P0 |
 
 ## 通用约定
 

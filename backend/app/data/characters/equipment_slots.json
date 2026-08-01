@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "slots": {
+    "head": {"label": "头部", "body_part_id": "head", "virtual": false, "group": "public", "adult_only": false, "examples": ["帽子", "头盔", "王冠"]},
+    "neck": {"label": "颈部", "body_part_id": "neck", "virtual": false, "group": "public", "adult_only": false, "examples": ["项链", "护喉", "披风扣"]},
+    "torso": {"label": "躯干", "body_part_id": "torso", "virtual": false, "group": "public", "adult_only": false, "examples": ["衣服", "锁甲", "胸甲", "长袍"]},
+    "back": {"label": "背部", "body_part_id": "back", "virtual": false, "group": "public", "adult_only": false, "examples": ["披风", "背包", "箭袋"]},
+    "left_arm": {"label": "左臂", "body_part_id": "left_arm", "virtual": false, "group": "public", "adult_only": false, "examples": ["护臂", "臂甲"]},
+    "right_arm": {"label": "右臂", "body_part_id": "right_arm", "virtual": false, "group": "public", "adult_only": false, "examples": ["护臂", "臂甲"]},
+    "left_hand": {"label": "左手", "body_part_id": "left_hand", "virtual": false, "group": "public", "adult_only": false, "examples": ["武器", "盾牌", "工具"]},
+    "right_hand": {"label": "右手", "body_part_id": "right_hand", "virtual": false, "group": "public", "adult_only": false, "examples": ["武器", "盾牌", "工具"]},
+    "waist": {"label": "腰部", "body_part_id": "waist", "virtual": false, "group": "public", "adult_only": false, "examples": ["腰带", "钱袋", "剑鞘"]},
+    "left_leg": {"label": "左腿", "body_part_id": "left_leg", "virtual": false, "group": "public", "adult_only": false, "examples": ["护腿", "腿甲"]},
+    "right_leg": {"label": "右腿", "body_part_id": "right_leg", "virtual": false, "group": "public", "adult_only": false, "examples": ["护腿", "腿甲"]},
+    "left_foot": {"label": "左脚", "body_part_id": "left_foot", "virtual": false, "group": "public", "adult_only": false, "examples": ["鞋", "靴子", "马刺"]},
+    "right_foot": {"label": "右脚", "body_part_id": "right_foot", "virtual": false, "group": "public", "adult_only": false, "examples": ["鞋", "靴子", "马刺"]},
+    "left_nipple": {"label": "左乳头", "body_part_id": "left_nipple", "virtual": false, "group": "private", "adult_only": true, "examples": ["穿环", "夹具"]},
+    "right_nipple": {"label": "右乳头", "body_part_id": "right_nipple", "virtual": false, "group": "private", "adult_only": true, "examples": ["穿环", "夹具"]},
+    "nipple_chain": {"label": "乳链", "body_part_id": null, "virtual": true, "group": "private", "adult_only": true, "examples": ["连接饰物"]},
+    "penis": {"label": "阴茎", "body_part_id": "penis", "virtual": false, "group": "private", "adult_only": true, "examples": ["穿环", "封闭装置"]},
+    "vagina": {"label": "阴道", "body_part_id": "vagina", "virtual": false, "group": "private", "adult_only": true, "examples": ["穿环", "封闭装置"]},
+    "anus": {"label": "肛门", "body_part_id": "anus", "virtual": false, "group": "private", "adult_only": true, "examples": ["封闭装置"]},
+    "accessory_1": {"label": "饰品 1", "body_part_id": null, "virtual": true, "group": "accessory", "adult_only": false, "examples": ["戒指", "护符", "印章"]},
+    "accessory_2": {"label": "饰品 2", "body_part_id": null, "virtual": true, "group": "accessory", "adult_only": false, "examples": ["戒指", "护符", "印章"]}
+  },
+  "aliases": {"body": "torso", "cloak": "back", "main_hand": "right_hand", "off_hand": "left_hand", "hand": "right_hand", "ring": "accessory_1", "trinket": "accessory_1"},
+  "presets": {
+    "common": {"label": "通用身体槽位", "slots": ["head", "neck", "torso", "back", "left_arm", "right_arm", "left_hand", "right_hand", "waist", "left_leg", "right_leg", "left_foot", "right_foot", "accessory_1", "accessory_2"]},
+    "male": {"label": "男性全槽位", "slots": ["head", "neck", "torso", "back", "left_arm", "right_arm", "left_hand", "right_hand", "waist", "left_leg", "right_leg", "left_foot", "right_foot", "left_nipple", "right_nipple", "nipple_chain", "penis", "anus", "accessory_1", "accessory_2"]},
+    "female": {"label": "女性全槽位", "slots": ["head", "neck", "torso", "back", "left_arm", "right_arm", "left_hand", "right_hand", "waist", "left_leg", "right_leg", "left_foot", "right_foot", "left_nipple", "right_nipple", "nipple_chain", "vagina", "anus", "accessory_1", "accessory_2"]}
+  }
+}

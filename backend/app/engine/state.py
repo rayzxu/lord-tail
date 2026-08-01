@@ -233,8 +233,9 @@ def make_state(request: Any) -> dict[str, Any]:
         },
         "characters": {"entries": [], "next_id": 1},
         "storylets": {
-            "instances": [], "current_instance_id": None, "chains": {}, "cooldowns": {},
-            "recent_template_ids": [], "recent_cast": {}, "next_instance_id": 1, "next_chain_id": 1,
+            "instances": [], "current_instance_id": None, "chains": {}, "arc_runs": {},
+            "focused_arc_id": None, "cooldowns": {}, "recent_template_ids": [], "recent_cast": {},
+            "next_instance_id": 1, "next_chain_id": 1, "next_run_id": 1, "next_visit_id": 1,
             "director": {"enabled": True, "seed": 2001, "last_run_time": None, "last_decision": None,
                          "major_events_this_turn": 0, "minor_events_this_turn": 0},
         },
@@ -308,6 +309,8 @@ def require_state() -> dict[str, Any]:
 def save_current_state() -> None:
     if current_state is None:
         raise HTTPException(409, "没有可保存的游戏")
+    normalize_state(current_state)
+    current_state["save_schema_version"] = 3
     SAVE_PATH.write_text(json.dumps(current_state, ensure_ascii=False, indent=2), encoding="utf-8")
 
 

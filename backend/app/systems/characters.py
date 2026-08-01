@@ -7,6 +7,7 @@ from typing import Any
 from fastapi import HTTPException
 
 from ..catalog import ITEMS, RESOURCES
+from ..content.character_config import load_character_registry, load_equipment_slots, validate_character_configs
 from ..engine.time import add_to_time_point, normalize_time_point, time_key, time_point_from_state
 
 DEFAULT_CHARACTER_STATUS = "active"
@@ -220,6 +221,67 @@ COMPONENT_DEFAULTS: dict[str, dict[str, Any]] = {
         "created_by_story_event_id": "", "population_origin": {},
     },
 }
+
+# The public names above remain stable for compatibility, while their runtime
+# values are sourced from Admin-editable JSON. The literal declarations are
+# removed in a later cleanup once every downstream import uses ContentRegistry.
+validate_character_configs()
+_CHARACTER_CONFIG = load_character_registry()
+_EQUIPMENT_CONFIG = load_equipment_slots()
+ATTRIBUTE_IDS = deepcopy(_CHARACTER_CONFIG["attributes"])
+DEFAULT_ATTRIBUTES = {key: 10 for key in ATTRIBUTE_IDS}
+BASE_CHARACTER_COMPONENTS = tuple(_CHARACTER_CONFIG["base_components"])
+CHARACTER_KINDS = deepcopy(_CHARACTER_CONFIG["kinds"])
+ROLE_KIND_HINTS = tuple((tuple(item["terms"]), item["kind"]) for item in _CHARACTER_CONFIG.get("role_kind_hints", []))
+SEX_POSITION_IDS = deepcopy(_CHARACTER_CONFIG.get("sex_position_ids", {}))
+BODY_CONTENT_TYPES = deepcopy(_CHARACTER_CONFIG.get("body_content_types", {}))
+REPRODUCTIVE_CONTENT_TARGETS = deepcopy(_CHARACTER_CONFIG.get("reproductive_content_targets", {}))
+DEFAULT_CONTENT_EXPIRY = deepcopy(_CHARACTER_CONFIG.get("default_content_expiry", {}))
+EQUIPMENT_SLOT_REGISTRY = deepcopy(_EQUIPMENT_CONFIG["slots"])
+EQUIPMENT_SLOT_ALIASES = deepcopy(_EQUIPMENT_CONFIG.get("aliases", {}))
+BODY_SLOT_PRESETS = deepcopy(_EQUIPMENT_CONFIG["presets"])
+PUBLIC_EQUIPMENT_SLOTS = tuple(key for key, value in EQUIPMENT_SLOT_REGISTRY.items() if value.get("group") == "public")
+PRIVATE_EQUIPMENT_SLOTS = tuple(key for key, value in EQUIPMENT_SLOT_REGISTRY.items() if value.get("group") == "private")
+ACCESSORY_EQUIPMENT_SLOTS = tuple(key for key, value in EQUIPMENT_SLOT_REGISTRY.items() if value.get("group") == "accessory")
+BODY_EQUIPMENT_SLOTS = tuple(EQUIPMENT_SLOT_REGISTRY)
+DEFAULT_AVAILABLE_EQUIPMENT_SLOTS = tuple(BODY_SLOT_PRESETS["common"]["slots"])
+COMPONENT_DEFAULTS = deepcopy(_CHARACTER_CONFIG["components"])
+COMPONENT_DEFAULTS["attributes"]["base"] = deepcopy(DEFAULT_ATTRIBUTES)
+COMPONENT_DEFAULTS["attributes"]["effective"] = deepcopy(DEFAULT_ATTRIBUTES)
+COMPONENT_DEFAULTS["body_profile"]["available_slots"] = list(DEFAULT_AVAILABLE_EQUIPMENT_SLOTS)
+
+
+def reload_character_registry() -> None:
+    from ..content.character_config import clear_character_config_cache
+
+    global DEFAULT_ATTRIBUTES, BASE_CHARACTER_COMPONENTS, ROLE_KIND_HINTS
+    global PUBLIC_EQUIPMENT_SLOTS, PRIVATE_EQUIPMENT_SLOTS, ACCESSORY_EQUIPMENT_SLOTS
+    global BODY_EQUIPMENT_SLOTS, DEFAULT_AVAILABLE_EQUIPMENT_SLOTS
+    clear_character_config_cache()
+    validate_character_configs()
+    registry = load_character_registry()
+    equipment = load_equipment_slots()
+    ATTRIBUTE_IDS.clear(); ATTRIBUTE_IDS.update(deepcopy(registry["attributes"]))
+    DEFAULT_ATTRIBUTES = {key: 10 for key in ATTRIBUTE_IDS}
+    CHARACTER_KINDS.clear(); CHARACTER_KINDS.update(deepcopy(registry["kinds"]))
+    COMPONENT_DEFAULTS.clear(); COMPONENT_DEFAULTS.update(deepcopy(registry["components"]))
+    BASE_CHARACTER_COMPONENTS = tuple(registry["base_components"])
+    ROLE_KIND_HINTS = tuple((tuple(item["terms"]), item["kind"]) for item in registry.get("role_kind_hints", []))
+    SEX_POSITION_IDS.clear(); SEX_POSITION_IDS.update(deepcopy(registry.get("sex_position_ids", {})))
+    BODY_CONTENT_TYPES.clear(); BODY_CONTENT_TYPES.update(deepcopy(registry.get("body_content_types", {})))
+    REPRODUCTIVE_CONTENT_TARGETS.clear(); REPRODUCTIVE_CONTENT_TARGETS.update(deepcopy(registry.get("reproductive_content_targets", {})))
+    DEFAULT_CONTENT_EXPIRY.clear(); DEFAULT_CONTENT_EXPIRY.update(deepcopy(registry.get("default_content_expiry", {})))
+    EQUIPMENT_SLOT_REGISTRY.clear(); EQUIPMENT_SLOT_REGISTRY.update(deepcopy(equipment["slots"]))
+    EQUIPMENT_SLOT_ALIASES.clear(); EQUIPMENT_SLOT_ALIASES.update(deepcopy(equipment.get("aliases", {})))
+    BODY_SLOT_PRESETS.clear(); BODY_SLOT_PRESETS.update(deepcopy(equipment["presets"]))
+    PUBLIC_EQUIPMENT_SLOTS = tuple(key for key, value in EQUIPMENT_SLOT_REGISTRY.items() if value.get("group") == "public")
+    PRIVATE_EQUIPMENT_SLOTS = tuple(key for key, value in EQUIPMENT_SLOT_REGISTRY.items() if value.get("group") == "private")
+    ACCESSORY_EQUIPMENT_SLOTS = tuple(key for key, value in EQUIPMENT_SLOT_REGISTRY.items() if value.get("group") == "accessory")
+    BODY_EQUIPMENT_SLOTS = tuple(EQUIPMENT_SLOT_REGISTRY)
+    DEFAULT_AVAILABLE_EQUIPMENT_SLOTS = tuple(BODY_SLOT_PRESETS["common"]["slots"])
+    COMPONENT_DEFAULTS["attributes"]["base"] = deepcopy(DEFAULT_ATTRIBUTES)
+    COMPONENT_DEFAULTS["attributes"]["effective"] = deepcopy(DEFAULT_ATTRIBUTES)
+    COMPONENT_DEFAULTS["body_profile"]["available_slots"] = list(DEFAULT_AVAILABLE_EQUIPMENT_SLOTS)
 
 
 def _now_iso() -> str:
