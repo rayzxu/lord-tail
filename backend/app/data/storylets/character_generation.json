@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "generator_version": 1,
+  "names": {
+    "male": ["奥托", "马提亚斯", "康拉德", "埃德温", "托马斯", "休伯特", "马丁", "威廉"],
+    "female": ["艾妲", "玛尔塔", "阿格妮丝", "伊莎贝尔", "格蕾塔", "安娜", "希尔德", "玛丽" ]
+  },
+  "class_profiles": {
+    "serfs": {"kind": "commoner", "role": "佃农", "occupation_id": "tenant_farmer", "legal_status": "bound_serf", "wealth_bands": ["destitute", "poor"]},
+    "free_peasants": {"kind": "commoner", "role": "自由农", "occupation_id": "free_farmer", "legal_status": "free_tenant", "wealth_bands": ["poor", "modest"]},
+    "artisans": {"kind": "craftsman", "role": "工匠", "occupation_id": "artisan", "legal_status": "free_burgher", "wealth_bands": ["modest", "comfortable"]},
+    "merchants": {"kind": "merchant", "role": "商人", "occupation_id": "merchant", "legal_status": "free_burgher", "wealth_bands": ["comfortable", "wealthy"]},
+    "minor_nobles": {"kind": "knight", "role": "骑士", "occupation_id": "landed_knight", "legal_status": "noble", "wealth_bands": ["comfortable", "wealthy"]}
+  },
+  "casting_scores": {"class_match": 30, "occupation_match": 20, "preferred_trait": 15, "existing_character": 10, "recent_cast_penalty": 20},
+  "archetypes": ["ambitious_provider", "cautious_survivor", "pious_worker", "bold_opportunist"]
+}

@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "templates": {
+    "serfs_poor": "粗麻短褂被泥浆和烟灰染硬，腰间只系着一截旧绳。",
+    "free_peasants_modest": "洗得发白的羊毛外衣缝补整齐，靴面沾着田埂的湿土。",
+    "artisans_modest": "厚围裙上留着油渍与细碎木屑，袖口因长年劳作磨得发亮。",
+    "merchants_comfortable": "染色呢料裁得体面，腰带上的钱袋与铜扣刻意显眼。",
+    "minor_nobles_comfortable": "旧家徽仍缝在披肩上，锁甲虽有补痕却被擦得干净。"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "chain_id": "village_grievance",
+  "nodes": [{
+    "id": "village_grievance",
+    "node_key": "petition",
+    "title": "村民控诉泥路无人修整",
+    "category": "daily",
+    "source_kind": "realm",
+    "priority": "major",
+    "base_weight": 8,
+    "cooldown_days": 60,
+    "blocking": true,
+    "scene_type": "court",
+    "triggers": {"population_class_any": ["serfs", "free_peasants"], "minimum_class_population": 1},
+    "roles": {"petitioner": {"required": true, "distinct": true, "class_any": ["serfs", "free_peasants"], "adult": true, "reuse_existing": true, "generate_if_missing": true}},
+    "parameters": {"mud_depth": {"weighted_values": {"ankle": 70, "calf": 30}}},
+    "narrative_template_md": "## 泥路之诉\n\n{petitioner_name}带着被泥浆浸透的鞋站在厅中，控诉村道已经难以通行。车轮陷住、病人无法送往修道院，而劳力与钱粮都要由领主裁断。",
+    "choices": [
+      {"id": "organize_road_labor", "label": "组织修路劳役", "description_md": "付出少量金币并安抚领民。", "confirm": false, "effects": [{"op": "change_resources", "changes": {"gold": -10}}, {"op": "change_morale", "delta": 2}, {"op": "append_character_memory", "role": "petitioner", "text": "领主答应组织劳役修整村道。"}, {"op": "append_history"}]},
+      {"id": "dismiss_grievance", "label": "驳回控诉", "description_md": "不支出资源，但领民会记住冷遇。", "confirm": false, "effects": [{"op": "change_morale", "delta": -1}, {"op": "append_character_memory", "role": "petitioner", "text": "领主驳回了关于泥路的控诉。"}, {"op": "append_history"}]}
+    ]
+  }]
+}

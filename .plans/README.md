@@ -32,12 +32,14 @@
 | [017_scheduled_event_system.md](./017_scheduled_event_system.md) | 新增长期/计划事件系统：管理商队季末到访、敌军几回合后抵达、取消/改期/持续事件与事件面板 | P0 |
 | [018_character_component_system.md](./018_character_component_system.md) | 把人物账册重构为 kind + components + factory/registry 的可扩展 NPC 系统 | P1 |
 | [019_council_directive_management_ai.md](./019_council_directive_management_ai.md) | 新增财政／军事／外交领主议会、长期战略方针，以及危机规则 + Utility + 短期预测驱动的确定性领地管理 AI | P0 |
+| [020_storylet_event_director.md](./020_storylet_event_director.md) | 新增确定性 Storylet 事件导演、NPC 选角／人口具名化、家庭关系生成、冻结事实选择结算与 Hermes 只读叙事框架 | P0 |
 
 ## 通用约定
 
 - 项目根目录固定为 `/Users/ray/raylab/lord-tail/`。
 - 后端源码根目录固定为 `/Users/ray/raylab/lord-tail/backend/app/`。
 - 规则配置继续以 `/Users/ray/raylab/lord-tail/backend/app/data/catalog.json` 为主数据源。
+- Storylet 剧情定义、导演权重和人物生成模板使用独立的 `backend/app/data/storylets/`，但建筑、资源、阶级和兵种 id 必须引用正式 catalog。
 - 不允许把新规则数值硬编码回 Python；Python 只做加载、校验、结算。
 - `/api/state/*` 是前端、Hermes 和调试脚本的统一状态变更接口；`/api/hermes/*` 只作为兼容别名保留。
 - 每完成一个 plan 后，至少运行：

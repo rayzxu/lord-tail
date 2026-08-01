@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "enabled": true,
+  "major_per_turn": 1,
+  "minor_per_turn": 2,
+  "default_cooldown_days": 45,
+  "recent_template_window": 6,
+  "weights": {
+    "trigger_urgency": 30,
+    "directive_relevance": 20,
+    "character_continuity": 15,
+    "novelty": 10,
+    "chain_followup": 25,
+    "recent_template_penalty": 20,
+    "recent_cast_penalty": 15
+  }
+}

@@ -295,6 +295,11 @@ def activate_due_events(state: dict[str, Any], *, source: str = "pipeline") -> l
 
             meeting = open_meeting_from_event(state, event)
             event.setdefault("flags", {})["meeting_id"] = meeting["id"]
+        elif event.get("type") == "storylet_event":
+            from ..storylets.service import activate_storylet_for_event
+
+            instance = activate_storylet_for_event(state, event)
+            event.setdefault("flags", {})["storylet_status"] = instance.get("status")
         on_due = event.get("on_due", {})
         events.append(TurnEvent(
             phase="scheduled_events",

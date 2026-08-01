@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "chain_id": "petition_building_credit",
+  "nodes": [
+    {
+      "id": "petition_building_credit",
+      "node_key": "petition",
+      "title": "一户领民请求建设资助",
+      "category": "finance",
+      "source_kind": "realm",
+      "priority": "major",
+      "base_weight": 20,
+      "cooldown_days": 45,
+      "blocking": true,
+      "scene_type": "court",
+      "triggers": {
+        "population_class_any": ["serfs", "free_peasants", "artisans"],
+        "minimum_class_population": 1,
+        "resource_minimum": {"gold": 100},
+        "requires_legal_building_any": ["farm", "shop", "handicraft_workshop", "homes"]
+      },
+      "roles": {
+        "petitioner": {"required": true, "distinct": true, "class_any": ["serfs", "free_peasants", "artisans"], "adult": true, "reuse_existing": true, "generate_if_missing": true},
+        "dependent": {"required": false, "distinct": true, "relation_to": "petitioner", "relation_any": ["spouse"], "adult": true, "generate_relation_if_missing": true}
+      },
+      "parameters": {
+        "building_id": {"from_trigger_result": "legal_buildings"},
+        "tile": {"from_service": "legal_build_tiles"},
+        "saved_gold_ratio": {"range": [0.3, 0.8]},
+        "collateral_variant": {"weighted_values": {"harvest_share": 40, "extended_labor": 30, "household_service": 20, "land_use_right": 10}}
+      },
+      "narrative_template_md": "## 请愿\n\n{petitioner_name}站在领主厅冰冷的石板上，请求获准在 **{tile_label}** 修建 **{building_name}**。这户人家能拿出 **{saved_gold} 金币**，余下的物资与劳力只能仰赖领主裁断。",
+      "choices": [
+        {"id": "grant_subsidy", "label": "无偿资助", "description_md": "由领地承担缺口，不索取偿还。", "confirm": false, "effects": [{"op": "start_construction_from_facts"}, {"op": "append_character_memory", "role": "petitioner", "text": "领主无偿批准了我的建设请求。"}, {"op": "append_history"}]},
+        {"id": "offer_loan", "label": "按常例放贷", "description_md": "领地补足缺口，九十日后偿还。", "confirm": false, "effects": [{"op": "start_construction_from_facts"}, {"op": "create_obligation", "kind": "building_loan", "debtor_role": "petitioner"}, {"op": "schedule_followup", "node_key": "loan_repayment_due", "in_days": 90}, {"op": "append_character_memory", "role": "petitioner", "text": "领主借款支持了我的建设，债期已记入账册。"}, {"op": "append_history"}]},
+        {"id": "demand_collateral", "label": "索取合法抵押", "description_md": "以收成、劳役或土地使用权担保。", "confirm": true, "effects": [{"op": "start_construction_from_facts"}, {"op": "create_obligation", "kind": "secured_building_loan", "debtor_role": "petitioner"}, {"op": "schedule_followup", "node_key": "loan_repayment_due", "in_days": 90}, {"op": "append_character_memory", "role": "petitioner", "text": "领主要求抵押后才批准建设。"}, {"op": "append_history"}]},
+        {"id": "joint_sponsorship", "label": "共同出资", "description_md": "接纳积蓄并记录申请人的收益权益。", "confirm": false, "effects": [{"op": "start_construction_from_facts"}, {"op": "create_obligation", "kind": "building_share", "debtor_role": "player_lord"}, {"op": "append_character_memory", "role": "petitioner", "text": "我与领主共同出资修建产业。"}, {"op": "append_history"}]},
+        {"id": "refuse_petition", "label": "拒绝请求", "description_md": "不动用领地资源。", "confirm": false, "effects": [{"op": "append_character_memory", "role": "petitioner", "text": "领主拒绝了我的建设请求。"}, {"op": "append_history"}]},
+        {"id": "confiscate_savings", "label": "没收积蓄", "description_md": "以领主权威夺取申请人的积蓄。", "confirm": true, "effects": [{"op": "confiscate_saved_gold", "role": "petitioner"}, {"op": "change_morale", "delta": -5}, {"op": "append_character_memory", "role": "petitioner", "text": "领主没收了我为建设攒下的全部积蓄。"}, {"op": "append_history"}]}
+      ]
+    },
+    {
+      "id": "petition_building_credit",
+      "node_key": "construction_completed",
+      "title": "受资助的建筑竣工",
+      "category": "finance",
+      "source_kind": "chain",
+      "priority": "minor",
+      "blocking": false,
+      "scene_type": "daily",
+      "triggers": {"chain_fact_equals": {"project_status": "completed"}},
+      "roles": {},
+      "parameters": {},
+      "narrative_template_md": "## 工程竣工\n\n与请愿相连的 **{building_name}** 已经竣工。石灰与新木料的气味压过了旧日泥土味，这笔恩惠或债务也从口头承诺变成了领地现实。",
+      "choices": [{"id": "acknowledge_completion", "label": "记入账册", "description_md": "确认竣工。", "confirm": false, "effects": [{"op": "append_character_memory", "role": "petitioner", "text": "领主资助的建筑已经竣工。"}, {"op": "append_history"}]}]
+    },
+    {
+      "id": "petition_building_credit",
+      "node_key": "loan_repayment_due",
+      "title": "建设贷款到期",
+      "category": "finance",
+      "source_kind": "chain",
+      "priority": "major",
+      "blocking": true,
+      "scene_type": "court",
+      "triggers": {},
+      "roles": {},
+      "parameters": {},
+      "narrative_template_md": "## 债期已至\n\n书记官展开借据：{petitioner_name}的建设贷款今日到期。谷价、天气和这一户人家的境况都已写在数字之外，等待领主作最后裁断。",
+      "choices": [
+        {"id": "collect_repayment", "label": "收取欠款", "description_md": "按账册结清债务。", "confirm": false, "effects": [{"op": "settle_obligation"}, {"op": "append_history"}]},
+        {"id": "defer_repayment", "label": "延期三十日", "description_md": "保留债务并延后债期。", "confirm": false, "effects": [{"op": "schedule_followup", "node_key": "loan_repayment_due", "in_days": 30}, {"op": "append_history"}]},
+        {"id": "forgive_debt", "label": "免除债务", "description_md": "以领主名义注销欠款。", "confirm": true, "effects": [{"op": "settle_obligation", "forgiven": true}, {"op": "append_character_memory", "role": "petitioner", "text": "领主免除了我的建设债务。"}, {"op": "append_history"}]}
+      ]
+    }
+  ]
+}

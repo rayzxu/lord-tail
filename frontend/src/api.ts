@@ -112,6 +112,19 @@ export type ScheduledEventsResponse = {
   total: number
   context?: { urgent_due_events: ScheduledEvent[]; active_events: ScheduledEvent[]; upcoming_events: ScheduledEvent[] }
 }
+export type StoryletChoice = { id: string; label: string; description_md: string; confirm?: boolean }
+export type StoryletInstance = {
+  id: string; definition_id: string; node_key: string; title: string; category: string; chain_id: string
+  status: 'ready' | 'active' | 'awaiting_choice' | 'resolved' | 'failed' | 'cancelled' | string
+  priority: 'major' | 'minor' | string; blocking: boolean; scene_type: string
+  created_time: GameTimePoint; activated_time?: GameTimePoint | null; resolved_time?: GameTimePoint | null
+  scheduled_event_id?: string; scene_id?: string | null
+  cast: Record<string, string>; cast_snapshots: Record<string, { id?: string; name?: string; role?: string; class_id?: string }>
+  facts: Record<string, unknown>; choice_ids: string[]; choices?: StoryletChoice[]
+  narrative_md: string; narrative_source?: string; selected_choice_id?: string | null
+  result?: Record<string, unknown> | null; followup_instance_ids?: string[]
+}
+export type StoryletsResponse = { instances: StoryletInstance[]; total: number; current_instance_id?: string | null }
 export type ManagementMode = 'delegated' | 'advisory' | 'manual'
 export type RealmAnalysis = {
   resources: Record<string, number>
@@ -231,6 +244,7 @@ export type CharacterEntry = {
   updated_at?: string
 }
 export type CharactersResponse = { characters: CharacterEntry[]; total: number }
+export type CharacterRelationship = { id: string; from_character_id: string; to_character_id: string; type: string; inverse_type: string; strength: number; status: string; source_story_event_id?: string }
 export type CharacterUpsertPayload = {
   kind?: string
   name: string
@@ -255,7 +269,7 @@ export type CharacterEquipPayload = { item_id: string; slot?: string; auto_add?:
 export type CharacterUnequipPayload = { slot?: string; item_id?: string; created_by?: string }
 export type CharacterComponentPatchPayload = { values: Record<string, unknown>; created_by?: string }
 export type LordMutationResult = TurnResult & { lord: CharacterEntry; item_effects?: Record<string, unknown> }
-export type AgentRunMode = 'strategic_turn' | 'scene_step' | 'story_turn' | 'describe_realm' | 'describe_lord' | 'describe_tile' | 'describe_item'
+export type AgentRunMode = 'strategic_turn' | 'scene_step' | 'story_turn' | 'describe_realm' | 'describe_lord' | 'describe_tile' | 'describe_item' | 'storylet_opening' | 'storylet_result'
 export type AgentRunStartRequest = { mode: AgentRunMode; input: string; client_context?: Record<string, unknown> }
 export type AgentRunStartResponse = { run_id: string; hermes_run_id: string; status: string; events_url: string }
 export type AgentRunStatus = { run_id: string; hermes_run_id?: string; status: string; mode?: AgentRunMode; input?: string; output?: string; error?: string }
@@ -308,6 +322,7 @@ export type GameState = {
   strategic_directive?: StrategicDirective | null
   management_ai?: ManagementAiState
   characters?: { entries: CharacterEntry[]; next_id: number }
+  storylets?: { current_instance_id?: string | null; instances?: StoryletInstance[]; [key: string]: unknown }
 }
 export type TurnResult = { state: GameState; narrative: string; suggestions: string[]; source: 'rules' | 'hermes' | 'state-api'; events?: TurnEvent[]; run_id?: string; trace?: AgentTraceEvent[] }
 export type ResourceMutation = { changes?: Record<string, number>; values?: Record<string, number> }
@@ -383,8 +398,15 @@ export const api = {
   demographics: () => request<DemographicsResponse>('/demographics'),
   items: () => request<ItemsCatalogResponse>('/items'),
   characters: (query = '') => request<CharactersResponse>(`/characters${query}`),
+  characterRelationships: (characterId: string) => request<{ relationships: CharacterRelationship[]; total: number }>(`/characters/${encodeURIComponent(characterId)}/relationships`),
   history: (query = '') => request<HistoryResponse>(`/history${query}`),
   events: (query = '') => request<ScheduledEventsResponse>(`/events${query}`),
+  storylets: {
+    list: (query = '') => request<StoryletsResponse>(`/storylets${query}`),
+    current: () => request<{ instance: StoryletInstance | null }>('/storylets/current'),
+    detail: (id: string) => request<{ instance: StoryletInstance; chain: Record<string, unknown> }>(`/storylets/${encodeURIComponent(id)}`),
+    choose: (id: string, choiceId: string) => request<TurnResult & { instance: StoryletInstance; result: Record<string, unknown>; idempotent: boolean }>(`/storylets/${encodeURIComponent(id)}/choose`, { method: 'POST', body: JSON.stringify({ choice_id: choiceId, actor: 'player' }) }),
+  },
   start: (settings: Record<string, unknown>) => request<TurnResult>('/game/start', { method: 'POST', body: JSON.stringify(settings) }),
   turn: (command: string) => request<TurnResult>('/game/turn', { method: 'POST', body: JSON.stringify({ command }) }),
   time: () => request<{ turn: number; time: GameTime; game_mode: string; active_scene: ActiveScene | null }>('/time'),

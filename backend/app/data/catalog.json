@@ -1313,6 +1313,16 @@
       "turn_event_kind": "council_opened",
       "tags": ["council", "strategy", "finance", "military", "diplomacy"],
       "prompt_hint": "财政官、军事统帅与外交官已经在领主厅候命，等待领主裁定未来数月的战略方针。"
+    },
+    "storylet_event": {
+      "label": "领地剧情事件",
+      "default_importance": 4,
+      "default_visibility": "player",
+      "default_scene_type": "court",
+      "default_due_clock_24": "06:00",
+      "turn_event_kind": "storylet_due",
+      "tags": ["storylet", "character", "realm"],
+      "prompt_hint": "一件由领地现实与人物关系共同酝酿的事务正在等待领主裁断。"
     }
   },
   "factions": {

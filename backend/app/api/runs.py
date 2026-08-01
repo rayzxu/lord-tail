@@ -15,7 +15,7 @@ from pydantic import BaseModel, Field
 
 from ..engine import run_store
 from ..engine.hermes_actions import action_event, apply_hermes_actions
-from ..engine.hermes_context import DESCRIPTION_MODES, build_run_payload
+from ..engine.hermes_context import DESCRIPTION_MODES, STORYLET_MODES, build_run_payload
 from ..engine.state import require_state
 from ..integrations import hermes_runs
 
@@ -27,6 +27,8 @@ SAFE_LORD_TAIL_APPROVAL_PATHS = {
     "/api/agent/events",
     "/api/state",
     "/api/characters",
+    "/api/storylets",
+    "/api/storylets/current",
     "/api/items",
     "/api/lord/components",
     "/api/time",
@@ -79,7 +81,7 @@ UNSAFE_SHELL_MARKERS = (";", "&&", "||", "|", "`", "$(", ">", "<")
 CURL_FLAGS_WITH_VALUES = {"-X", "--request", "-H", "--header", "-d", "--data", "--data-raw", "--data-binary"}
 CURL_FLAGS_WITH_OPTIONAL_VALUES = {"-s", "-S", "-f", "-L", "--silent", "--show-error", "--fail", "--location"}
 
-AgentRunMode = Literal["strategic_turn", "scene_step", "story_turn", "describe_realm", "describe_lord", "describe_tile", "describe_item"]
+AgentRunMode = Literal["strategic_turn", "scene_step", "story_turn", "describe_realm", "describe_lord", "describe_tile", "describe_item", "storylet_opening", "storylet_result"]
 
 
 class AgentRunRequest(BaseModel):
@@ -160,7 +162,7 @@ async def _apply_actions_from_event(local_run: dict[str, Any], event: dict[str, 
     if not actions:
         return []
     state = require_state()
-    allow_mutation = local_run.get("mode") not in DESCRIPTION_MODES
+    allow_mutation = local_run.get("mode") not in DESCRIPTION_MODES | STORYLET_MODES
     results = apply_hermes_actions(state, actions, allow_mutation=allow_mutation)
     return [
         run_store.append_event(

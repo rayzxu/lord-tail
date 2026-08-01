@@ -148,16 +148,31 @@ def _start_scene_for_event_if_needed(state: dict[str, Any], event: dict[str, Any
     on_due = event.get("on_due", {}) if isinstance(event.get("on_due"), dict) else {}
     scene_type = str(on_due.get("scene_type") or "daily")
     title = str(event.get("title") or event.get("type") or "到期事件")
+    event_flags = event.get("flags", {}) if isinstance(event.get("flags"), dict) else {}
+    participants = event_flags.get("participants") if isinstance(event_flags.get("participants"), list) else []
+    scene_flags = {
+        "source": "storylet" if event.get("type") == "storylet_event" else "scheduled_event",
+        "scheduled_event_id": event.get("id"),
+        "scheduled_event_type": event.get("type"),
+    }
+    if event.get("type") == "storylet_event":
+        scene_flags.update({
+            "story_event_id": event_flags.get("story_event_id"),
+            "story_chain_id": event_flags.get("story_chain_id"),
+            "facts_frozen": True,
+            "blocking": bool(event_flags.get("blocking", True)),
+        })
     scene = scenes.start_scene(
         state,
         scene_type,
         title,
-        flags={
-            "source": "scheduled_event",
-            "scheduled_event_id": event.get("id"),
-            "scheduled_event_type": event.get("type"),
-        },
+        participants=participants,
+        flags=scene_flags,
     )
+    if event.get("type") == "storylet_event" and event_flags.get("story_event_id"):
+        from ..storylets.instances import instance_by_id
+
+        instance_by_id(state, str(event_flags["story_event_id"]))["scene_id"] = scene["id"]
     return TurnEvent(
         phase="scene",
         kind="scene_started_for_scheduled_event",
@@ -292,6 +307,24 @@ def run_strategic_turn(
             phase(working, context)
         context.events.extend(council.update_directive_after_turn(working))
         context.events.extend(council.schedule_emergency_if_needed(working))
+        from ..storylets.director import run_director
+        from ..storylets.service import process_construction_followups
+
+        followups = process_construction_followups(working, context.events)
+        for followup in followups:
+            context.events.append(TurnEvent(
+                phase="storylet", kind="storylet_followup_scheduled",
+                message=f"人物事件后续已进入日程：{followup['title']}",
+                data={"story_event_id": followup["id"], "chain_id": followup["chain_id"]},
+            ))
+        decision = run_director(working, source_kind="realm", commit=True)
+        if decision.get("instance"):
+            instance = decision["instance"]
+            context.events.append(TurnEvent(
+                phase="storylet", kind="storylet_directed",
+                message=f"领地现实酝酿出新的剧情事件：{instance['title']}",
+                data={"story_event_id": instance["id"], "chain_id": instance["chain_id"]},
+            ))
     auto_record_turn_events(working, context.events)
     narrative = build_narrative(context)
     context.suggestions = suggest_next_actions(working, context.events) or list(DEFAULT_SUGGESTIONS)

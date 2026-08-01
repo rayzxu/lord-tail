@@ -110,7 +110,10 @@ BODY_SLOT_PRESETS: dict[str, dict[str, Any]] = {
         ],
     },
 }
-BASE_CHARACTER_COMPONENTS = ("attributes", "body_profile", "inventory", "equipment")
+BASE_CHARACTER_COMPONENTS = (
+    "attributes", "body_profile", "inventory", "equipment",
+    "social_identity", "personality_axes", "household", "narrative", "wardrobe", "provenance",
+)
 
 CHARACTER_KINDS: dict[str, dict[str, Any]] = {
     "commoner": {"label": "普通领民", "components": ["health"]},
@@ -203,6 +206,18 @@ COMPONENT_DEFAULTS: dict[str, dict[str, Any]] = {
         "stomach_contents": [],
         "intestinal_contents": [],
         "uterine_contents": [],
+    },
+    "social_identity": {"class_id": "", "legal_status": "", "occupation_id": "", "reputation": 0},
+    "personality_axes": {
+        "ambition": 50, "greed": 50, "boldness": 50, "loyalty": 50,
+        "compassion": 50, "piety": 50, "deceit": 50,
+    },
+    "household": {"household_id": "", "home_tile": "", "member_ids": [], "dependent_ids": []},
+    "narrative": {"goals": [], "hooks": [], "secrets": [], "recent_event_ids": [], "active_chain_ids": []},
+    "wardrobe": {"template_id": "", "wealth_band": "poor", "season": "spring", "description_md": ""},
+    "provenance": {
+        "generator_version": 0, "seed": None, "archetype_id": "",
+        "created_by_story_event_id": "", "population_origin": {},
     },
 }
 

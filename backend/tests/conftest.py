@@ -40,5 +40,9 @@ def start_game(client: TestClient, *, resolve_council: bool = True) -> dict:
         event = next(item for item in state["scheduled_events"]["entries"] if item["type"] == "council_session")
         meeting = open_meeting_from_event(state, event)
         resolve_meeting(state, meeting["id"], meeting["proposals"][0]["id"], "manual")
+        # Legacy subsystem tests opt out of the production Storylet director so
+        # an unrelated character petition cannot interrupt their second turn.
+        # Storylet-specific tests explicitly re-enable it.
+        state["storylets"]["director"]["enabled"] = False
         return state
     return response.json()["state"]

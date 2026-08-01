@@ -91,6 +91,16 @@ def append_scene_message(
 
 def end_scene(state: dict[str, Any], summary: str = "", outcome: dict[str, Any] | None = None) -> dict[str, Any]:
     scene = require_active_scene(state)
+    flags = scene.get("flags", {}) if isinstance(scene.get("flags"), dict) else {}
+    if flags.get("source") == "storylet" and flags.get("blocking") and flags.get("story_event_id"):
+        from ..storylets.instances import instance_by_id
+
+        try:
+            instance = instance_by_id(state, str(flags["story_event_id"]))
+        except HTTPException:
+            instance = None
+        if isinstance(instance, dict) and instance.get("status") in {"active", "awaiting_choice"}:
+            raise HTTPException(409, "该剧情事件必须先完成领主裁断，不能直接结束场景")
     scene["status"] = "completed"
     scene["summary"] = summary or scene.get("summary", "")
     scene["outcome"] = outcome or {}

@@ -10,6 +10,7 @@ from .history import select_history_context
 from ..systems import characters, scheduled_events
 
 DESCRIPTION_MODES = {"describe_realm", "describe_lord", "describe_tile", "describe_item"}
+STORYLET_MODES = {"storylet_opening", "storylet_result"}
 STRATEGIC_MODES = {"strategic_turn"}
 SCENE_MODES = {"scene_step"}
 
@@ -47,6 +48,7 @@ def _selected_tile(state: dict[str, Any], client_context: dict[str, Any] | None)
 def compact_state_for_agent(state: dict[str, Any], client_context: dict[str, Any] | None = None) -> dict[str, Any]:
     selected_tile = _selected_tile(state, client_context)
     history_tiles = [f"{selected_tile.get('x')}:{selected_tile.get('y')}"] if selected_tile else None
+    storylet_instances = state.get("storylets", {}).get("instances", [])
     return {
         "realm": {
             "name": state.get("realm_name"),
@@ -89,6 +91,14 @@ def compact_state_for_agent(state: dict[str, Any], client_context: dict[str, Any
         "strategic_directive": state.get("strategic_directive"),
         "management_ai": state.get("management_ai", {}),
         "management_analysis": analyze_realm(state),
+        "storylets": {
+            "current_instance_id": state.get("storylets", {}).get("current_instance_id"),
+            "active_or_recent": [
+                {key: value for key, value in item.items() if key not in {"result"}}
+                for item in storylet_instances[-8:]
+                if isinstance(item, dict)
+            ],
+        },
         "history_context": select_history_context(
             state,
             tiles=history_tiles,
@@ -138,6 +148,7 @@ def public_action_contract() -> dict[str, Any]:
             "equipment": "lord-tail-items",
             "time": "lord-tail-time",
             "scene": "lord-tail-scene",
+            "storylet": "lord-tail-storylet",
             "strategic_turn": "lord-tail-strategic-turn",
             "scene_dialogue": "lord-tail-scene-dialogue",
             "scene_battle": "lord-tail-scene-battle",
@@ -383,6 +394,9 @@ def public_action_contract() -> dict[str, Any]:
                 },
             },
             "events_read": {"method": "GET", "path": "/api/events"},
+            "storylets_read": {"method": "GET", "path": "/api/storylets"},
+            "storylet_current": {"method": "GET", "path": "/api/storylets/current"},
+            "storylet_detail": {"method": "GET", "path": "/api/storylets/{story_event_id}"},
             "event_schedule": {
                 "method": "POST",
                 "path": "/api/state/events/schedule",
@@ -585,9 +599,33 @@ def build_description_context(state: dict[str, Any], mode: str, input_text: str,
     )
 
 
+def build_storylet_context(state: dict[str, Any], mode: str, input_text: str, client_context: dict[str, Any] | None = None) -> str:
+    from ..storylets.instances import instance_by_id, public_instance
+    from ..storylets.config import get_definition
+
+    instance_id = str((client_context or {}).get("story_event_id") or state.get("storylets", {}).get("current_instance_id") or "")
+    instance = instance_by_id(state, instance_id) if instance_id else None
+    public = public_instance(instance, get_definition(instance["definition_id"], instance["node_key"])) if instance else None
+    payload = {
+        "mode": mode, "request": input_text, "storylet": public,
+        "cast": public.get("cast_snapshots", {}) if public else {},
+        "frozen_facts": public.get("facts", {}) if public else {},
+        "rules": {"allow_state_mutation": False, "allow_choice": False, "facts_are_immutable": True, "output_language": "zh-CN"},
+    }
+    phase = "开场" if mode == "storylet_opening" else "裁断结果"
+    return (
+        f"你是 Lord Tail 的领地书记官，使用 lord-tail-storylet skill 润色剧情事件{phase}。\n"
+        "只能依据冻结人物、事实、合法选择和后端结果叙述；不得新增金额、关系、建筑、伤亡或选择。\n"
+        "本模式完全只读，不调用任何 mutation API，不替玩家选择，不输出 JSON。若信息不足，保留本地模板已经确定的事实。\n\n"
+        f"上下文 JSON：\n{json.dumps(payload, ensure_ascii=False, indent=2)}"
+    )
+
+
 def build_run_payload(mode: str, input_text: str, state: dict[str, Any], client_context: dict[str, Any] | None = None) -> dict[str, Any]:
     effective_mode = resolve_effective_mode(mode, state, client_context)
-    if effective_mode in DESCRIPTION_MODES:
+    if effective_mode in STORYLET_MODES:
+        instructions = build_storylet_context(state, effective_mode, input_text, client_context)
+    elif effective_mode in DESCRIPTION_MODES:
         instructions = build_description_context(state, effective_mode, input_text, client_context)
     elif effective_mode in STRATEGIC_MODES:
         instructions = build_strategic_turn_context(state, input_text, client_context)

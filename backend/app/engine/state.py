@@ -232,6 +232,14 @@ def make_state(request: Any) -> dict[str, Any]:
             "action_slot": None,
         },
         "characters": {"entries": [], "next_id": 1},
+        "storylets": {
+            "instances": [], "current_instance_id": None, "chains": {}, "cooldowns": {},
+            "recent_template_ids": [], "recent_cast": {}, "next_instance_id": 1, "next_chain_id": 1,
+            "director": {"enabled": True, "seed": 2001, "last_run_time": None, "last_decision": None,
+                         "major_events_this_turn": 0, "minor_events_this_turn": 0},
+        },
+        "character_relationships": {"edges": [], "next_id": 1},
+        "households": {"entries": [], "next_id": 1},
     }
     from ..systems.characters import normalize_characters
     from ..systems.demographics import normalize_demographics
@@ -253,6 +261,8 @@ def make_state(request: Any) -> dict[str, Any]:
     normalize_history(state)
     normalize_scheduled_events(state)
     normalize_characters(state)
+    from ..storylets.service import normalize_storylet_state
+    normalize_storylet_state(state)
     if not state["scheduled_events"]["entries"]:
         schedule_event(
             state,
@@ -309,6 +319,8 @@ def load_current_state() -> dict[str, Any]:
     normalize_faction_states(state)
     normalize_demographics(state)
     normalize_characters(state)
+    from ..storylets.service import normalize_storylet_state
+    normalize_storylet_state(state)
     return set_current_state(state)
 
 
@@ -372,6 +384,8 @@ def normalize_state(state: dict[str, Any]) -> None:
     normalize_scheduled_events(state)
     normalize_council_state(state)
     normalize_characters(state)
+    from ..storylets.service import normalize_storylet_state
+    normalize_storylet_state(state)
 
 
 def result(

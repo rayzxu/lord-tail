@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { AgentRunMode, AgentSseEvent, AgentTraceEvent, api, Catalog, CharacterEntry, CharactersResponse, CharacterUpsertPayload, DemographicsResponse, DiplomacyState, FactionDetail, GameState, HistoryEntry, HistoryResponse, ItemCatalogEntry, ManagementDecision, ManagementMode, PopulationClassCatalog, PopulationClassState, RealmAnalysis, ScheduledEvent, ScheduledEventsResponse, Talent, Tile, TurnResult } from './api'
+import { AgentRunMode, AgentSseEvent, AgentTraceEvent, api, Catalog, CharacterEntry, CharacterRelationship, CharactersResponse, CharacterUpsertPayload, DemographicsResponse, DiplomacyState, FactionDetail, GameState, HistoryEntry, HistoryResponse, ItemCatalogEntry, ManagementDecision, ManagementMode, PopulationClassCatalog, PopulationClassState, RealmAnalysis, ScheduledEvent, ScheduledEventsResponse, StoryletInstance, StoryletsResponse, Talent, Tile, TurnResult } from './api'
 import CouncilPanel from './components/CouncilPanel'
 
 const markdownPlugins = [remarkGfm]
@@ -306,6 +306,7 @@ function GameScreen({ game, onGame, onBack, catalog }: { game: TurnResult; onGam
   const [historyLoading, setHistoryLoading] = useState(false)
   const [historyError, setHistoryError] = useState('')
   const [events, setEvents] = useState<ScheduledEventsResponse | null>(null)
+  const [storylets, setStorylets] = useState<StoryletsResponse | null>(null)
   const [eventsLoading, setEventsLoading] = useState(false)
   const [eventsError, setEventsError] = useState('')
   const [characters, setCharacters] = useState<CharactersResponse | null>(null)
@@ -543,12 +544,21 @@ function GameScreen({ game, onGame, onBack, catalog }: { game: TurnResult; onGam
     setEventsLoading(true)
     setEventsError('')
     try {
-      setEvents(await api.events('?limit=80&visibility=player'))
+      const [scheduled, stories] = await Promise.all([api.events('?limit=80&visibility=player'), api.storylets.list()])
+      setEvents(scheduled)
+      setStorylets(stories)
     } catch (e) {
       setEventsError(e instanceof Error ? e.message : '事件读取失败')
     } finally {
       setEventsLoading(false)
     }
+  }
+  async function chooseStorylet(instanceId: string, choiceId: string) {
+    const response = await api.storylets.choose(instanceId, choiceId)
+    onGame(response)
+    const [scheduled, stories] = await Promise.all([api.events('?limit=80&visibility=player'), api.storylets.list()])
+    setEvents(scheduled)
+    setStorylets(stories)
   }
   async function openCharactersPanel() {
     setPanel('characters')
@@ -786,6 +796,7 @@ function GameScreen({ game, onGame, onBack, catalog }: { game: TurnResult; onGam
       </div>
     </div>
     {description.open && <DescriptionDrawer description={description} close={() => setDescription(previous => ({ ...previous, open: false }))} />}{panel && panel !== 'population' && panel !== 'history' && panel !== 'events' && panel !== 'characters' && panel !== 'strategy' && <DetailPanel panel={panel} state={state} catalog={catalog} close={() => setPanel(null)} onGrantItem={grantEquipmentItem} onEquipItem={equipEquipmentItem} onUnequipItem={unequipEquipmentItem} onPatchBodyProfile={patchBodyProfile} />}{panel === 'population' && <PopulationAnalysisPanel demographics={demographics} catalog={catalog} loading={demographicsLoading} error={demographicsError} close={() => setPanel(null)} />}{panel === 'characters' && <CharactersPanel characters={characters} catalog={catalog} loading={charactersLoading} error={charactersError} close={() => setPanel(null)} refresh={openCharactersPanel} onCreate={createCharacter} onDescribe={(character) => describe('describe_item', `人物描述：${character.name}`, `描述人物：${character.name}`, { target_type: 'character', key: character.id })} onTalk={(character) => startCharacterScene(character, 'dialogue')} onAdultScene={(character) => startCharacterScene(character, 'sexual')} onGrantItem={grantEquipmentItem} onEquipItem={equipEquipmentItem} onUnequipItem={unequipEquipmentItem} onPatchBodyProfile={patchBodyProfile} />}{panel === 'events' && <EventsPanel events={events} loading={eventsLoading} error={eventsError} close={() => setPanel(null)} refresh={openEventsPanel} currentDay={time?.calendar_day ?? 1} />}{panel === 'history' && <HistoryPanel history={history} loading={historyLoading} error={historyError} close={() => setPanel(null)} refresh={openHistoryPanel} />}{panel === 'strategy' && <CouncilPanel meeting={state.council?.current_meeting ?? null} directive={state.strategic_directive ?? null} management={state.management_ai ?? null} analysis={strategyAnalysis} decision={strategyDecision ?? state.management_ai?.pending_advice ?? null} loading={strategyLoading} error={strategyError} close={() => setPanel(null)} resolveMeeting={resolveCouncil} setMode={changeManagementMode} requestReview={requestCouncilReview} loadAdvice={loadManagementAdvice} acceptAdvice={acceptManagementAdvice} />}
+    {panel === 'events' && <StoryletDrawer instances={storylets?.instances ?? state.storylets?.instances ?? []} currentId={storylets?.current_instance_id ?? state.storylets?.current_instance_id ?? null} choose={chooseStorylet} close={() => setPanel(null)} />}
     {tileDetail && <TileDetailDrawer detail={tileDetail} catalog={catalog} factions={state.factions} close={() => setTileDetail(null)} onRefresh={() => openTileDrawer(tileDetail.tile, tileDetail.source, true)} onViewFaction={(faction) => { setFactionDetail(faction) }} />}
     {factionDetail && <FactionDetailPanel faction={factionDetail} detail={buildFactionDetail(state, catalog, factionDetail)} close={() => setFactionDetail(null)} />}
     {toast && <div className="toast" onAnimationEnd={() => setToast('')}>{toast}</div>}
@@ -853,7 +864,7 @@ function EventsPanel({ events, loading, error, close, refresh, currentDay }: { e
   const dueCount = events?.context?.urgent_due_events?.length ?? entries.filter(item => item.status === 'due' || item.status === 'active').length
   return <div className="modal-shade"><section className="detail-modal events-panel">
     <button className="close" onClick={close}>×</button>
-    <div className="section-head"><div><span className="section-label">事件</span><small>未来、到期与正在发生的长期事务</small></div><button type="button" className="ghost-button" onClick={refresh} disabled={loading}>刷新</button></div>
+    <div className="section-head"><div><span className="section-label">计划事件</span><small>按绝对时间安排的商队、敌军、议会与长期事务；右侧为剧情事件</small></div><button type="button" className="ghost-button" onClick={refresh} disabled={loading}>刷新</button></div>
     <div className="event-summary"><StatCard label="总数" value={events?.total ?? 0} /><StatCard label="到期/进行中" value={dueCount} /><StatCard label="当前日" value={currentDay} /></div>
     {loading && <p>书记官正在翻检事件簿……</p>}
     {error && <p className="error">{error}</p>}
@@ -873,6 +884,57 @@ function EventCard({ event, currentDay }: { event: ScheduledEvent; currentDay: n
     {details && <div className="markdown-description history-markdown"><ReactMarkdown skipHtml remarkPlugins={markdownPlugins}>{details}</ReactMarkdown></div>}
     <footer><span>{event.created_by ?? 'system'}</span><span>{tags}</span></footer>
   </article>
+}
+function StoryletDrawer({ instances, currentId, choose, close }: { instances: StoryletInstance[]; currentId: string | null; choose: (instanceId: string, choiceId: string) => Promise<void>; close: () => void }) {
+  const ordered = [...instances].reverse()
+  const [selectedId, setSelectedId] = useState<string | null>(currentId ?? ordered[0]?.id ?? null)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
+  const selected = instances.find(item => item.id === selectedId) ?? instances.find(item => item.id === currentId) ?? ordered[0]
+  const [renderedNarrative, setRenderedNarrative] = useState(selected?.narrative_md ?? '')
+  const [narrating, setNarrating] = useState(false)
+  useEffect(() => { setRenderedNarrative(selected?.narrative_md ?? '') }, [selected?.id, selected?.narrative_md])
+  async function narrate() {
+    if (!selected || narrating) return
+    setNarrating(true); setError('')
+    try {
+      const mode: AgentRunMode = selected.status === 'resolved' ? 'storylet_result' : 'storylet_opening'
+      const run = await api.agent.startRun({ mode, input: mode === 'storylet_result' ? '依照已结算结果润色事件结局' : '依照冻结事实润色事件开场', client_context: { story_event_id: selected.id } })
+      let accumulated = ''
+      const source = new EventSource(api.agent.eventsUrl(run.run_id))
+      source.onmessage = message => {
+        const event = parseAgentEvent(message.data)
+        if (event.event === 'message.delta' && typeof event.delta === 'string') { accumulated += event.delta; setRenderedNarrative(accumulated) }
+        if (event.event === 'run.completed') { source.close(); setRenderedNarrative(extractNarrative(event.output) || accumulated || selected.narrative_md); setNarrating(false) }
+        if (event.event === 'run.failed' || event.event === 'run.cancelled') { source.close(); setError(courtText(event.message || event.error || '书记官润色失败，已保留本地文案')); setNarrating(false) }
+      }
+      source.onerror = () => { source.close(); setError('书记官传信中断，已保留本地文案'); setNarrating(false) }
+    } catch (e) { setError(e instanceof Error ? e.message : '书记官润色不可用'); setNarrating(false) }
+  }
+  async function submit(choiceId: string, confirmChoice = false) {
+    if (!selected || submitting) return
+    if (confirmChoice && !window.confirm('这项裁断可能造成严厉或长期后果，仍要盖印吗？')) return
+    setSubmitting(true); setError('')
+    try { await choose(selected.id, choiceId) }
+    catch (e) { setError(e instanceof Error ? e.message : '裁断未能写入账册') }
+    finally { setSubmitting(false) }
+  }
+  return <div className="description-drawer storylet-drawer"><section className="drawer-card">
+    <button className="close" onClick={close}>×</button>
+    <span className="section-label">剧情事件 · 人物与领地后果</span>
+    {!selected && <><h2>暂无剧情事件</h2><p>九日结算后，事件导演可能根据真实领地状态安排人物事件。</p></>}
+    {selected && <>
+      <h2>{selected.title}</h2>
+      <div className="event-meta"><span>{selected.status}</span><span>{selected.priority}</span><span>{selected.chain_id}</span></div>
+      <button type="button" className="ghost-button" onClick={narrate} disabled={narrating}>{narrating ? '书记官执笔中…' : '书记官润色'}</button>
+      <div className="storylet-cast">{Object.entries(selected.cast_snapshots ?? {}).map(([role, person]) => <article key={role}><small>{role}</small><b>{person.name ?? '无名人物'}</b><span>{person.role || person.class_id || '领民'}</span></article>)}</div>
+      <div className="markdown-description"><ReactMarkdown skipHtml remarkPlugins={markdownPlugins}>{renderedNarrative || selected.narrative_md || '书记官尚未完成开场记述。'}</ReactMarkdown></div>
+      {!!selected.choices?.length && selected.status === 'awaiting_choice' && <div className="storylet-choices">{selected.choices.map(choice => <button key={choice.id} type="button" disabled={submitting} onClick={() => submit(choice.id, !!choice.confirm)}><b>{choice.label}</b><span>{choice.description_md}</span></button>)}</div>}
+      {selected.result && <details open><summary>裁断结果</summary><pre className="storylet-result">{JSON.stringify(selected.result, null, 2)}</pre></details>}
+      {error && <p className="error">{error}</p>}
+    </>}
+    {ordered.length > 1 && <div className="storylet-timeline"><b>事件链与最近事件</b>{ordered.slice(0, 12).map(item => <button key={item.id} className={item.id === selected?.id ? 'active' : ''} onClick={() => setSelectedId(item.id)}>{item.title}<small>{item.status} · {item.node_key}</small></button>)}</div>}
+  </section></div>
 }
 type CharacterFormState = {
   kind: string
@@ -1165,9 +1227,33 @@ function CharacterCard({ character, catalog, onDescribe, onTalk, onAdultScene, o
     {details && <div className="markdown-description character-markdown"><ReactMarkdown skipHtml remarkPlugins={markdownPlugins}>{details}</ReactMarkdown></div>}
     <CharacterAttributesAndEquipment character={character} />
     <EquipmentManager character={character} catalog={catalog} owner={{ type: 'character', characterId: character.id }} onGrantItem={onGrantItem} onEquipItem={onEquipItem} onUnequipItem={onUnequipItem} onPatchBodyProfile={onPatchBodyProfile} />
+    <CharacterSocialProfile character={character} />
     {!!character.memories?.length && <details><summary>人物记忆</summary><ul>{character.memories.map((memory, index) => <li key={`${character.id}-memory-${index}`}>{memory}</li>)}</ul></details>}
     <CharacterAdultComponents character={character} />
   </article>
+}
+function CharacterSocialProfile({ character }: { character: CharacterEntry }) {
+  const [relationships, setRelationships] = useState<CharacterRelationship[]>([])
+  const [loaded, setLoaded] = useState(false)
+  const components = asRecord(character.components)
+  const social = asRecord(components.social_identity)
+  const household = asRecord(components.household)
+  const narrative = asRecord(components.narrative)
+  const axes = asRecord(components.personality_axes)
+  useEffect(() => {
+    let active = true
+    api.characterRelationships(character.id).then(response => { if (active) { setRelationships(response.relationships); setLoaded(true) } }).catch(() => { if (active) setLoaded(true) })
+    return () => { active = false }
+  }, [character.id])
+  return <details className="character-social"><summary>社会身份、家庭与关系</summary>
+    <p>阶级：{String(social.class_id || '未记录')} · 职业：{String(social.occupation_id || '未记录')} · 法律身份：{String(social.legal_status || '未记录')}</p>
+    <p>家庭：{String(household.household_id || '未加入 Household')} · 住宅：{String(household.home_tile || '未记录')}</p>
+    <p>目标：{stringArray(narrative.goals).join('、') || '无'} · Hooks：{stringArray(narrative.hooks).join('、') || '无'}</p>
+    <p>性格轴：{Object.entries(axes).map(([key, value]) => `${key} ${Number(value)}`).join(' · ') || '未记录'}</p>
+    {!loaded && <p>正在翻检关系谱……</p>}
+    {loaded && !relationships.length && <p>暂无通用人物关系。</p>}
+    {!!relationships.length && <ul>{relationships.map(edge => <li key={edge.id}>{edge.type} ↔ {edge.from_character_id === character.id ? edge.to_character_id : edge.from_character_id} · 强度 {edge.strength} · {edge.status}</li>)}</ul>}
+  </details>
 }
 function PopulationAnalysisPanel({ demographics, catalog, loading, error, close }: { demographics: DemographicsResponse | null; catalog: Catalog | null; loading: boolean; error: string; close: () => void }) {
   const data = demographics?.demographics

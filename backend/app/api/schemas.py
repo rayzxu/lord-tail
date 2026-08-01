@@ -139,6 +139,41 @@ class HistoryPatchRequest(BaseModel):
     created_by: str | None = Field(default=None, max_length=60)
 
 
+class StoryletChoiceRequest(BaseModel):
+    choice_id: str = Field(min_length=1, max_length=120)
+    actor: str = Field(default="player", max_length=60)
+
+
+class StoryletPreviewRequest(BaseModel):
+    definition_id: str = Field(min_length=1, max_length=120)
+    node_key: str = Field(default="petition", min_length=1, max_length=120)
+    seed: int = 2001
+    focus_character_id: str | None = Field(default=None, max_length=100)
+    commit: bool = False
+
+
+class StoryletDirectorRequest(BaseModel):
+    source_kind: str = Field(default="realm", pattern="^(realm|character|chain)$")
+    focus_character_id: str | None = Field(default=None, max_length=100)
+    seed: int | None = None
+    commit: bool = True
+
+
+class RelationshipCreateRequest(BaseModel):
+    from_character_id: str = Field(min_length=1, max_length=100)
+    to_character_id: str = Field(min_length=1, max_length=100)
+    type: str = Field(min_length=1, max_length=40)
+    strength: int = Field(default=50, ge=0, le=100)
+    source_story_event_id: str = Field(default="", max_length=100)
+    metadata: dict[str, Any] = Field(default_factory=dict)
+
+
+class RelationshipPatchRequest(BaseModel):
+    strength: int | None = Field(default=None, ge=0, le=100)
+    status: str | None = Field(default=None, max_length=40)
+    metadata: dict[str, Any] | None = None
+
+
 class CharacterUpsertRequest(BaseModel):
     id: str | None = Field(default=None, max_length=80)
     kind: str | None = Field(default=None, max_length=80)
