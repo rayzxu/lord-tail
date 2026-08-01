@@ -226,6 +226,14 @@ def start_scene(request: SceneStartRequest) -> dict[str, Any]:
 def scene_step(request: SceneStepRequest) -> dict[str, Any]:
     current_state = require_state()
     scene = scenes.require_active_scene(current_state)
+    arc_payload = None
+    if scene.get("flags", {}).get("source") == "story_arc":
+        from ..storylets.instances import instance_by_id
+        from ..storylets.runtime import public_arc
+
+        instance = instance_by_id(current_state, str(scene["flags"].get("story_event_id", "")))
+        instance["freeform_steps_used"] = int(instance.get("freeform_steps_used", 0)) + 1
+        arc_payload = public_arc(current_state, str(scene["flags"]["story_arc_chain_id"]))
     if request.input:
         scenes.append_scene_message(current_state, "player", request.input)
     if request.narrative:
@@ -241,7 +249,11 @@ def scene_step(request: SceneStepRequest) -> dict[str, Any]:
     events.append(event)
     current_state.setdefault("recent_events", []).append(event)
     current_state["recent_events"] = current_state["recent_events"][-50:]
-    return result(current_state, event["message"], ["继续追问", "推进时间", "结束场景"], "state-api", events)
+    body = result(current_state, event["message"], ["继续追问", "推进时间", "结束场景"], "state-api", events)
+    if arc_payload is not None:
+        body["story_arc"] = arc_payload
+        body["freeform_allowed"] = arc_payload["interaction_budget"]["freeform_allowed"]
+    return body
 
 
 @router.post("/game/scenes/current/advance-time")

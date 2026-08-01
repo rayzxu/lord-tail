@@ -152,6 +152,7 @@ class HistoryPatchRequest(BaseModel):
 class StoryletChoiceRequest(BaseModel):
     choice_id: str = Field(min_length=1, max_length=120)
     actor: str = Field(default="player", max_length=60)
+    expected_transition_seq: int | None = Field(default=None, ge=0)
 
 
 class StoryletPreviewRequest(BaseModel):

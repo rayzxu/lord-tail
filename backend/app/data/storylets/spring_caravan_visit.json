@@ -1,0 +1,231 @@
+{
+  "schema_version": 2,
+  "id": "spring_caravan_visit",
+  "version": 1,
+  "title": "春季末商队到访",
+  "description_md": "南路商队会依据本次遭遇决定下一次是否以及何时返回。",
+  "category": "caravan",
+  "priority": "major",
+  "importance": 4,
+  "scene_type": "caravan",
+  "entry_node": "arrival_gate",
+  "max_blocking_decisions": 3,
+  "interaction_budget": {"default_max_freeform_steps": 2, "choices_visible_immediately": true},
+  "triggers": {"population_class_any": ["merchants"], "minimum_class_population": 1},
+  "roles": {
+    "caravan_master": {
+      "required": true,
+      "distinct": true,
+      "class_any": ["merchants"],
+      "adult": true,
+      "reuse_existing": true,
+      "generate_if_missing": true
+    }
+  },
+  "parameters": {
+    "route_id": {"constant": "southern_route"},
+    "cargo_manifest": {"constant": {"food": 80, "leather": 18, "iron": 12, "handicrafts": 24}},
+    "caravan_size": {"constant": 17},
+    "merchant_attitude": {"constant": 0},
+    "trade_permission": {"constant": false},
+    "departure_reason": {"constant": "normal_trade"}
+  },
+  "series": {
+    "id": "southern_caravan_route",
+    "event_type": "caravan_arrival",
+    "route_id": "southern_route",
+    "outcome_fact": "departure_reason",
+    "outcomes": {
+      "normal_trade": {"in_days": 90},
+      "taxed_trade": {"in_days": 90},
+      "refused": {"in_days": 180},
+      "reconsidered": {"in_days": 90},
+      "humiliated": {"schedule": false}
+    },
+    "default": {"in_days": 90}
+  },
+  "nodes": {
+    "arrival_gate": {
+      "kind": "choice",
+      "title": "第一幕：商队抵达城门",
+      "blocking": true,
+      "narrative_template_md": "## 泥路尽头的车铃\n\n{caravan_master_name}率领十七人的南路商队停在领地边界。车轮陷在春泥里，粮袋、皮革、铁料和手工品都已由书记官登记在册。他摘下湿透的兜帽，等待领主决定他们能否靠近城堡。",
+      "choices": [
+        {
+          "id": "admit_under_guard",
+          "label": "押入外堡登记",
+          "description_md": "准许商队进入外堡，但由卫兵全程看守。",
+          "effects": [{"op": "set_arc_fact", "key": "entry_policy", "value": "admitted"}],
+          "transition": {"to": "registration"}
+        },
+        {
+          "id": "inspect_outside",
+          "label": "在城外验货",
+          "description_md": "不许车队入内，命书记官和卫兵在泥地里开箱验货。",
+          "effects": [{"op": "set_arc_fact", "key": "entry_policy", "value": "inspection"}],
+          "transition": {"to": "cargo_inspection"}
+        },
+        {
+          "id": "deny_entry",
+          "label": "拒绝入境",
+          "description_md": "命令商队退到领地边界外扎营。",
+          "effects": [{"op": "set_arc_fact", "key": "entry_policy", "value": "denied"}],
+          "transition": {"to": "camp_outside"}
+        }
+      ]
+    },
+    "registration": {
+      "kind": "automatic",
+      "title": "第二幕：外堡登记",
+      "blocking": false,
+      "narrative_template_md": "## 墨水、泥浆与货单\n\n卫兵逐辆检查车底，书记官照着冻结的货单登记姓名与货物。没有新的货物或陌生人被允许混入队伍。",
+      "effects": [
+        {"op": "set_arc_fact", "key": "registered", "value": true},
+        {"op": "increment_arc_fact", "key": "merchant_attitude", "delta": 3}
+      ],
+      "transition": {"to": "trade_hearing"}
+    },
+    "cargo_inspection": {
+      "kind": "choice",
+      "title": "第二幕：城外验货",
+      "blocking": true,
+      "narrative_template_md": "## 被割开的封绳\n\n箱笼在雨里一只只打开。书记官只承认卷宗中冻结的货单；是否把检查变成勒索，由领主亲自裁定。",
+      "choices": [
+        {
+          "id": "light_inspection",
+          "label": "照单查验后放行",
+          "description_md": "确认货单无误，不额外刁难。",
+          "effects": [
+            {"op": "set_arc_fact", "key": "inspection_result", "value": "clear"},
+            {"op": "increment_arc_fact", "key": "merchant_attitude", "delta": 2}
+          ],
+          "transition": {"to": "trade_hearing"}
+        },
+        {
+          "id": "strict_inspection",
+          "label": "严查并加盖封印",
+          "description_md": "逐件复核，商队虽有怨气但没有发现违禁品。",
+          "effects": [
+            {"op": "set_arc_fact", "key": "inspection_result", "value": "strict_clear"},
+            {"op": "increment_arc_fact", "key": "merchant_attitude", "delta": -4}
+          ],
+          "transition": {"to": "trade_hearing"}
+        },
+        {
+          "id": "declare_contraband",
+          "label": "宣布部分货物违禁",
+          "description_md": "以领主法令为名扣押一部分货物，为接下来的听证制造筹码。",
+          "effects": [
+            {"op": "set_arc_fact", "key": "inspection_result", "value": "contraband_declared"},
+            {"op": "increment_arc_fact", "key": "merchant_attitude", "delta": -12},
+            {"op": "change_resources", "changes": {"food": 20, "iron": 4}}
+          ],
+          "transition": {"to": "trade_hearing"}
+        }
+      ]
+    },
+    "camp_outside": {
+      "kind": "timed",
+      "title": "第二幕：边界外的营火",
+      "blocking": true,
+      "after_hours": 6,
+      "narrative_template_md": "## 六小时后的第二次求见\n\n天色渐暗，商队仍在界碑外淋雨。{caravan_master_name}最后一次派人求见：要么重新听证，要么他们连夜离开。",
+      "choices": [
+        {
+          "id": "grant_rehearing",
+          "label": "准许重新听证",
+          "description_md": "允许商队首领进厅陈述贸易条件。",
+          "effects": [{"op": "set_arc_fact", "key": "departure_reason", "value": "reconsidered"}],
+          "transition": {"to": "trade_hearing"}
+        },
+        {
+          "id": "send_away",
+          "label": "命其立即离开",
+          "description_md": "拒绝第二次请求，商队将绕开领地。",
+          "effects": [
+            {"op": "set_arc_fact", "key": "trade_permission", "value": false},
+            {"op": "set_arc_fact", "key": "departure_reason", "value": "refused"}
+          ],
+          "transition": {"to": "visit_resolved"}
+        }
+      ]
+    },
+    "trade_hearing": {
+      "kind": "choice",
+      "title": "第三幕：贸易听证",
+      "blocking": true,
+      "narrative_template_md": "## 火盆前的价码\n\n货单、检查结果和商队首领的态度都已写入卷宗。领主现在必须作出正式裁断，不能再用闲谈拖延。",
+      "choices": [
+        {
+          "id": "approve_trade",
+          "label": "批准公平贸易",
+          "description_md": "开放市场并收取正常摊位费。",
+          "effects": [
+            {"op": "set_arc_fact", "key": "trade_permission", "value": true},
+            {"op": "set_arc_fact", "key": "departure_reason", "value": "normal_trade"},
+            {"op": "change_resources", "changes": {"gold": 30, "food": 15}},
+            {"op": "change_morale", "delta": 1}
+          ],
+          "transition": {"to": "market_day"}
+        },
+        {
+          "id": "heavy_tax",
+          "label": "课以重税后准许贸易",
+          "description_md": "允许交易，但把税负压到商队头上。",
+          "effects": [
+            {"op": "set_arc_fact", "key": "trade_permission", "value": true},
+            {"op": "set_arc_fact", "key": "departure_reason", "value": "taxed_trade"},
+            {"op": "change_resources", "changes": {"gold": 55}},
+            {"op": "change_morale", "delta": -1},
+            {"op": "increment_arc_fact", "key": "merchant_attitude", "delta": -8}
+          ],
+          "transition": {"to": "market_day"}
+        },
+        {
+          "id": "refuse_trade",
+          "label": "拒绝贸易",
+          "description_md": "不准开市，让商队原路离开。",
+          "effects": [
+            {"op": "set_arc_fact", "key": "trade_permission", "value": false},
+            {"op": "set_arc_fact", "key": "departure_reason", "value": "refused"}
+          ],
+          "transition": {"to": "visit_resolved"}
+        },
+        {
+          "id": "humiliate_and_seize",
+          "label": "羞辱首领并强夺货物",
+          "description_md": "公开羞辱商队首领并扣下大量货物；这条商路会记住此事。",
+          "confirm": true,
+          "effects": [
+            {"op": "set_arc_fact", "key": "trade_permission", "value": false},
+            {"op": "set_arc_fact", "key": "departure_reason", "value": "humiliated"},
+            {"op": "change_resources", "changes": {"food": 60, "leather": 12, "iron": 8}},
+            {"op": "change_morale", "delta": -2},
+            {"op": "change_authority", "delta": 2},
+            {"op": "increment_arc_fact", "key": "merchant_attitude", "delta": -25}
+          ],
+          "transition": {"to": "visit_resolved"}
+        }
+      ]
+    },
+    "market_day": {
+      "kind": "automatic",
+      "title": "第四幕：市场开放",
+      "blocking": false,
+      "narrative_template_md": "## 一日的喧声\n\n商队只按登记货单开市。铜钱、粮袋与流言在摊位间流动，到了暮色降临时，卫兵勒令商贩收起篷布。",
+      "effects": [{"op": "set_arc_fact", "key": "market_opened", "value": true}],
+      "transition": {"to": "visit_resolved"}
+    },
+    "visit_resolved": {
+      "kind": "terminal",
+      "title": "终幕：商队离境",
+      "blocking": false,
+      "narrative_template_md": "## 车辙离开领地\n\n商队的车辙最终消失在南路。书记官将入境方式、检查结果、贸易裁断与离境原因封入领地历史；下一次是否再见，完全取决于本次终局。",
+      "effects": [
+        {"op": "append_history"},
+        {"op": "resolve_entry_event"},
+        {"op": "schedule_series_occurrence"}
+      ]
+    }
+  }
+}

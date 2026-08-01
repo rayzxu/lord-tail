@@ -6,14 +6,27 @@ from typing import Any
 from fastapi import APIRouter, Query
 
 from ..engine.state import mutation_result, require_state, result
-from ..storylets.config import get_definition, load_definitions
+from ..storylets.config import get_definition, load_arc_definitions, load_definitions
 from ..storylets.director import run_director
 from ..storylets.instances import instance_by_id, public_choice, public_instance
 from ..storylets.relationships import relationships_for, create_relationship, update_relationship
 from ..storylets.service import choose_storylet, current_storylet, instantiate_storylet, list_storylets, normalize_storylet_state
+from ..storylets.runtime import current_arc, public_arc
 from .schemas import RelationshipCreateRequest, RelationshipPatchRequest, StoryletChoiceRequest, StoryletDirectorRequest, StoryletPreviewRequest
 
 router = APIRouter()
+
+
+@router.get("/story-arcs/current")
+def story_arc_current() -> dict[str, Any]:
+    state = require_state(); normalize_storylet_state(state)
+    return {"arc": current_arc(state)}
+
+
+@router.get("/story-arcs/{chain_id}")
+def story_arc_detail(chain_id: str) -> dict[str, Any]:
+    state = require_state(); normalize_storylet_state(state)
+    return public_arc(state, chain_id)
 
 
 @router.get("/storylets/current")
@@ -46,7 +59,10 @@ def storylet_choices(story_event_id: str) -> dict[str, Any]:
 
 @router.post("/storylets/{story_event_id}/choose")
 def storylet_choose(story_event_id: str, request: StoryletChoiceRequest) -> dict[str, Any]:
-    state = require_state(); payload = choose_storylet(state, story_event_id, request.choice_id, actor=request.actor)
+    state = require_state(); payload = choose_storylet(
+        state, story_event_id, request.choice_id, actor=request.actor,
+        expected_transition_seq=request.expected_transition_seq,
+    )
     body = result(state, f"剧情事件已裁定：{request.choice_id}", [], "state-api", payload.get("events", []))
     body.update(payload)
     return body
@@ -91,7 +107,8 @@ def household_detail(household_id: str) -> dict[str, Any]:
 @router.get("/debug/storylets/definitions")
 def debug_definitions() -> dict[str, Any]:
     rows = [{key: value for key, value in definition.items() if not key.startswith("_")} for definition in load_definitions().values()]
-    return {"definitions": rows, "total": len(rows)}
+    arcs = [{key: value for key, value in definition.items() if not key.startswith("_")} for definition in load_arc_definitions().values()]
+    return {"definitions": rows, "story_arcs": arcs, "total": len(rows), "arc_total": len(arcs)}
 
 
 @router.post("/debug/storylets/preview")

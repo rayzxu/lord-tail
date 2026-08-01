@@ -125,6 +125,16 @@ export type StoryletInstance = {
   result?: Record<string, unknown> | null; followup_instance_ids?: string[]
 }
 export type StoryletsResponse = { instances: StoryletInstance[]; total: number; current_instance_id?: string | null }
+export type StoryArcTimelineEntry = { node_id: string; title: string; status: 'completed' | 'active' | string; selected_choice_id?: string | null }
+export type StoryArc = {
+  chain: Record<string, unknown> & { id: string; definition_id: string; status: string; current_node_id?: string; transition_seq: number }
+  definition: { id: string; version: number; title: string }
+  current_node?: Record<string, unknown> | null
+  current_instance?: StoryletInstance | null
+  timeline: StoryArcTimelineEntry[]
+  legal_choices: StoryletChoice[]
+  interaction_budget: { used: number; maximum: number; freeform_allowed: boolean }
+}
 export type ManagementMode = 'delegated' | 'advisory' | 'manual'
 export type RealmAnalysis = {
   resources: Record<string, number>
@@ -322,7 +332,7 @@ export type GameState = {
   strategic_directive?: StrategicDirective | null
   management_ai?: ManagementAiState
   characters?: { entries: CharacterEntry[]; next_id: number }
-  storylets?: { current_instance_id?: string | null; instances?: StoryletInstance[]; [key: string]: unknown }
+  storylets?: { current_instance_id?: string | null; instances?: StoryletInstance[]; chains?: Record<string, Record<string, unknown>>; [key: string]: unknown }
 }
 export type TurnResult = { state: GameState; narrative: string; suggestions: string[]; source: 'rules' | 'hermes' | 'state-api'; events?: TurnEvent[]; run_id?: string; trace?: AgentTraceEvent[] }
 export type ResourceMutation = { changes?: Record<string, number>; values?: Record<string, number> }
@@ -405,7 +415,11 @@ export const api = {
     list: (query = '') => request<StoryletsResponse>(`/storylets${query}`),
     current: () => request<{ instance: StoryletInstance | null }>('/storylets/current'),
     detail: (id: string) => request<{ instance: StoryletInstance; chain: Record<string, unknown> }>(`/storylets/${encodeURIComponent(id)}`),
-    choose: (id: string, choiceId: string) => request<TurnResult & { instance: StoryletInstance; result: Record<string, unknown>; idempotent: boolean }>(`/storylets/${encodeURIComponent(id)}/choose`, { method: 'POST', body: JSON.stringify({ choice_id: choiceId, actor: 'player' }) }),
+    choose: (id: string, choiceId: string, expectedTransitionSeq?: number) => request<TurnResult & { instance: StoryletInstance; result: Record<string, unknown>; idempotent: boolean; arc?: StoryArc }>(`/storylets/${encodeURIComponent(id)}/choose`, { method: 'POST', body: JSON.stringify({ choice_id: choiceId, actor: 'player', expected_transition_seq: expectedTransitionSeq }) }),
+  },
+  storyArcs: {
+    current: () => request<{ arc: StoryArc | null }>('/story-arcs/current'),
+    detail: (chainId: string) => request<StoryArc>(`/story-arcs/${encodeURIComponent(chainId)}`),
   },
   start: (settings: Record<string, unknown>) => request<TurnResult>('/game/start', { method: 'POST', body: JSON.stringify(settings) }),
   turn: (command: string) => request<TurnResult>('/game/turn', { method: 'POST', body: JSON.stringify({ command }) }),

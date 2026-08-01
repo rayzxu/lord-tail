@@ -106,7 +106,7 @@ except Exception:
 
 skills = data.get("data", [])
 names = {item.get("name") for item in skills if isinstance(item, dict)}
-required = {"lord-tail-game", "lord-tail-council"}
+required = {"lord-tail-game", "lord-tail-council", "lord-tail-story-arc"}
 sys.exit(0 if required <= names else 1)
 PY
 }

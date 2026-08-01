@@ -128,6 +128,25 @@ def execute_effects(state: dict[str, Any], instance: dict[str, Any], choice: dic
                 result["settled_obligation"] = deepcopy(active)
         elif op == "schedule_followup":
             followups.append({"node_key": str(effect.get("node_key", "")), "in_days": max(0, int(effect.get("in_days", 0)))})
+        elif op == "set_arc_fact":
+            key = str(effect.get("key", ""))
+            if not key:
+                raise HTTPException(422, "set_arc_fact 缺少 key")
+            value = deepcopy(effect.get("value"))
+            state["storylets"]["chains"][instance["chain_id"]].setdefault("facts", {})[key] = value
+            instance.setdefault("facts", {})[key] = deepcopy(value)
+            result.setdefault("arc_fact_changes", {})[key] = value
+        elif op == "increment_arc_fact":
+            key = str(effect.get("key", ""))
+            if not key:
+                raise HTTPException(422, "increment_arc_fact 缺少 key")
+            delta = int(effect.get("delta", 1))
+            facts = state["storylets"]["chains"][instance["chain_id"]].setdefault("facts", {})
+            facts[key] = int(facts.get(key, 0)) + delta
+            instance.setdefault("facts", {})[key] = facts[key]
+            result.setdefault("arc_fact_changes", {})[key] = facts[key]
+        elif op in {"resolve_entry_event", "schedule_series_occurrence"}:
+            result.setdefault("runtime_effects", []).append(deepcopy(effect))
         elif op == "confiscate_saved_gold":
             character = _character_for_role(state, instance, str(effect.get("role", "petitioner")))
             economy = character.setdefault("components", {}).setdefault("economy_agent", {"wealth": 0, "income": 0, "debts": []})

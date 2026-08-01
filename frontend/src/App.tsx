@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { ActiveScene, AgentRunMode, AgentSseEvent, AgentTraceEvent, api, Catalog, CharacterEntry, CharacterRelationship, CharactersResponse, CharacterUpsertPayload, DemographicsResponse, DiplomacyState, FactionDetail, GameState, HistoryEntry, HistoryResponse, ItemCatalogEntry, ManagementDecision, ManagementMode, PopulationClassCatalog, PopulationClassState, RealmAnalysis, ScheduledEvent, ScheduledEventsResponse, StoryletInstance, StoryletsResponse, Talent, Tile, TurnResult } from './api'
+import { ActiveScene, AgentRunMode, AgentSseEvent, AgentTraceEvent, api, Catalog, CharacterEntry, CharacterRelationship, CharactersResponse, CharacterUpsertPayload, DemographicsResponse, DiplomacyState, FactionDetail, GameState, HistoryEntry, HistoryResponse, ItemCatalogEntry, ManagementDecision, ManagementMode, PopulationClassCatalog, PopulationClassState, RealmAnalysis, ScheduledEvent, ScheduledEventsResponse, StoryArc, StoryletInstance, StoryletsResponse, Talent, Tile, TurnResult } from './api'
 import CouncilPanel from './components/CouncilPanel'
 
 const markdownPlugins = [remarkGfm]
@@ -621,8 +621,8 @@ function GameScreen({ game, onGame, onBack, catalog }: { game: TurnResult; onGam
       setEventsLoading(false)
     }
   }
-  async function chooseStorylet(instanceId: string, choiceId: string) {
-    const response = await api.storylets.choose(instanceId, choiceId)
+  async function chooseStorylet(instanceId: string, choiceId: string, expectedTransitionSeq?: number) {
+    const response = await api.storylets.choose(instanceId, choiceId, expectedTransitionSeq)
     onGame(response)
     const [scheduled, stories] = await Promise.all([api.events('?limit=80&visibility=player'), api.storylets.list()])
     setEvents(scheduled)
@@ -852,8 +852,9 @@ function GameScreen({ game, onGame, onBack, catalog }: { game: TurnResult; onGam
   const time = state.time
   const activeScene = state.active_scene
   const activeSceneFlags = activeScene?.flags && typeof activeScene.flags === 'object' ? activeScene.flags as Record<string, unknown> : {}
-  const isInterruptingScene = !!activeScene && ['storylet', 'scheduled_event'].includes(String(activeSceneFlags.source ?? '')) && String(activeSceneFlags.scheduled_event_type ?? '') !== 'council_session'
-  const interruptingScheduledEvent = isInterruptingScene ? state.scheduled_events?.entries.find(item => item.id === activeSceneFlags.scheduled_event_id) : undefined
+  const isInterruptingScene = !!activeScene && ['storylet', 'story_arc', 'scheduled_event'].includes(String(activeSceneFlags.source ?? '')) && String(activeSceneFlags.scheduled_event_type ?? '') !== 'council_session'
+  const interruptingScheduledEventId = activeSceneFlags.scheduled_event_id ?? activeSceneFlags.entry_scheduled_event_id
+  const interruptingScheduledEvent = isInterruptingScene ? state.scheduled_events?.entries.find(item => item.id === interruptingScheduledEventId) : undefined
   const interruptingStorylet = isInterruptingScene && activeSceneFlags.story_event_id ? state.storylets?.instances?.find(item => item.id === activeSceneFlags.story_event_id) : undefined
   useEffect(() => {
     if (isInterruptingScene && activeScene?.id) setDismissedInterruptSceneId(null)
@@ -988,11 +989,13 @@ function interruptEventOptions(sceneType: string, event?: ScheduledEvent): strin
   }
   return choices[sceneType] ?? choices.daily
 }
-function InterruptEventModal({ scene, scheduledEvent, storylet, choose, requestClarification, close, onNarrated }: { scene: ActiveScene; scheduledEvent?: ScheduledEvent; storylet?: StoryletInstance; choose: (instanceId: string, choiceId: string) => Promise<void>; requestClarification: (runId: string, event: AgentSseEvent) => void; close: () => void; onNarrated: (text: string, runId: string, trace: AgentTraceEvent[]) => Promise<void> }) {
+function InterruptEventModal({ scene, scheduledEvent, storylet, choose, requestClarification, close, onNarrated }: { scene: ActiveScene; scheduledEvent?: ScheduledEvent; storylet?: StoryletInstance; choose: (instanceId: string, choiceId: string, expectedTransitionSeq?: number) => Promise<void>; requestClarification: (runId: string, event: AgentSseEvent) => void; close: () => void; onNarrated: (text: string, runId: string, trace: AgentTraceEvent[]) => Promise<void> }) {
   const [storyletDetail, setStoryletDetail] = useState<StoryletInstance | undefined>(storylet)
   const activeStorylet = storyletDetail ?? storylet
   const sceneFlags = asRecord(scene.flags)
-  const isStorylet = String(sceneFlags.source ?? '') === 'storylet' && !!activeStorylet
+  const isAuthoredArc = String(sceneFlags.source ?? '') === 'story_arc'
+  const isStorylet = ['storylet', 'story_arc'].includes(String(sceneFlags.source ?? '')) && !!activeStorylet
+  const [storyArc, setStoryArc] = useState<StoryArc | null>(null)
   const fallback = activeStorylet?.narrative_md || scheduledEvent?.description_md || `**${scene.title}** 已经打断领地的日常秩序。`
   const recentMessages = Array.isArray(scene.recent_messages) ? scene.recent_messages.map(asRecord) : []
   const existingNarrative = [...recentMessages].reverse().find(message => message.role === 'assistant' && message.content)?.content
@@ -1010,6 +1013,13 @@ function InterruptEventModal({ scene, scheduledEvent, storylet, choose, requestC
     api.storylets.detail(storylet.id).then(response => { if (active) setStoryletDetail(response.instance) }).catch(() => undefined)
     return () => { active = false }
   }, [storylet?.id])
+  useEffect(() => {
+    const chainId = String(sceneFlags.story_arc_chain_id ?? '')
+    if (!isAuthoredArc || !chainId) return
+    let active = true
+    api.storyArcs.detail(chainId).then(response => { if (active) setStoryArc(response) }).catch(error => { if (active) setError(error instanceof Error ? error.message : '剧情图状态读取失败') })
+    return () => { active = false }
+  }, [scene.id])
   useEffect(() => {
     if (existingNarrative) return
     let disposed = false
@@ -1065,7 +1075,9 @@ function InterruptEventModal({ scene, scheduledEvent, storylet, choose, requestC
     setSubmitting(true); setLoading(true); setError(''); setLastPlayerAction(playerInput)
     try {
       const eventId = scheduledEvent?.id
-      const instruction = `领主在正在进行的「${scene.title}」事件中作出行动：${playerInput}\n请立即使用对应场景 skill 推进事件，通过 Lord Tail API 结算所有真实后果，并调用场景 step 记录本轮互动。不要替领主追加新的决定。如果事件已经明确结束，必须先调用 ${eventId ? `/api/state/events/${eventId}/resolve 结算计划事件，再调用 ` : ''}/api/game/scenes/current/end 归档场景；若尚未结束，则保留场景等待下一次选择。最终只输出中文剧情叙述与简短的下一步提示。`
+      const instruction = isAuthoredArc
+        ? `领主在预编剧情「${scene.title}」当前节点中行动：${playerInput}\n只演出当前节点并调用 /api/game/scenes/current/step 记录互动；不得推断分支、提交选择、解决入口事件或结束场景。正式迁移只能由玩家点击后端合法选项。最终只输出当前节点的中文 Markdown 演出。`
+        : `领主在正在进行的「${scene.title}」事件中作出行动：${playerInput}\n请立即使用对应场景 skill 推进事件，通过 Lord Tail API 结算所有真实后果，并调用场景 step 记录本轮互动。不要替领主追加新的决定。如果事件已经明确结束，必须先调用 ${eventId ? `/api/state/events/${eventId}/resolve 结算计划事件，再调用 ` : ''}/api/game/scenes/current/end 归档场景；若尚未结束，则保留场景等待下一次选择。最终只输出中文剧情叙述与简短的下一步提示。`
       const run = await api.agent.startRun({
         mode: 'scene_step',
         input: instruction,
@@ -1085,6 +1097,8 @@ function InterruptEventModal({ scene, scheduledEvent, storylet, choose, requestC
           const finalText = extractNarrative(event.output) || accumulated || '书记官完成了事件推进，但没有留下叙事文本。'
           setText(finalText); setLoading(false); setSubmitting(false); setFreeInput('')
           void onNarrated(finalText, run.run_id, collectedTrace)
+          const activeArcChainId = String(sceneFlags.story_arc_chain_id ?? '')
+          if (isAuthoredArc && activeArcChainId) void api.storyArcs.detail(activeArcChainId).then(setStoryArc).catch(() => undefined)
         }
         if (event.event === 'run.failed' || event.event === 'run.cancelled') {
           source.close(); setError(courtText(event.message || event.error || '事件推进文书已终止')); setLoading(false); setSubmitting(false)
@@ -1099,21 +1113,22 @@ function InterruptEventModal({ scene, scheduledEvent, storylet, choose, requestC
     if (!activeStorylet || submitting) return
     if (confirmChoice && !window.confirm('这项裁断可能造成严厉或长期后果，仍要盖印吗？')) return
     setSubmitting(true); setError('')
-    try { await choose(activeStorylet.id, choiceId); close() }
+    try { await choose(activeStorylet.id, choiceId, isAuthoredArc ? Number(storyArc?.chain.transition_seq ?? 0) : undefined); close() }
     catch (e) { setError(e instanceof Error ? e.message : '裁断未能写入账册') }
     finally { setSubmitting(false) }
   }
   return <div className="interrupt-event-shade" role="dialog" aria-modal="true" aria-label={scene.title}><section className="interrupt-event-modal">
     <header><div><span className="section-label">时间推进已中断</span><h2>{activeStorylet?.title ?? scheduledEvent?.title ?? scene.title}</h2></div><span className="interrupt-seal">紧急事件</span></header>
     <div className="event-meta"><span>{scheduledEvent?.type ?? activeStorylet?.category ?? scene.type}</span><span>{scheduledEvent?.id ?? activeStorylet?.id ?? scene.id}</span>{scheduledEvent?.schedule?.due_time && <span>第 {scheduledEvent.schedule.due_time.calendar_day} 日 {scheduledEvent.schedule.due_time.clock_24}</span>}</div>
+    {storyArc && <div className="arc-progress"><div><b>预编剧情 · 第 {storyArc.timeline.length} 幕</b><span>状态由后端卷宗锁定</span></div><div className="arc-timeline">{storyArc.timeline.map((entry, index) => <span key={`${entry.node_id}-${index}`} className={entry.status}><i>{index + 1}</i>{entry.title}{entry.selected_choice_id && <small>{entry.selected_choice_id}</small>}</span>)}</div></div>}
     {activeStorylet && <div className="storylet-cast">{Object.entries(activeStorylet.cast_snapshots ?? {}).map(([role, person]) => <article key={role}><small>{role}</small><b>{person.name ?? '无名人物'}</b><span>{person.role || person.class_id || '领民'}</span></article>)}</div>}
     {lastPlayerAction && <div className="event-player-action"><small>领主方才下令</small><p>{lastPlayerAction}</p></div>}
     <div className={`markdown-description interrupt-narrative ${loading ? 'writing' : ''}`}><ReactMarkdown skipHtml remarkPlugins={markdownPlugins}>{text}</ReactMarkdown>{loading && <span className="scribe-writing">书记官正在推进事件……</span>}</div>
     {!!trace.length && <AgentTracePanel trace={trace} collapsed={true} setCollapsed={() => undefined} running={loading} />}
     {error && <p className="error">{error}</p>}
-    {activeStorylet?.status === 'awaiting_choice' && !!activeStorylet.choices?.length && <div className="storylet-choices interrupt-choices">{activeStorylet.choices.map(choice => <button key={choice.id} type="button" disabled={loading || submitting} onClick={() => submit(choice.id, !!choice.confirm)}><b>{choice.label}</b><span>{choice.description_md}</span></button>)}</div>}
+    {activeStorylet?.status === 'awaiting_choice' && !!activeStorylet.choices?.length && <div className="storylet-choices interrupt-choices">{activeStorylet.choices.map(choice => <button key={choice.id} type="button" disabled={submitting} onClick={() => submit(choice.id, !!choice.confirm)}><b>{choice.label}</b><span>{choice.description_md}</span></button>)}</div>}
     {!isStorylet && <div className="event-action-section"><span className="section-label">领主如何回应</span><div className="event-action-options">{actionOptions.map(option => <button key={option} type="button" disabled={loading || submitting} onClick={() => void continueEvent(option)}>{option}</button>)}</div></div>}
-    <div className="event-freeform"><label htmlFor={`event-command-${scene.id}`}>自由行动或对话</label><textarea id={`event-command-${scene.id}`} value={freeInput} onChange={event => setFreeInput(event.target.value)} disabled={loading || submitting} placeholder="例如：让商队首领进厅，我要先问清他们从何处来、带了什么货……" onKeyDown={event => { if (event.key === 'Enter' && (event.metaKey || event.ctrlKey) && freeInput.trim()) void continueEvent(freeInput) }} /><div><small>⌘ Enter 递交书记官；事件可在弹窗内连续推进多轮。</small><button type="button" className="primary-button compact" disabled={loading || submitting || !freeInput.trim()} onClick={() => void continueEvent(freeInput)}>{submitting ? '事件推进中…' : '执行并展开 →'}</button></div></div>
+    <div className="event-freeform"><label htmlFor={`event-command-${scene.id}`}>自由行动或对话 {storyArc && <span>· {storyArc.interaction_budget.used}/{storyArc.interaction_budget.maximum}</span>}</label><textarea id={`event-command-${scene.id}`} value={freeInput} onChange={event => setFreeInput(event.target.value)} disabled={loading || submitting || storyArc?.interaction_budget.freeform_allowed === false} placeholder={storyArc?.interaction_budget.freeform_allowed === false ? '书记官等待正式裁断，请从上方选择。' : '例如：让商队首领进厅，我要先问清他们从何处来、带了什么货……'} onKeyDown={event => { if (event.key === 'Enter' && (event.metaKey || event.ctrlKey) && freeInput.trim()) void continueEvent(freeInput) }} /><div><small>{storyArc?.interaction_budget.freeform_allowed === false ? '本幕自由交互已用尽；合法裁断仍可提交。' : '⌘ Enter 递交书记官；自由演出不会改变剧情分支。'}</small><button type="button" className="primary-button compact" disabled={loading || submitting || !freeInput.trim() || storyArc?.interaction_budget.freeform_allowed === false} onClick={() => void continueEvent(freeInput)}>{submitting ? '事件推进中…' : '执行并展开 →'}</button></div></div>
     <footer><small>{isStorylet ? '正式裁断由后端选择结算；自由输入可用于追问或行动。' : '每次选择都会由书记官叙述，并通过后端接口结算实际后果。'}</small><button type="button" className="ghost-button" onClick={close} disabled={loading}>暂时收起</button></footer>
   </section></div>
 }

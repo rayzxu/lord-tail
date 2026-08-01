@@ -97,7 +97,12 @@ def _instantiate_on_state(
     if not ok and definition.get("source_kind") != "chain":
         raise HTTPException(422, "; ".join(reasons))
     parameter_input = {**trigger_facts, "eligible_classes": trigger_facts.get("eligible_classes", [])}
-    facts = generate_parameters(state, definition, parameter_input, seed=seed, chain_facts=chain_facts)
+    if int(definition.get("schema_version", 1)) == 2 and chain_id:
+        # Arc parameters are frozen once at entry. Re-running constant/weighted
+        # generators on every node would silently erase facts set by choices.
+        facts = deepcopy(chain_facts)
+    else:
+        facts = generate_parameters(state, definition, parameter_input, seed=seed, chain_facts=chain_facts)
     if inherited_cast is None:
         cast_draft = cast_storylet(state, definition, {**facts, **parameter_input}, seed=seed, focus_character_id=focus_character_id)
         cast = cast_draft["cast"]
@@ -229,9 +234,20 @@ def _create_followup(state: dict[str, Any], parent: dict[str, Any], spec: dict[s
     return followup
 
 
-def choose_storylet(state: dict[str, Any], instance_id: str, choice_id: str, *, actor: str = "player") -> dict[str, Any]:
+def choose_storylet(
+    state: dict[str, Any], instance_id: str, choice_id: str, *, actor: str = "player",
+    expected_transition_seq: int | None = None,
+) -> dict[str, Any]:
     normalize_storylet_state(state)
     current = instance_by_id(state, instance_id)
+    chain = state["storylets"]["chains"].get(current.get("chain_id"), {})
+    if chain.get("runtime_version") == 2:
+        from .runtime import choose_arc_node
+
+        return choose_arc_node(
+            state, str(current["chain_id"]), instance_id, choice_id,
+            expected_transition_seq=expected_transition_seq, actor=actor,
+        )
     if current.get("status") == "resolved":
         if current.get("selected_choice_id") == choice_id:
             return {"idempotent": True, "instance": public_instance(current, get_definition(current["definition_id"], current["node_key"])), "events": []}

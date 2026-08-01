@@ -217,6 +217,9 @@ def schedule_event(
         "created_by": created_by,
         "updated_at": _now(),
     }
+    if event["flags"].get("story_arc_definition_id"):
+        event["schedule"]["repeat"] = None
+        event["on_resolve"]["schedule_next"] = False
     state["scheduled_events"]["entries"].append(event)
     return event
 
@@ -274,6 +277,7 @@ def event_context(state: dict[str, Any]) -> dict[str, Any]:
 def activate_due_events(state: dict[str, Any], *, source: str = "pipeline") -> list[TurnEvent]:
     events: list[TurnEvent] = []
     for event in due_events(state):
+        stop_after_event = False
         blocked_reason = _conditions_block_event(state, event)
         if blocked_reason:
             event["status"] = "missed"
@@ -290,7 +294,24 @@ def activate_due_events(state: dict[str, Any], *, source: str = "pipeline") -> l
         event["status"] = "active"
         event["activated_time"] = time_point_from_state(state)
         event["updated_at"] = _now()
-        if event.get("type") == "council_session":
+        arc_definition_id = event.get("flags", {}).get("story_arc_definition_id")
+        if event.get("type") == "story_arc_node":
+            from ..storylets.runtime import activate_timed_node
+
+            activation = activate_timed_node(state, event)
+            event.setdefault("flags", {})["story_arc_activation"] = activation.get("status", "active")
+            stop_after_event = state.get("active_scene") is not None
+        elif arc_definition_id:
+            from ..storylets.runtime import start_arc_from_scheduled_event
+
+            arc = start_arc_from_scheduled_event(
+                state, str(arc_definition_id), event["id"],
+                seed=int(event.get("flags", {}).get("story_arc_seed", 2001)),
+            )
+            event = _event_by_id(state, event["id"])
+            event.setdefault("flags", {})["story_arc_chain_id"] = arc["chain"]["id"]
+            stop_after_event = state.get("active_scene") is not None
+        elif event.get("type") == "council_session":
             from .council import open_meeting_from_event
 
             meeting = open_meeting_from_event(state, event)
@@ -308,6 +329,8 @@ def activate_due_events(state: dict[str, Any], *, source: str = "pipeline") -> l
             message=f"{event['title']}已经到期：{on_due.get('suggested_prompt') or event.get('description_md')}",
             data={"event": event, "source": source},
         ))
+        if stop_after_event:
+            break
     if events:
         state.setdefault("recent_events", []).extend(event.model_dump() for event in events)
         state["recent_events"] = state["recent_events"][-50:]
@@ -316,6 +339,8 @@ def activate_due_events(state: dict[str, Any], *, source: str = "pipeline") -> l
 
 def cancel_event(state: dict[str, Any], event_id: str, *, reason_md: str, cancelled_by: str = "backend") -> dict[str, Any]:
     event = _event_by_id(state, event_id)
+    if event.get("flags", {}).get("story_arc_definition_id") and event.get("status") in {"active", "due"}:
+        raise HTTPException(409, "进行中的预编剧情不能从计划事件接口取消")
     event["status"] = "cancelled"
     event["result_md"] = reason_md
     event["cancelled_by"] = cancelled_by
@@ -336,6 +361,8 @@ def reschedule_event(
     reason_md: str = "",
 ) -> dict[str, Any]:
     event = _event_by_id(state, event_id)
+    if event.get("flags", {}).get("story_arc_definition_id") and event.get("status") in {"active", "due"}:
+        raise HTTPException(409, "进行中的预编剧情不能从计划事件接口改期")
     event["schedule"]["due_time"] = _resolve_due_time(
         state,
         due_time=due_time,
@@ -360,6 +387,12 @@ def resolve_event(
     resolved_by: str = "backend",
 ) -> dict[str, Any]:
     event = _event_by_id(state, event_id)
+    if (
+        event.get("flags", {}).get("story_arc_definition_id")
+        and event.get("status") in {"active", "due"}
+        and resolved_by != "story_arc_runtime"
+    ):
+        raise HTTPException(409, "该事件由预编剧情图管理，必须抵达 terminal 节点后才能解决")
     event["status"] = "resolved"
     event["result_md"] = result_md
     event["outcome"] = outcome or {}

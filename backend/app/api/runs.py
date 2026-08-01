@@ -29,6 +29,7 @@ SAFE_LORD_TAIL_APPROVAL_PATHS = {
     "/api/characters",
     "/api/storylets",
     "/api/storylets/current",
+    "/api/story-arcs/current",
     "/api/items",
     "/api/lord/components",
     "/api/time",
@@ -70,6 +71,7 @@ SAFE_LORD_TAIL_APPROVAL_PATHS = {
     "/api/actions/execute",
 }
 SAFE_LORD_TAIL_APPROVAL_PATH_PREFIXES = (
+    "/api/story-arcs/",
     "/api/characters/",
     "/api/state/characters/",
     "/api/hermes/characters/",

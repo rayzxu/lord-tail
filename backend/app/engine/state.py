@@ -270,6 +270,13 @@ def make_state(request: Any) -> dict[str, Any]:
             title="春季末商队到访",
             description_md="春季末，商队将沿着泥泞道路来到领地边界，要求入境贸易。",
             in_days=89,
+            flags={
+                "story_arc_definition_id": "spring_caravan_visit",
+                "story_arc_seed": 2001,
+                "series_id": "southern_caravan_route",
+                "route_id": "southern_route",
+                "occurrence_key": "caravan:southern_route:year_1:spring",
+            },
             created_by="system",
         )
     from ..systems.council import ensure_initial_council

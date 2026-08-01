@@ -49,6 +49,9 @@ def compact_state_for_agent(state: dict[str, Any], client_context: dict[str, Any
     selected_tile = _selected_tile(state, client_context)
     history_tiles = [f"{selected_tile.get('x')}:{selected_tile.get('y')}"] if selected_tile else None
     storylet_instances = state.get("storylets", {}).get("instances", [])
+    from ..storylets.runtime import current_arc
+
+    story_arc = current_arc(state)
     return {
         "realm": {
             "name": state.get("realm_name"),
@@ -99,6 +102,7 @@ def compact_state_for_agent(state: dict[str, Any], client_context: dict[str, Any
                 if isinstance(item, dict)
             ],
         },
+        "story_arc": story_arc,
         "history_context": select_history_context(
             state,
             tiles=history_tiles,
@@ -149,6 +153,7 @@ def public_action_contract() -> dict[str, Any]:
             "time": "lord-tail-time",
             "scene": "lord-tail-scene",
             "storylet": "lord-tail-storylet",
+            "story_arc": "lord-tail-story-arc",
             "strategic_turn": "lord-tail-strategic-turn",
             "scene_dialogue": "lord-tail-scene-dialogue",
             "scene_battle": "lord-tail-scene-battle",
@@ -397,6 +402,8 @@ def public_action_contract() -> dict[str, Any]:
             "storylets_read": {"method": "GET", "path": "/api/storylets"},
             "storylet_current": {"method": "GET", "path": "/api/storylets/current"},
             "storylet_detail": {"method": "GET", "path": "/api/storylets/{story_event_id}"},
+            "story_arc_current": {"method": "GET", "path": "/api/story-arcs/current"},
+            "story_arc_detail": {"method": "GET", "path": "/api/story-arcs/{chain_id}"},
             "event_schedule": {
                 "method": "POST",
                 "path": "/api/state/events/schedule",
@@ -441,6 +448,7 @@ def public_action_contract() -> dict[str, Any]:
             "strategic_turn": ["POST /api/game/strategic-turn"],
             "council": ["GET /api/council/current", "POST /api/council/{meeting_id}/resolve only after the player explicitly chooses a proposal", "GET /api/strategy/analysis"],
             "scene_step": ["POST /api/game/scenes if no active scene", "POST /api/game/scenes/current/step", "POST /api/game/scenes/current/advance-time only when time explicitly passes", "POST /api/game/scenes/current/end only when the event is complete"],
+            "story_arc": ["GET /api/story-arcs/current", "GET /api/story-arcs/{chain_id}", "POST /api/game/scenes/current/step only for freeform performance", "Never resolve the entry event, end the scene, infer a transition, or choose for the player"],
             "scene_battle": ["POST /api/game/scenes if no active battle scene", "POST /api/state/battles/resolve for decisive combat exchange", "POST /api/game/scenes/current/step", "POST /api/game/scenes/current/end when battle is resolved"],
         },
     }
@@ -606,17 +614,21 @@ def build_storylet_context(state: dict[str, Any], mode: str, input_text: str, cl
     instance_id = str((client_context or {}).get("story_event_id") or state.get("storylets", {}).get("current_instance_id") or "")
     instance = instance_by_id(state, instance_id) if instance_id else None
     public = public_instance(instance, get_definition(instance["definition_id"], instance["node_key"])) if instance else None
+    from ..storylets.runtime import public_arc
+
+    chain = state.get("storylets", {}).get("chains", {}).get(instance.get("chain_id"), {}) if instance else {}
+    story_arc = public_arc(state, instance["chain_id"]) if instance and chain.get("runtime_version") == 2 else None
     payload = {
-        "mode": mode, "request": input_text, "storylet": public,
+        "mode": mode, "request": input_text, "storylet": public, "story_arc": story_arc,
         "cast": public.get("cast_snapshots", {}) if public else {},
         "frozen_facts": public.get("facts", {}) if public else {},
         "rules": {"allow_state_mutation": False, "allow_choice": False, "facts_are_immutable": True, "output_language": "zh-CN"},
     }
     phase = "开场" if mode == "storylet_opening" else "裁断结果"
     return (
-        f"你是 Lord Tail 的领地书记官，使用 lord-tail-storylet skill 润色剧情事件{phase}。\n"
+        f"你是 Lord Tail 的领地书记官，使用 {'lord-tail-story-arc' if story_arc else 'lord-tail-storylet'} skill 润色剧情事件{phase}。\n"
         "只能依据冻结人物、事实、合法选择和后端结果叙述；不得新增金额、关系、建筑、伤亡或选择。\n"
-        "本模式完全只读，不调用任何 mutation API，不替玩家选择，不输出 JSON。若信息不足，保留本地模板已经确定的事实。\n\n"
+        "只演出当前节点，不预演后续节点。本模式完全只读，不调用任何 mutation API，不替玩家选择，不输出 JSON。若信息不足，保留本地模板已经确定的事实。\n\n"
         f"上下文 JSON：\n{json.dumps(payload, ensure_ascii=False, indent=2)}"
     )
 

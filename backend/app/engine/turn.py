@@ -149,6 +149,8 @@ def _start_scene_for_event_if_needed(state: dict[str, Any], event: dict[str, Any
     scene_type = str(on_due.get("scene_type") or "daily")
     title = str(event.get("title") or event.get("type") or "到期事件")
     event_flags = event.get("flags", {}) if isinstance(event.get("flags"), dict) else {}
+    if event_flags.get("story_arc_definition_id"):
+        return None
     participants = event_flags.get("participants") if isinstance(event_flags.get("participants"), list) else []
     scene_flags = {
         "source": "storylet" if event.get("type") == "storylet_event" else "scheduled_event",

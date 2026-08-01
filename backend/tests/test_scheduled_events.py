@@ -17,6 +17,8 @@ def test_start_game_has_default_caravan_with_canonical_due_time(client):
     assert "in_turns" not in caravan["schedule"]
     assert caravan["schedule"]["due_time"]["calendar_day"] == 90
     assert caravan["schedule"]["due_time"]["clock_24"] == "16:00"
+    assert caravan["flags"]["story_arc_definition_id"] == "spring_caravan_visit"
+    assert caravan["schedule"]["repeat"] is None
 
 
 def test_schedule_event_api_uses_time_not_turns(client):

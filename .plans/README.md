@@ -33,6 +33,7 @@
 | [018_character_component_system.md](./018_character_component_system.md) | 把人物账册重构为 kind + components + factory/registry 的可扩展 NPC 系统 | P1 |
 | [019_council_directive_management_ai.md](./019_council_directive_management_ai.md) | 新增财政／军事／外交领主议会、长期战略方针，以及危机规则 + Utility + 短期预测驱动的确定性领地管理 AI | P0 |
 | [020_storylet_event_director.md](./020_storylet_event_director.md) | 新增确定性 Storylet 事件导演、NPC 选角／人口具名化、家庭关系生成、冻结事实选择结算与 Hermes 只读叙事框架 | P0 |
+| [021_scripted_story_arc_graph.md](./021_scripted_story_arc_graph.md) | 将 Storylet Chain 升级为可验证、原子推进的预编剧情图运行时，并把春季商队重构为有分支、有收束、有可靠终局的子事件 DAG | P0 |
 
 ## 通用约定
 

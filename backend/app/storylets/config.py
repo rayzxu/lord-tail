@@ -7,6 +7,7 @@ from typing import Any
 
 from ..catalog import BUILDINGS, POPULATION_CLASSES, RESOURCES
 from ..engine.scenes import VALID_SCENE_TYPES
+from .graph import analyze_graph
 
 DATA_DIR = Path(__file__).resolve().parents[1] / "data" / "storylets"
 RESERVED_FILES = {"director.json", "character_generation.json", "wardrobe_templates.json"}
@@ -24,6 +25,7 @@ EFFECT_OPS = {
     "create_relationship", "update_relationship", "create_obligation", "settle_obligation",
     "set_character_hook", "clear_character_hook", "schedule_followup", "append_history",
     "emit_turn_event", "confiscate_saved_gold",
+    "set_arc_fact", "increment_arc_fact", "resolve_entry_event", "schedule_series_occurrence",
 }
 
 
@@ -59,16 +61,68 @@ def load_definitions() -> dict[tuple[str, str], dict[str, Any]]:
         if path.name in RESERVED_FILES:
             continue
         document = _read_json(path)
-        for index, raw in enumerate(document.get("nodes", [])):
+        raw_nodes = document.get("nodes", {})
+        if int(document.get("schema_version", 1)) == 2:
+            if not isinstance(raw_nodes, dict):
+                raise ValueError(f"{path}: schema v2 nodes 必须是对象")
+            iterable = list(raw_nodes.items())
+        else:
+            if not isinstance(raw_nodes, list):
+                raise ValueError(f"{path}: schema v1 nodes 必须是数组")
+            iterable = [(str(raw.get("node_key", "")) if isinstance(raw, dict) else str(index), raw) for index, raw in enumerate(raw_nodes)]
+        for index, (authored_node_id, raw) in enumerate(iterable):
             if not isinstance(raw, dict):
                 raise ValueError(f"{path}: nodes[{index}] 必须是对象")
-            node = dict(raw)
+            if int(document.get("schema_version", 1)) == 2:
+                node = {
+                    "id": document.get("id"), "node_key": authored_node_id,
+                    "title": raw.get("title", document.get("title", authored_node_id)),
+                    "category": raw.get("category", document.get("category", "daily")),
+                    "source_kind": "scheduled", "priority": raw.get("priority", document.get("priority", "major")),
+                    "blocking": raw.get("blocking", raw.get("kind") in {"choice", "timed"}),
+                    "scene_type": raw.get("scene_type", document.get("scene_type", "daily")),
+                    "roles": raw.get("roles", document.get("roles", {})),
+                    "parameters": raw.get("parameters", document.get("parameters", {})),
+                    "triggers": raw.get("triggers", document.get("triggers", {})), "narrative_template_md": raw.get("narrative_template_md", ""),
+                    "choices": raw.get("choices", []), "kind": raw.get("kind"), "effects": raw.get("effects", []),
+                    "transitions": raw.get("transitions", []), "transition": raw.get("transition"),
+                    "after_hours": raw.get("after_hours", 0), "after_days": raw.get("after_days", 0),
+                    "interaction_budget": raw.get("interaction_budget", document.get("interaction_budget", {})),
+                    "schema_version": 2, "_arc_definition_id": document.get("id"), "_arc_version": document.get("version", 1),
+                }
+            else:
+                node = dict(raw)
             node["_source_file"] = path.name
             key = (str(node.get("id", "")), str(node.get("node_key", "")))
             if key in result:
                 raise ValueError(f"重复 Storylet 节点：{key[0]}:{key[1]}")
             result[key] = node
     return result
+
+
+@lru_cache(maxsize=1)
+def load_arc_definitions() -> dict[str, dict[str, Any]]:
+    result: dict[str, dict[str, Any]] = {}
+    for path in sorted(DATA_DIR.glob("*.json")):
+        if path.name in RESERVED_FILES:
+            continue
+        document = _read_json(path)
+        if int(document.get("schema_version", 1)) != 2:
+            continue
+        definition = dict(document)
+        definition["_source_file"] = path.name
+        definition_id = str(definition.get("id", ""))
+        if definition_id in result:
+            raise ValueError(f"重复 Story Arc definition：{definition_id}")
+        result[definition_id] = definition
+    return result
+
+
+def get_arc_definition(definition_id: str) -> dict[str, Any]:
+    try:
+        return load_arc_definitions()[definition_id]
+    except KeyError as exc:
+        raise KeyError(f"未知 Story Arc：{definition_id}") from exc
 
 
 def get_definition(definition_id: str, node_key: str = "petition") -> dict[str, Any]:
@@ -86,6 +140,8 @@ def validate_storylet_catalog() -> None:
     if not definitions:
         raise ValueError("至少需要一个 Storylet 定义")
     allowed_classes = set(POPULATION_CLASSES)
+    for definition in load_arc_definitions().values():
+        analyze_graph(definition, effect_ops=EFFECT_OPS, valid_scene_types=VALID_SCENE_TYPES)
     for (definition_id, node_key), node in definitions.items():
         label = f"{node.get('_source_file')}:{definition_id}:{node_key}"
         if not definition_id or not node_key:
@@ -111,6 +167,8 @@ def validate_storylet_catalog() -> None:
             if not isinstance(spec, dict) or not (set(spec) & PARAMETER_GENERATORS):
                 raise ValueError(f"{label}: 参数 {name} 没有合法生成器")
         choices = node.get("choices", [])
+        if int(node.get("schema_version", 1)) == 2:
+            continue
         ids = [str(item.get("id", "")) for item in choices if isinstance(item, dict)]
         if not ids or len(ids) != len(set(ids)) or any(not value for value in ids):
             raise ValueError(f"{label}: choice id 必须非空且唯一")

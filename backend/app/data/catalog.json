@@ -1274,6 +1274,16 @@
       "tags": ["caravan", "economy", "diplomacy"],
       "prompt_hint": "商队抵达领地边界，等待领主许可入城。"
     },
+    "story_arc_node": {
+      "label": "剧情子事件",
+      "default_importance": 4,
+      "default_visibility": "player",
+      "default_scene_type": "daily",
+      "default_due_clock_24": "06:00",
+      "turn_event_kind": "story_arc_node_due",
+      "tags": ["story_arc"],
+      "prompt_hint": "预编剧情的下一个子事件已经到期。"
+    },
     "enemy_arrival": {
       "label": "敌军抵达",
       "default_importance": 5,

@@ -89,9 +89,14 @@ def append_scene_message(
     scene["recent_messages"] = scene["recent_messages"][-30:]
 
 
-def end_scene(state: dict[str, Any], summary: str = "", outcome: dict[str, Any] | None = None) -> dict[str, Any]:
+def end_scene(
+    state: dict[str, Any], summary: str = "", outcome: dict[str, Any] | None = None, *,
+    allow_story_arc: bool = False,
+) -> dict[str, Any]:
     scene = require_active_scene(state)
     flags = scene.get("flags", {}) if isinstance(scene.get("flags"), dict) else {}
+    if flags.get("source") == "story_arc" and not allow_story_arc:
+        raise HTTPException(409, "该预编剧情必须先完成当前节点裁断，不能直接结束场景")
     if flags.get("source") == "storylet" and flags.get("blocking") and flags.get("story_event_id"):
         from ..storylets.instances import instance_by_id
 
@@ -115,4 +120,8 @@ def end_scene(state: dict[str, Any], summary: str = "", outcome: dict[str, Any] 
     state["recent_events"] = state["recent_events"][-50:]
     state["active_scene"] = None
     state["game_mode"] = "strategic"
+    if not allow_story_arc:
+        from ..storylets.runtime import activate_queued_nodes
+
+        activate_queued_nodes(state)
     return archived
