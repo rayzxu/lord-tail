@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { AgentRunMode, AgentSseEvent, AgentTraceEvent, api, Catalog, CharacterEntry, CharacterRelationship, CharactersResponse, CharacterUpsertPayload, DemographicsResponse, DiplomacyState, FactionDetail, GameState, HistoryEntry, HistoryResponse, ItemCatalogEntry, ManagementDecision, ManagementMode, PopulationClassCatalog, PopulationClassState, RealmAnalysis, ScheduledEvent, ScheduledEventsResponse, StoryletInstance, StoryletsResponse, Talent, Tile, TurnResult } from './api'
+import { ActiveScene, AgentRunMode, AgentSseEvent, AgentTraceEvent, api, Catalog, CharacterEntry, CharacterRelationship, CharactersResponse, CharacterUpsertPayload, DemographicsResponse, DiplomacyState, FactionDetail, GameState, HistoryEntry, HistoryResponse, ItemCatalogEntry, ManagementDecision, ManagementMode, PopulationClassCatalog, PopulationClassState, RealmAnalysis, ScheduledEvent, ScheduledEventsResponse, StoryletInstance, StoryletsResponse, Talent, Tile, TurnResult } from './api'
 import CouncilPanel from './components/CouncilPanel'
 
 const markdownPlugins = [remarkGfm]
@@ -113,7 +113,9 @@ function buildFactionDetail(state: GameState, catalog: Catalog | null, faction: 
 }
 
 type Settings = { lord_name: string; lord_gender: string; realm_name: string; appearance: string; personality: string }
-const defaultSettings: Settings = { lord_name: '亚历山大', lord_gender: '男', realm_name: '黑泥堡', appearance: '', personality: '' }
+const defaultLordAppearance = '他身高不过一百五十六厘米，体重却足有九十六公斤，矮胖的身躯被一件绣着家徽的丝绒长袍裹得严严实实，远远望去，活像一只披金戴银的圆桶。一颗硕大浑圆的脑袋几乎没有脖颈，仿佛肉球般直接嵌在臃肿的肩膀之间。肥肉将他的五官挤作一团，短鼻、厚唇与下垂的面颊凑出一副滑稽而傲慢的模样。\n\n然而，那双藏在眼缝里的小眼睛却异常活泛。每当他打量领民的粮袋、商人的货车或邻居的土地时，眼底便会闪过贪婪而精明的贼光，像是在心里飞快计算：这里还能榨出多少税，那里又能占到多少便宜。'
+const defaultLordPersonality = '贪婪、精明、吝啬、欺软怕硬、虚荣、记仇'
+const defaultSettings: Settings = { lord_name: '亚历山大', lord_gender: '男', realm_name: '黑逼堡', appearance: defaultLordAppearance, personality: defaultLordPersonality }
 type NeighborSetup = { name: string; stance: string; relation: number; at_war: boolean; color: string; banner: string; description: string }
 const setupMapSize = 10
 const setupRealmForbiddenKinds = new Set(['hill', 'lake', 'river', 'town', 'village', 'slum', 'castle'])
@@ -293,6 +295,7 @@ type DescriptionState = { open: boolean; title: string; text: string; trace: Age
 type TileDrawerState = { tile: Tile; source: 'realm' | 'diplomacy'; text: string; trace: AgentTraceEvent[]; loading: boolean }
 type TileDescriptionCacheEntry = { signature: string; text: string; trace: AgentTraceEvent[] }
 type EquipmentOwner = { type: 'lord' } | { type: 'character'; characterId: string }
+type PendingClarification = { runId: string; clarifyId: string; question: string; choices: string[]; submitting: boolean; error: string }
 
 function GameScreen({ game, onGame, onBack, catalog }: { game: TurnResult; onGame: (game: TurnResult) => void; onBack: () => void; catalog: Catalog | null }) {
   const [command, setCommand] = useState('')
@@ -324,6 +327,8 @@ function GameScreen({ game, onGame, onBack, catalog }: { game: TurnResult; onGam
   const [tileDescriptionCache, setTileDescriptionCache] = useState<Record<string, TileDescriptionCacheEntry>>({})
   const [factionDetail, setFactionDetail] = useState<string | null>(null)
   const [mapMode, setMapMode] = useState<'tactical' | 'diplomacy'>('tactical')
+  const [dismissedInterruptSceneId, setDismissedInterruptSceneId] = useState<string | null>(null)
+  const [pendingClarification, setPendingClarification] = useState<PendingClarification | null>(null)
   const state = game.state
   const realmMapSize = state.map_size || 10
   const diplomacyMapSize = state.diplomacy_map_size || realmMapSize
@@ -361,6 +366,17 @@ function GameScreen({ game, onGame, onBack, catalog }: { game: TurnResult; onGam
     setCommand('')
   }
 
+  function requestClarification(runId: string, event: AgentSseEvent) {
+    setPendingClarification({
+      runId,
+      clarifyId: String(event.clarify_id ?? event.seq ?? ''),
+      question: String(event.question || event.message || '书记官需要领主补充说明。'),
+      choices: Array.isArray(event.choices) ? event.choices.map(String).filter(Boolean) : [],
+      submitting: false,
+      error: '',
+    })
+  }
+
   async function send(text = command) {
     const input = text.trim()
     if (!input || busy) return
@@ -383,12 +399,14 @@ function GameScreen({ game, onGame, onBack, catalog }: { game: TurnResult; onGam
       source.onmessage = async message => {
         const event = parseAgentEvent(message.data)
         pushTrace(traceFromAgentEvent(event))
+        if (event.event === 'clarify.request') requestClarification(run.run_id, event)
         if (event.event === 'message.delta' && typeof event.delta === 'string') {
           accumulated += event.delta
           setStreamText(accumulated)
         }
         if (event.event === 'run.completed') {
           source.close()
+          setPendingClarification(null)
           const output = extractNarrative(event.output) || accumulated || '书记官已经完成裁决，但没有留下叙事文本。'
           const suggestions = extractSuggestions(event.output, game.suggestions)
           setStreamText('')
@@ -398,12 +416,14 @@ function GameScreen({ game, onGame, onBack, catalog }: { game: TurnResult; onGam
         }
         if (event.event === 'run.failed' || event.event === 'run.cancelled') {
           source.close()
+          setPendingClarification(null)
           setToast(courtText(event.message || event.error || '书记官文书已终止'))
           setBusy(false)
         }
       }
       source.onerror = () => {
         source.close()
+        setPendingClarification(null)
         setToast('书记官传信中断')
         setBusy(false)
       }
@@ -411,6 +431,52 @@ function GameScreen({ game, onGame, onBack, catalog }: { game: TurnResult; onGam
       try { await fallbackTurn(input) }
       catch (fallbackError) { setToast(fallbackError instanceof Error ? fallbackError.message : e instanceof Error ? e.message : '命令未送达') }
       finally { setBusy(false) }
+    }
+  }
+
+  async function answerClarification(response: string) {
+    const answer = response.trim()
+    if (!pendingClarification || !answer || pendingClarification.submitting) return
+    const runId = pendingClarification.runId
+    const clarifyId = pendingClarification.clarifyId
+    setPendingClarification(previous => previous ? { ...previous, submitting: true, error: '' } : previous)
+    try {
+      await api.agent.clarify(runId, { response: answer })
+      setPendingClarification(previous => previous?.runId === runId && previous.clarifyId === clarifyId ? null : previous)
+      const responseTrace: AgentTraceEvent = {
+        id: `clarify-response-${Date.now()}`,
+        kind: 'clarify',
+        title: '领主批示',
+        detail: answer,
+        status: 'complete',
+      }
+      setTrace(previous => [...previous, responseTrace].slice(-80))
+      setToast('批示已送达，书记官继续誊写')
+    } catch (e) {
+      setPendingClarification(previous => previous?.runId === runId && previous.clarifyId === clarifyId ? {
+        ...previous,
+        submitting: false,
+        error: e instanceof Error ? e.message : '批示未能送达',
+      } : previous)
+    }
+  }
+
+  async function cancelClarification() {
+    if (!pendingClarification || pendingClarification.submitting) return
+    const runId = pendingClarification.runId
+    const clarifyId = pendingClarification.clarifyId
+    setPendingClarification(previous => previous ? { ...previous, submitting: true, error: '' } : previous)
+    try {
+      await api.agent.cancel(runId)
+      setPendingClarification(previous => previous?.runId === runId && previous.clarifyId === clarifyId ? null : previous)
+      setBusy(false)
+      setToast('这份未决文书已经撤回')
+    } catch (e) {
+      setPendingClarification(previous => previous?.runId === runId && previous.clarifyId === clarifyId ? {
+        ...previous,
+        submitting: false,
+        error: e instanceof Error ? e.message : '文书未能撤回',
+      } : previous)
     }
   }
 
@@ -423,6 +489,7 @@ function GameScreen({ game, onGame, onBack, catalog }: { game: TurnResult; onGam
       const source = new EventSource(api.agent.eventsUrl(run.run_id))
       source.onmessage = message => {
         const event = parseAgentEvent(message.data)
+        if (event.event === 'clarify.request') requestClarification(run.run_id, event)
         const traceEvent = traceFromAgentEvent(event)
         if (traceEvent) {
           collectedTrace = [...collectedTrace, traceEvent].slice(-80)
@@ -482,6 +549,7 @@ function GameScreen({ game, onGame, onBack, catalog }: { game: TurnResult; onGam
       const eventSource = new EventSource(api.agent.eventsUrl(run.run_id))
       eventSource.onmessage = message => {
         const event = parseAgentEvent(message.data)
+        if (event.event === 'clarify.request') requestClarification(run.run_id, event)
         const traceEvent = traceFromAgentEvent(event)
         if (traceEvent) {
           collectedTrace = [...collectedTrace, traceEvent].slice(-80)
@@ -783,12 +851,19 @@ function GameScreen({ game, onGame, onBack, catalog }: { game: TurnResult; onGam
   }
   const time = state.time
   const activeScene = state.active_scene
+  const activeSceneFlags = activeScene?.flags && typeof activeScene.flags === 'object' ? activeScene.flags as Record<string, unknown> : {}
+  const isInterruptingScene = !!activeScene && ['storylet', 'scheduled_event'].includes(String(activeSceneFlags.source ?? '')) && String(activeSceneFlags.scheduled_event_type ?? '') !== 'council_session'
+  const interruptingScheduledEvent = isInterruptingScene ? state.scheduled_events?.entries.find(item => item.id === activeSceneFlags.scheduled_event_id) : undefined
+  const interruptingStorylet = isInterruptingScene && activeSceneFlags.story_event_id ? state.storylets?.instances?.find(item => item.id === activeSceneFlags.story_event_id) : undefined
+  useEffect(() => {
+    if (isInterruptingScene && activeScene?.id) setDismissedInterruptSceneId(null)
+  }, [activeScene?.id, isInterruptingScene])
   const modeLabel = activeScene ? `场景：${activeScene.title}` : '战略'
   const highlightedDiplomacy = Object.entries(state.diplomacy).find(([name]) => !(state.factions?.[name]?.is_player))
   return <main className="game-page">
     <header className="status-bar"><div className="brand"><span className="crest">♜</span><div><small>领地纪事</small><strong>{state.realm_name}</strong></div></div><div className="building-count">建筑 <b>{Object.values(state.buildings).reduce((a, b) => a + b, 0)}</b><span>处</span></div><div className="stat-cluster">{(['gold','food','wood','stone'] as const).map(key => <Resource key={key} name={key} state={state} onDescribe={() => describe('describe_item', resourceLabels[key][0], `描述资源：${resourceLabels[key][0]}`, { target_type: 'resource', key })} />)}</div><div className="military"><span>⚔ {state.army.infantry + state.army.archers + state.army.cavalry}</span><span>组织 {state.army_status?.organization ?? 100}</span>{highlightedDiplomacy && <span className="diplomacy-dot">{diplomacyLabel(highlightedDiplomacy[1])} · {highlightedDiplomacy[0]}</span>}</div><div className="menu"><button className={state.council?.current_meeting ? 'attention' : ''} onClick={openStrategyPanel}>{state.council?.current_meeting ? '议会待裁' : '战略方针'}</button><button onClick={() => setPanel('realm')}>领地详情</button><button onClick={openPopulationPanel}>居民分析</button><button onClick={() => describe('describe_realm', '领地描述', `描述领地：${state.realm_name}`, { target_type: 'realm' })}>描述领地</button><button onClick={() => setPanel('lord')}>领主详情</button><button onClick={() => describe('describe_lord', '领主描述', `描述领主：${state.lord_name}`, { target_type: 'lord' })}>描述领主</button><button onClick={openCharactersPanel}>人物</button><button onClick={openEventsPanel}>事件</button><button onClick={openHistoryPanel}>历史</button><button onClick={save}>保存</button><button onClick={load}>读取</button><button onClick={onBack}>退出</button></div></header>
     <section className="turn-strip"><span>第 {state.turn} 轮</span><i /> <span>第 {time?.calendar_day ?? 1} 日</span><i /> <span>{clock24(time)}</span><i /> <span>本轮第 {time?.day_in_turn ?? 1}/{time?.turn_days ?? 9} 日</span><i /> <span>{state.season}</span><i /> <span>{state.weather}</span><i /> <span>{modeLabel}</span>{activeScene && <span>已过 {activeScene.elapsed_days} 日 {activeScene.elapsed_hours} 时 {activeScene.elapsed_minutes ?? 0} 分</span>}<span className="engine-badge">{game.source === 'hermes' ? '书记官执笔叙事' : '管家按律核算'}</span></section>
-    <div className="game-layout"><section className="story-column"><div className="report"><div className="report-top"><span>本轮报告</span><span className="wax">{busy ? '✦ 书记官裁决中' : '✦ 已裁决'}</span></div><div className="report-markdown"><ReactMarkdown skipHtml remarkPlugins={markdownPlugins}>{streamText || game.narrative}</ReactMarkdown></div><div className="secondary-stats"><Meter label="民心" value={state.resources.morale} /><Meter label="统治力" value={state.resources.authority} /><span>人口 <b>{state.resources.population}</b></span></div></div><AgentTracePanel trace={trace} collapsed={traceCollapsed} setCollapsed={setTraceCollapsed} running={busy} /><div className="prompt-box"><label>{activeScene ? `场景命令 · ${activeScene.title}` : '故事互动 / 场景命令'}</label><textarea value={command} onChange={e => setCommand(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) send() }} placeholder={activeScene ? '例如：我命令卫兵把商队头领带到火盆前问话……' : '例如：召见管家询问粮仓亏空，或点击“推进九天”结算战略回合……'} /><div className="composer-footer"><span>⌘ Enter 递交书记官</span><div className="mode-actions">{!activeScene && <button className="ghost-button" type="button" onClick={startScene} disabled={busy}>开始场景</button>}{activeScene && <button className="ghost-button" type="button" onClick={endScene} disabled={busy}>结束场景</button>}<button className="ghost-button" type="button" onClick={advanceStrategicTurn} disabled={busy || !!activeScene}>推进九天</button><button className="primary-button compact" onClick={() => send()} disabled={busy}>{busy ? '裁决中…' : '递交文书 →'}</button></div></div></div><div className="suggestions">{game.suggestions.map(item => <button key={item} onClick={() => send(item)} disabled={busy}>+ {item}</button>)}</div></section>
+    <div className="game-layout"><section className="story-column"><div className="report"><div className="report-top"><span>本轮报告</span><span className="wax">{busy ? '✦ 书记官裁决中' : '✦ 已裁决'}</span></div><div className="report-markdown"><ReactMarkdown skipHtml remarkPlugins={markdownPlugins}>{streamText || game.narrative}</ReactMarkdown></div><div className="secondary-stats"><Meter label="民心" value={state.resources.morale} /><Meter label="统治力" value={state.resources.authority} /><span>人口 <b>{state.resources.population}</b></span></div></div><AgentTracePanel trace={trace} collapsed={traceCollapsed} setCollapsed={setTraceCollapsed} running={busy} /><div className="prompt-box"><label>{activeScene ? `场景命令 · ${activeScene.title}` : '故事互动 / 场景命令'}</label><textarea value={command} onChange={e => setCommand(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) send() }} placeholder={activeScene ? '例如：我命令卫兵把商队头领带到火盆前问话……' : '例如：召见管家询问粮仓亏空，或点击“推进九天”结算战略回合……'} /><div className="composer-footer"><span>⌘ Enter 递交书记官</span><div className="mode-actions">{!activeScene && <button className="ghost-button" type="button" onClick={startScene} disabled={busy}>开始场景</button>}{isInterruptingScene && <button className="ghost-button event-reopen-button" type="button" onClick={() => setDismissedInterruptSceneId(null)} disabled={busy}>展开事件</button>}{activeScene && <button className="ghost-button" type="button" onClick={endScene} disabled={busy}>结束场景</button>}<button className="ghost-button" type="button" onClick={advanceStrategicTurn} disabled={busy || !!activeScene}>推进九天</button><button className="primary-button compact" onClick={() => send()} disabled={busy}>{busy ? '裁决中…' : '递交文书 →'}</button></div></div></div><div className="suggestions">{game.suggestions.map(item => <button key={item} onClick={() => send(item)} disabled={busy}>+ {item}</button>)}</div></section>
       <div className="map-column">
         <div className="map-switch"><button type="button" className={mapMode === 'tactical' ? 'active' : ''} onClick={() => setMapMode('tactical')}>领地地图</button><button type="button" className={mapMode === 'diplomacy' ? 'active' : ''} onClick={() => setMapMode('diplomacy')}>外交地图</button></div>
         {mapMode === 'tactical' && <aside className="map-panel tactical-panel"><div className="map-head"><div><span className="section-label">领地地图</span><small>直辖地产与经营建筑 · 点击后自动描述</small></div><span>{realmMapSize}×{realmMapSize}</span></div><div className="coordinates" style={{ gridTemplateColumns: `repeat(${realmMapSize}, 1fr)` }}>{Array.from({ length: realmMapSize }, (_, index) => <span key={index}>{columnLabel(index)}</span>)}</div><div className="map-grid tactical-grid" style={{ gridTemplateColumns: `repeat(${realmMapSize}, 1fr)` }}>{Array.from({ length: realmMapSize * realmMapSize }, (_, index) => { const x = (index % realmMapSize) + 1, y = Math.floor(index / realmMapSize) + 1, tile = realmTiles.get(`${x}-${y}`)!; return <button title={`${coordLabel(x, y)} · ${tile.label}`} key={`${x}-${y}`} className={`tile ${tile.kind}`} onClick={() => openTileDrawer(tile, 'realm')}><span>{tileIcon(catalog, tile.kind)}</span></button> })}</div><div className="legend">{Object.entries(catalog?.map_tile_kinds ?? {}).filter(([kind]) => realmKinds.has(kind)).map(([kind, info]) => <span key={kind}><b style={{ color: info.color }}>{info.icon}</b>{info.label}</span>)}</div></aside>}
@@ -796,11 +871,24 @@ function GameScreen({ game, onGame, onBack, catalog }: { game: TurnResult; onGam
       </div>
     </div>
     {description.open && <DescriptionDrawer description={description} close={() => setDescription(previous => ({ ...previous, open: false }))} />}{panel && panel !== 'population' && panel !== 'history' && panel !== 'events' && panel !== 'characters' && panel !== 'strategy' && <DetailPanel panel={panel} state={state} catalog={catalog} close={() => setPanel(null)} onGrantItem={grantEquipmentItem} onEquipItem={equipEquipmentItem} onUnequipItem={unequipEquipmentItem} onPatchBodyProfile={patchBodyProfile} />}{panel === 'population' && <PopulationAnalysisPanel demographics={demographics} catalog={catalog} loading={demographicsLoading} error={demographicsError} close={() => setPanel(null)} />}{panel === 'characters' && <CharactersPanel characters={characters} catalog={catalog} loading={charactersLoading} error={charactersError} close={() => setPanel(null)} refresh={openCharactersPanel} onCreate={createCharacter} onDescribe={(character) => describe('describe_item', `人物描述：${character.name}`, `描述人物：${character.name}`, { target_type: 'character', key: character.id })} onTalk={(character) => startCharacterScene(character, 'dialogue')} onAdultScene={(character) => startCharacterScene(character, 'sexual')} onGrantItem={grantEquipmentItem} onEquipItem={equipEquipmentItem} onUnequipItem={unequipEquipmentItem} onPatchBodyProfile={patchBodyProfile} />}{panel === 'events' && <EventsPanel events={events} loading={eventsLoading} error={eventsError} close={() => setPanel(null)} refresh={openEventsPanel} currentDay={time?.calendar_day ?? 1} />}{panel === 'history' && <HistoryPanel history={history} loading={historyLoading} error={historyError} close={() => setPanel(null)} refresh={openHistoryPanel} />}{panel === 'strategy' && <CouncilPanel meeting={state.council?.current_meeting ?? null} directive={state.strategic_directive ?? null} management={state.management_ai ?? null} analysis={strategyAnalysis} decision={strategyDecision ?? state.management_ai?.pending_advice ?? null} loading={strategyLoading} error={strategyError} close={() => setPanel(null)} resolveMeeting={resolveCouncil} setMode={changeManagementMode} requestReview={requestCouncilReview} loadAdvice={loadManagementAdvice} acceptAdvice={acceptManagementAdvice} />}
-    {panel === 'events' && <StoryletDrawer instances={storylets?.instances ?? state.storylets?.instances ?? []} currentId={storylets?.current_instance_id ?? state.storylets?.current_instance_id ?? null} choose={chooseStorylet} close={() => setPanel(null)} />}
+    {isInterruptingScene && activeScene && activeScene.id !== dismissedInterruptSceneId && <InterruptEventModal key={activeScene.id} scene={activeScene} scheduledEvent={interruptingScheduledEvent} storylet={interruptingStorylet} choose={chooseStorylet} requestClarification={requestClarification} close={() => setDismissedInterruptSceneId(activeScene.id)} onNarrated={async (text, runId, runTrace) => { const refreshed = await api.state.read(); onGame({ ...game, state: refreshed.state, narrative: text, source: 'hermes', run_id: runId, trace: runTrace }) }} />}
+    {pendingClarification && <ClarificationModal key={`${pendingClarification.runId}-${pendingClarification.clarifyId}`} clarification={pendingClarification} answer={answerClarification} cancel={cancelClarification} />}
+    {panel === 'events' && <StoryletDrawer instances={storylets?.instances ?? state.storylets?.instances ?? []} currentId={storylets?.current_instance_id ?? state.storylets?.current_instance_id ?? null} choose={chooseStorylet} requestClarification={requestClarification} close={() => setPanel(null)} />}
     {tileDetail && <TileDetailDrawer detail={tileDetail} catalog={catalog} factions={state.factions} close={() => setTileDetail(null)} onRefresh={() => openTileDrawer(tileDetail.tile, tileDetail.source, true)} onViewFaction={(faction) => { setFactionDetail(faction) }} />}
     {factionDetail && <FactionDetailPanel faction={factionDetail} detail={buildFactionDetail(state, catalog, factionDetail)} close={() => setFactionDetail(null)} />}
     {toast && <div className="toast" onAnimationEnd={() => setToast('')}>{toast}</div>}
   </main>
+}
+function ClarificationModal({ clarification, answer, cancel }: { clarification: PendingClarification; answer: (response: string) => Promise<void>; cancel: () => Promise<void> }) {
+  const [draft, setDraft] = useState('')
+  return <div className="clarification-shade" role="dialog" aria-modal="true" aria-labelledby="clarification-title"><section className="clarification-modal">
+    <header><div><span className="section-label">书记官请示</span><h2 id="clarification-title">文意尚有歧义，请领主裁示</h2></div><span className="clarification-seal">待批</span></header>
+    <blockquote>{clarification.question}</blockquote>
+    {!!clarification.choices.length && <div className="clarification-choices">{clarification.choices.map((choice, index) => <button type="button" key={`${index}-${choice}`} disabled={clarification.submitting} onClick={() => answer(choice)}><small>选项 {index + 1}</small><span>{choice}</span></button>)}</div>}
+    <label className="clarification-freeform"><span>或亲自写下补充说明</span><textarea value={draft} onChange={event => setDraft(event.target.value)} disabled={clarification.submitting} placeholder="写明对象、期限或你真正想做的事……" onKeyDown={event => { if (event.key === 'Enter' && (event.metaKey || event.ctrlKey) && draft.trim()) void answer(draft) }} /></label>
+    {clarification.error && <p className="error">{clarification.error}</p>}
+    <footer><button type="button" className="ghost-button" disabled={clarification.submitting} onClick={() => void cancel()}>撤回这份文书</button><small>选择一项可直接批复；自由说明可按 ⌘ Enter 递交。</small><button type="button" className="primary-button compact" disabled={clarification.submitting || !draft.trim()} onClick={() => void answer(draft)}>{clarification.submitting ? '传令中…' : '递交批示 →'}</button></footer>
+  </section></div>
 }
 function Resource({ name, state, onDescribe }: { name: keyof typeof resourceLabels; state: GameState; onDescribe?: () => void }) { const [label, symbol] = resourceLabels[name]; const change = state.changes[name] ?? 0; return <button className="resource resource-button" type="button" onClick={onDescribe} title={`描述${label}`}><small>{symbol} {label}</small><b>{state.resources[name as keyof GameState['resources']]}</b>{change !== 0 && <em className={change > 0 ? 'up' : 'down'}>{change > 0 ? '+' : ''}{change}</em>}</button> }
 function AgentTracePanel({ trace, collapsed, setCollapsed, running }: { trace: AgentTraceEvent[]; collapsed: boolean; setCollapsed: (value: boolean) => void; running: boolean }) {
@@ -885,7 +973,151 @@ function EventCard({ event, currentDay }: { event: ScheduledEvent; currentDay: n
     <footer><span>{event.created_by ?? 'system'}</span><span>{tags}</span></footer>
   </article>
 }
-function StoryletDrawer({ instances, currentId, choose, close }: { instances: StoryletInstance[]; currentId: string | null; choose: (instanceId: string, choiceId: string) => Promise<void>; close: () => void }) {
+function interruptEventOptions(sceneType: string, event?: ScheduledEvent): string[] {
+  const flagChoices = event?.flags?.choices
+  const dueChoices = event?.on_due?.choices
+  const configured = Array.isArray(flagChoices) ? flagChoices : Array.isArray(dueChoices) ? dueChoices : []
+  if (configured.length) return configured.map(choice => typeof choice === 'string' ? choice : String(asRecord(choice).label || asRecord(choice).text || '')).filter(Boolean).slice(0, 6)
+  const choices: Record<string, string[]> = {
+    caravan: ['准许商队入城，并亲自检视货物', '先征收入城税，再允许商队交易', '命令卫兵搜查车辆并盘问商队首领', '拒绝商队入境，让他们在城外扎营'],
+    diplomacy: ['礼貌接见使者并听取来意', '要求对方先交出国书与礼物', '以强硬态度提出领地的条件', '暂不表态，命人调查使团背景'],
+    battle: ['召集军官评估敌情并布置防线', '派斥候侦察敌军兵种与人数', '主动出击，抢占有利地形', '闭门固守并动员领民'],
+    court: ['让请愿者完整陈述诉求', '命书记官核对账册与证据', '当场批准请求并要求记录代价', '拒绝请求并说明领主裁断'],
+    lord_event: ['亲自处理来报之事', '召来相关人物当面对质', '命书记官先调查事实', '暂缓裁断，要求提出更多方案'],
+    daily: ['亲自过问此事', '命管家依照惯例处置', '召集相关人物询问详情', '暂缓决定并继续观察'],
+  }
+  return choices[sceneType] ?? choices.daily
+}
+function InterruptEventModal({ scene, scheduledEvent, storylet, choose, requestClarification, close, onNarrated }: { scene: ActiveScene; scheduledEvent?: ScheduledEvent; storylet?: StoryletInstance; choose: (instanceId: string, choiceId: string) => Promise<void>; requestClarification: (runId: string, event: AgentSseEvent) => void; close: () => void; onNarrated: (text: string, runId: string, trace: AgentTraceEvent[]) => Promise<void> }) {
+  const [storyletDetail, setStoryletDetail] = useState<StoryletInstance | undefined>(storylet)
+  const activeStorylet = storyletDetail ?? storylet
+  const sceneFlags = asRecord(scene.flags)
+  const isStorylet = String(sceneFlags.source ?? '') === 'storylet' && !!activeStorylet
+  const fallback = activeStorylet?.narrative_md || scheduledEvent?.description_md || `**${scene.title}** 已经打断领地的日常秩序。`
+  const recentMessages = Array.isArray(scene.recent_messages) ? scene.recent_messages.map(asRecord) : []
+  const existingNarrative = [...recentMessages].reverse().find(message => message.role === 'assistant' && message.content)?.content
+  const [text, setText] = useState(existingNarrative ? String(existingNarrative) : fallback)
+  const [trace, setTrace] = useState<AgentTraceEvent[]>([])
+  const [loading, setLoading] = useState(!existingNarrative)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
+  const [freeInput, setFreeInput] = useState('')
+  const [lastPlayerAction, setLastPlayerAction] = useState('')
+  const actionOptions = interruptEventOptions(scene.type, scheduledEvent)
+  useEffect(() => {
+    if (!storylet?.id) return
+    let active = true
+    api.storylets.detail(storylet.id).then(response => { if (active) setStoryletDetail(response.instance) }).catch(() => undefined)
+    return () => { active = false }
+  }, [storylet?.id])
+  useEffect(() => {
+    if (existingNarrative) return
+    let disposed = false
+    let source: EventSource | null = null
+    async function begin() {
+      try {
+        const mode: AgentRunMode = isStorylet ? 'storylet_opening' : 'scene_step'
+        const input = isStorylet
+          ? `剧情事件「${activeStorylet?.title ?? scene.title}」已经到期。请严格依据冻结事实和人物快照，直接写出事件开场，不要替领主选择。`
+          : `计划事件「${scheduledEvent?.title ?? scene.title}」已经到期并打断了时间推进。请现在直接开始这个场景，描写来者、现场和领主首先需要面对的问题；只写开场，不要擅自解决或结束事件。`
+        const run = await api.agent.startRun({
+          mode,
+          input,
+          client_context: {
+            intent: 'interrupt_event_opening',
+            story_event_id: activeStorylet?.id,
+            scheduled_event_id: scheduledEvent?.id,
+            active_scene_id: scene.id,
+            event_type: scheduledEvent?.type,
+          },
+        })
+        let accumulated = ''
+        let collectedTrace: AgentTraceEvent[] = []
+        source = new EventSource(api.agent.eventsUrl(run.run_id))
+        source.onmessage = message => {
+          if (disposed) return
+          const event = parseAgentEvent(message.data)
+          if (event.event === 'clarify.request') requestClarification(run.run_id, event)
+          const traceEvent = traceFromAgentEvent(event)
+          if (traceEvent) { collectedTrace = [...collectedTrace, traceEvent].slice(-80); setTrace(collectedTrace) }
+          if (event.event === 'message.delta' && typeof event.delta === 'string') { accumulated += event.delta; setText(accumulated) }
+          if (event.event === 'run.completed') {
+            source?.close()
+            const finalText = extractNarrative(event.output) || accumulated || fallback
+            setText(finalText); setLoading(false)
+            void onNarrated(finalText, run.run_id, collectedTrace)
+          }
+          if (event.event === 'run.failed' || event.event === 'run.cancelled') {
+            source?.close(); setText(fallback); setError(courtText(event.message || event.error || '书记官未能执笔，已使用本地事件文案')); setLoading(false)
+          }
+        }
+        source.onerror = () => { source?.close(); if (!disposed) { setText(fallback); setError('书记官传信中断，已使用本地事件文案'); setLoading(false) } }
+      } catch (e) {
+        if (!disposed) { setText(fallback); setError(e instanceof Error ? e.message : '书记官暂不可用，已使用本地事件文案'); setLoading(false) }
+      }
+    }
+    void begin()
+    return () => { disposed = true; source?.close() }
+  }, [scene.id])
+  async function continueEvent(input: string) {
+    const playerInput = input.trim()
+    if (!playerInput || loading || submitting) return
+    setSubmitting(true); setLoading(true); setError(''); setLastPlayerAction(playerInput)
+    try {
+      const eventId = scheduledEvent?.id
+      const instruction = `领主在正在进行的「${scene.title}」事件中作出行动：${playerInput}\n请立即使用对应场景 skill 推进事件，通过 Lord Tail API 结算所有真实后果，并调用场景 step 记录本轮互动。不要替领主追加新的决定。如果事件已经明确结束，必须先调用 ${eventId ? `/api/state/events/${eventId}/resolve 结算计划事件，再调用 ` : ''}/api/game/scenes/current/end 归档场景；若尚未结束，则保留场景等待下一次选择。最终只输出中文剧情叙述与简短的下一步提示。`
+      const run = await api.agent.startRun({
+        mode: 'scene_step',
+        input: instruction,
+        client_context: { intent: 'interrupt_event_step', active_scene_id: scene.id, scheduled_event_id: eventId, event_type: scheduledEvent?.type, player_action: playerInput },
+      })
+      let accumulated = ''
+      let collectedTrace = trace
+      const source = new EventSource(api.agent.eventsUrl(run.run_id))
+      source.onmessage = message => {
+        const event = parseAgentEvent(message.data)
+        if (event.event === 'clarify.request') requestClarification(run.run_id, event)
+        const traceEvent = traceFromAgentEvent(event)
+        if (traceEvent) { collectedTrace = [...collectedTrace, traceEvent].slice(-80); setTrace(collectedTrace) }
+        if (event.event === 'message.delta' && typeof event.delta === 'string') { accumulated += event.delta; setText(accumulated) }
+        if (event.event === 'run.completed') {
+          source.close()
+          const finalText = extractNarrative(event.output) || accumulated || '书记官完成了事件推进，但没有留下叙事文本。'
+          setText(finalText); setLoading(false); setSubmitting(false); setFreeInput('')
+          void onNarrated(finalText, run.run_id, collectedTrace)
+        }
+        if (event.event === 'run.failed' || event.event === 'run.cancelled') {
+          source.close(); setError(courtText(event.message || event.error || '事件推进文书已终止')); setLoading(false); setSubmitting(false)
+        }
+      }
+      source.onerror = () => { source.close(); setError('书记官传信中断，事件仍保留在当前场景'); setLoading(false); setSubmitting(false) }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : '事件推进失败'); setLoading(false); setSubmitting(false)
+    }
+  }
+  async function submit(choiceId: string, confirmChoice: boolean) {
+    if (!activeStorylet || submitting) return
+    if (confirmChoice && !window.confirm('这项裁断可能造成严厉或长期后果，仍要盖印吗？')) return
+    setSubmitting(true); setError('')
+    try { await choose(activeStorylet.id, choiceId); close() }
+    catch (e) { setError(e instanceof Error ? e.message : '裁断未能写入账册') }
+    finally { setSubmitting(false) }
+  }
+  return <div className="interrupt-event-shade" role="dialog" aria-modal="true" aria-label={scene.title}><section className="interrupt-event-modal">
+    <header><div><span className="section-label">时间推进已中断</span><h2>{activeStorylet?.title ?? scheduledEvent?.title ?? scene.title}</h2></div><span className="interrupt-seal">紧急事件</span></header>
+    <div className="event-meta"><span>{scheduledEvent?.type ?? activeStorylet?.category ?? scene.type}</span><span>{scheduledEvent?.id ?? activeStorylet?.id ?? scene.id}</span>{scheduledEvent?.schedule?.due_time && <span>第 {scheduledEvent.schedule.due_time.calendar_day} 日 {scheduledEvent.schedule.due_time.clock_24}</span>}</div>
+    {activeStorylet && <div className="storylet-cast">{Object.entries(activeStorylet.cast_snapshots ?? {}).map(([role, person]) => <article key={role}><small>{role}</small><b>{person.name ?? '无名人物'}</b><span>{person.role || person.class_id || '领民'}</span></article>)}</div>}
+    {lastPlayerAction && <div className="event-player-action"><small>领主方才下令</small><p>{lastPlayerAction}</p></div>}
+    <div className={`markdown-description interrupt-narrative ${loading ? 'writing' : ''}`}><ReactMarkdown skipHtml remarkPlugins={markdownPlugins}>{text}</ReactMarkdown>{loading && <span className="scribe-writing">书记官正在推进事件……</span>}</div>
+    {!!trace.length && <AgentTracePanel trace={trace} collapsed={true} setCollapsed={() => undefined} running={loading} />}
+    {error && <p className="error">{error}</p>}
+    {activeStorylet?.status === 'awaiting_choice' && !!activeStorylet.choices?.length && <div className="storylet-choices interrupt-choices">{activeStorylet.choices.map(choice => <button key={choice.id} type="button" disabled={loading || submitting} onClick={() => submit(choice.id, !!choice.confirm)}><b>{choice.label}</b><span>{choice.description_md}</span></button>)}</div>}
+    {!isStorylet && <div className="event-action-section"><span className="section-label">领主如何回应</span><div className="event-action-options">{actionOptions.map(option => <button key={option} type="button" disabled={loading || submitting} onClick={() => void continueEvent(option)}>{option}</button>)}</div></div>}
+    <div className="event-freeform"><label htmlFor={`event-command-${scene.id}`}>自由行动或对话</label><textarea id={`event-command-${scene.id}`} value={freeInput} onChange={event => setFreeInput(event.target.value)} disabled={loading || submitting} placeholder="例如：让商队首领进厅，我要先问清他们从何处来、带了什么货……" onKeyDown={event => { if (event.key === 'Enter' && (event.metaKey || event.ctrlKey) && freeInput.trim()) void continueEvent(freeInput) }} /><div><small>⌘ Enter 递交书记官；事件可在弹窗内连续推进多轮。</small><button type="button" className="primary-button compact" disabled={loading || submitting || !freeInput.trim()} onClick={() => void continueEvent(freeInput)}>{submitting ? '事件推进中…' : '执行并展开 →'}</button></div></div>
+    <footer><small>{isStorylet ? '正式裁断由后端选择结算；自由输入可用于追问或行动。' : '每次选择都会由书记官叙述，并通过后端接口结算实际后果。'}</small><button type="button" className="ghost-button" onClick={close} disabled={loading}>暂时收起</button></footer>
+  </section></div>
+}
+function StoryletDrawer({ instances, currentId, choose, requestClarification, close }: { instances: StoryletInstance[]; currentId: string | null; choose: (instanceId: string, choiceId: string) => Promise<void>; requestClarification: (runId: string, event: AgentSseEvent) => void; close: () => void }) {
   const ordered = [...instances].reverse()
   const [selectedId, setSelectedId] = useState<string | null>(currentId ?? ordered[0]?.id ?? null)
   const [submitting, setSubmitting] = useState(false)
@@ -904,6 +1136,7 @@ function StoryletDrawer({ instances, currentId, choose, close }: { instances: St
       const source = new EventSource(api.agent.eventsUrl(run.run_id))
       source.onmessage = message => {
         const event = parseAgentEvent(message.data)
+        if (event.event === 'clarify.request') requestClarification(run.run_id, event)
         if (event.event === 'message.delta' && typeof event.delta === 'string') { accumulated += event.delta; setRenderedNarrative(accumulated) }
         if (event.event === 'run.completed') { source.close(); setRenderedNarrative(extractNarrative(event.output) || accumulated || selected.narrative_md); setNarrating(false) }
         if (event.event === 'run.failed' || event.event === 'run.cancelled') { source.close(); setError(courtText(event.message || event.error || '书记官润色失败，已保留本地文案')); setNarrating(false) }
@@ -999,7 +1232,7 @@ function CharactersPanel({ characters, catalog, loading, error, close, refresh, 
           <label className="field"><span>身份/职位</span><input value={form.role} onChange={event => update('role', event.target.value)} placeholder="管家、护卫、商人……" /></label>
           <label className="field"><span>性别</span><input value={form.gender} onChange={event => update('gender', event.target.value)} placeholder="女 / 男 / 未说明" /></label>
           <label className="field"><span>年龄</span><input type="number" min="0" max="130" value={form.age} onChange={event => update('age', event.target.value)} placeholder="成人场景需要 >=18" /></label>
-          <label className="field"><span>势力</span><input value={form.faction} onChange={event => update('faction', event.target.value)} placeholder="黑泥堡" /></label>
+          <label className="field"><span>势力</span><input value={form.faction} onChange={event => update('faction', event.target.value)} placeholder="黑逼堡" /></label>
           <label className="field"><span>位置</span><input value={form.location} onChange={event => update('location', event.target.value)} placeholder="领主堡垒" /></label>
           <label className="field"><span>倾向</span><input type="number" min="-100" max="100" value={form.disposition} onChange={event => update('disposition', event.target.value)} /></label>
         </div>

@@ -175,7 +175,7 @@
     
     &lt;div class=&quot;form-group&quot;&gt;
         &lt;label&gt;领地名称&lt;/label&gt;
-        &lt;input type=&quot;text&quot; id=&quot;domainName&quot; placeholder=&quot;例如：黑泥堡 / 玫瑰庄园&quot; value=&quot;黑泥堡&quot;&gt;
+        &lt;input type=&quot;text&quot; id=&quot;domainName&quot; placeholder=&quot;例如：黑逼堡 / 玫瑰庄园&quot; value=&quot;黑逼堡&quot;&gt;
     &lt;/div&gt;
 
     &lt;!-- 新增：外表设定 --&gt;

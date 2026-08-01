@@ -287,7 +287,7 @@ def public_action_contract() -> dict[str, Any]:
                     "role": "管家",
                     "gender": "女",
                     "age": 42,
-                    "faction": "黑泥堡",
+                    "faction": "黑逼堡",
                     "location": "领主堡垒",
                     "status": "active",
                     "appearance_md": "灰发，穿旧羊毛裙，腰间挂钥匙。",

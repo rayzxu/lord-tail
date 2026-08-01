@@ -273,7 +273,7 @@ export type AgentRunMode = 'strategic_turn' | 'scene_step' | 'story_turn' | 'des
 export type AgentRunStartRequest = { mode: AgentRunMode; input: string; client_context?: Record<string, unknown> }
 export type AgentRunStartResponse = { run_id: string; hermes_run_id: string; status: string; events_url: string }
 export type AgentRunStatus = { run_id: string; hermes_run_id?: string; status: string; mode?: AgentRunMode; input?: string; output?: string; error?: string }
-export type AgentSseEvent = { seq?: number; event?: string; type?: string; message?: string; delta?: string; output?: string; text?: string; status?: string; data?: Record<string, unknown>; [key: string]: unknown }
+export type AgentSseEvent = { seq?: number; event?: string; type?: string; message?: string; delta?: string; output?: string; text?: string; status?: string; question?: string; choices?: unknown[]; clarify_id?: string; data?: Record<string, unknown>; [key: string]: unknown }
 export type AgentTraceEvent = {
   id: string
   kind: 'message' | 'reasoning' | 'tool' | 'approval' | 'clarify' | 'state_action' | 'run'

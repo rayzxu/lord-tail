@@ -5,12 +5,22 @@ from typing import Any
 from pydantic import BaseModel, Field
 
 
+DEFAULT_LORD_APPEARANCE = (
+    "他身高不过一百五十六厘米，体重却足有九十六公斤，矮胖的身躯被一件绣着家徽的丝绒长袍裹得严严实实，"
+    "远远望去，活像一只披金戴银的圆桶。一颗硕大浑圆的脑袋几乎没有脖颈，仿佛肉球般直接嵌在臃肿的肩膀之间。"
+    "肥肉将他的五官挤作一团，短鼻、厚唇与下垂的面颊凑出一副滑稽而傲慢的模样。\n\n"
+    "然而，那双藏在眼缝里的小眼睛却异常活泛。每当他打量领民的粮袋、商人的货车或邻居的土地时，"
+    "眼底便会闪过贪婪而精明的贼光，像是在心里飞快计算：这里还能榨出多少税，那里又能占到多少便宜。"
+)
+DEFAULT_LORD_PERSONALITY = "贪婪、精明、吝啬、欺软怕硬、虚荣、记仇"
+
+
 class StartRequest(BaseModel):
     lord_name: str = Field(min_length=1, max_length=40)
     lord_gender: str = "未说明"
     realm_name: str = Field(min_length=1, max_length=40)
-    appearance: str = Field(default="", max_length=600)
-    personality: str = Field(default="", max_length=600)
+    appearance: str = Field(default=DEFAULT_LORD_APPEARANCE, max_length=600)
+    personality: str = Field(default=DEFAULT_LORD_PERSONALITY, max_length=600)
     talents: list[dict[str, Any]] = Field(min_length=2, max_length=2)
     map_size: int | None = Field(default=None, ge=1)
     diplomacy: dict[str, Any] | None = None

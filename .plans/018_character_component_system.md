@@ -24,7 +24,7 @@
   "role": "管家",
   "gender": "女",
   "age": 42,
-  "faction": "黑泥堡",
+  "faction": "黑逼堡",
   "location": "领主堡垒",
   "status": "active",
   "appearance_md": "",
@@ -57,7 +57,7 @@
     "role": "管家",
     "gender": "女",
     "age": 42,
-    "faction": "黑泥堡",
+    "faction": "黑逼堡",
     "location": "领主堡垒",
     "status": "active"
   },
